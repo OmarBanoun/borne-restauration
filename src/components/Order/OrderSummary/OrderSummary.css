@@ -1,0 +1,14 @@
+a{
+    text-decoration: none !important;
+}
+.ml{
+    margin-left: 15px;
+}
+.finish_button{
+    padding: 20px 0;
+}
+.card{
+    width: 18rem;
+    border: 3px solid orange;
+    box-shadow: 0 20px 18px -6px rgba(0,0,0,.5);
+}

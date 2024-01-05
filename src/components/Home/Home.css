@@ -1,0 +1,49 @@
+.bg-main{
+    width: 100%;
+    height: calc(100vh - 150px - 30px);
+    object-fit: cover;
+}
+main h1{
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(255, 183, 0);
+    text-align: center;
+    /* font-family: 'Pacifico', sans-serif; */
+    font-family: 'Besttia Brush', sans-serif;
+}
+h2, .itemPrice{
+    font-family: 'Besttia Brush', sans-serif;
+}
+.btn-orange:hover {
+    background-position: 100% 0;
+}
+.btn-orange, .btn-orange:hover {
+    color: #fff;
+    transition: all .4s ease-in-out;
+}
+.btn-orange {
+    background-image: linear-gradient(90deg,#e6b17e,#f4b643,#eeaa2b,#da8f04);
+}
+.btn-orange {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-size: 300% 100%;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    height: 100px;
+    margin: 0;
+    text-align: center;
+}
+main a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 500;
+}

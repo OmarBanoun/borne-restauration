@@ -1,0 +1,9 @@
+.itemPrice{
+    font-weight: bold;
+    font-size: 20px;
+}
+.optionButton {
+    margin: 15px 20px;
+    width: 150px;
+    height: 80px;
+}
