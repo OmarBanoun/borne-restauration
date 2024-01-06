@@ -14,7 +14,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
                     <div key={garniture.id} className={`col-md-4 ${selectionClass}`} onClick={() => onSelectGarniture(garniture)}>
                         <div>
                             <img src={garniture.imageUrl} alt={garniture.nom} className=" garniture-image img-fluid" />
-                            <p className='text-center'>{garniture.nom}</p>
+                            <p className='text-center name-item'>{garniture.nom}</p>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>
                     </div>
@@ -22,7 +22,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
             })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg text-white' onClick={onNextClick}>Suivant</button>
+                <button className='btn btn-warning btn-lg col-4 text-white' onClick={onNextClick}>Suivant</button>
             </div>
         </div>
     );

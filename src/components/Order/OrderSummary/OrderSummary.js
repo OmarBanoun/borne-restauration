@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import "./OrderSummary.css";
 
 const OrderSummary = ({ orderItems, onContinueOrder, onFinalizeOrder, onRemoveItem, onEditItem  }) => {
+    console.log("Affichage des commandes dans OrderSummary:", orderItems);
     const total = orderItems.reduce((acc, item) => {
         const extraCost = item.option === 'menu' ? 2 : 0; // Supposons que "En Menu" coûte 2€ de plus
         return acc + item.prix + extraCost;
@@ -25,7 +26,9 @@ const OrderSummary = ({ orderItems, onContinueOrder, onFinalizeOrder, onRemoveIt
                         <div className="card mt-4 mx-auto">
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
-                                <p className="card-text">Option choisie : {item.option === 'seul' ? 'Seul' : 'En Menu'}</p>
+                                {item.categorie !== 'Dessert' && (
+                                    <p className="card-text">Option choisie : {item.option === 'seul' ? 'Seul' : 'En Menu'}</p>
+                                )}
                                 {item.drink && <p className="card-text">Boisson : {item.drink}</p>}
                                 {item.garnitures && item.garnitures.length > 0 && (
                                     <p className="card-text">

@@ -1,5 +1,6 @@
 import React from "react";
 const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => {
+    const canProceed = selectedSauces.length > 0;
     return (
         <div className='container text-center'>
             <h3 className='mb-4'>Choisissez vos sauces (2 max) : </h3>
@@ -8,10 +9,10 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
                 const isSelected = selectedSauces.includes(sauce);
                 const selectionClass = isSelected ? 'selected-class' : ''; // Ajoutez une classe pour le style de sélection
                 return (
-                    <div key={sauce.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
-                        <div>
-                            <img src={sauce.imageUrl} alt={sauce.nom} className=" sauce-image img-fluid" />
-                            <p className='text-center'>{sauce.nom}</p>
+                    <div key={sauce.id} className={`col-md-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
+                        <div className="">
+                            <img src={sauce.imageUrl} alt={sauce.nom} className="sauce-image img-fluid" />
+                            <p className='text-center name-item'>{sauce.nom}</p>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>
                     </div>
@@ -19,7 +20,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
             })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg text-white' onClick={onNextClick}>Suivant</button>
+                <button className='btn btn-warning btn-lg col-4 text-white' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
             </div>
         </div>
     );
