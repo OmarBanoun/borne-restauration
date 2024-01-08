@@ -20,5 +20,4 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 .order-summary {
     width: 30%;
     border-left: 2px solid #ccc; /* Juste pour visualiser la séparation */
-    padding-left: 20px;
 }

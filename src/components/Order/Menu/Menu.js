@@ -48,7 +48,6 @@ import imgTiramisuChoco from "../../../assets/TIRAMISU CHOCOLAT.png";
 import imgTiramisuCara from "../../../assets/TIRAMISU CARAMEL.png";
 import imgTarteDaim from "../../../assets/TARTE AU DAIM.png";
 
-// Supposons que vous ayez une liste de catégories à afficher.
 const categories = [
     { id: 1, nom: 'Sandwich', imageUrl: imgSandwich },
     { id: 2, nom: 'Burgers', imageUrl: imgBurger },
@@ -131,11 +130,10 @@ const Menu = () => {
         console.log("Catégorie sélectionnée :", category.nom);
         setSelectedCategory(category.nom);
         if (category.nom === 'Dessert') {
-            setCurrentStep('choixDessert'); // Passez à la sélection des desserts
+            setCurrentStep('choixDessert');
         } else {
-            setCurrentStep('choixArticle'); // Passez à la sélection des articles pour les autres catégories
+            setCurrentStep('choixArticle');
         }
-        // ...autre code...
     };
 
     const handleItemClick = (item) => {
@@ -144,16 +142,16 @@ const Menu = () => {
         setSelectedOption(null);
         if (item.categorie === 'Dessert') {
             console.log("Passage à l'étape resumeCommande pour les desserts");
-            const updatedItem = { ...item, quantity: 1 }; // Ajoutez une quantité pour les desserts
+            const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
             const newOrderItems = [...orderItems, updatedItem];
-            setOrderItems(newOrderItems); // Mettez à jour l'état orderItems
+            setOrderItems(newOrderItems); // Mettre à jour l'état orderItems
             console.log("Dessert ajouté aux commandes :", updatedItem);
             console.log("Commandes après ajout de dessert :", newOrderItems);
             setCurrentStep('resumeCommande');
         } else if (item.categorie === 'Tacos') {
             console.log("Passage à l'étape de choix des viandes pour les tacos");
             setCurrentStep('choixViande');
-            // Définissez maxViandes en fonction du type de tacos sélectionné
+            // Définir maxViandes en fonction du type de tacos sélectionné
             const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10); // Extrait le nombre de viandes du nom
             setMaxViandes(nombreViandes);
         } else if (item.categorie === 'Sandwich' || item.categorie === 'Burgers') {
@@ -171,7 +169,7 @@ const Menu = () => {
         setSelectedItem(updatedItem); 
         setSelectedOption(option); 
     
-        // Ajustez les étapes en fonction de l'option et de la catégorie
+        // Ajuster les étapes en fonction de l'option et de la catégorie
         if (option === 'menu' && item.categorie !== 'Dessert') {
             console.log("Passage à l'étape choixBoisson");
             setCurrentStep('choixBoisson');
@@ -181,20 +179,15 @@ const Menu = () => {
         }
     };
     
-    // const handleAddToOrder = (item) => {
-    //     setOrderItems([...orderItems, item]);
-    // };
-    
     const handleSelectDrink = (drink) => {
         console.log("Boisson choisie dans handleSelectDrink:", drink.nom);
-        const updatedItem = { ...selectedItem, drink: drink.nom };
+        const updatedItem = { ...selectedItem, drink: drink.nom, option: selectedOption };
         setOrderItems([...orderItems.slice(0, -1), updatedItem]);
         setSelectedDrink(drink); // Enregistrer la boisson choisie
         console.log("Mise à jour des articles de commande avec boisson:", updatedItem);
         setCurrentStep('resumeCommande');
         console.log("Transition vers le résumé de la commande après choix de boisson");
     };
-    
     
     const handleSelectGarniture = (garniture) => {
         // Vérifier si la garniture est déjà sélectionnée
@@ -241,7 +234,20 @@ const Menu = () => {
             setSelectedDesserts([...selectedDesserts, dessert]);
         }
     };
-    
+
+    useEffect(() => {
+        if (currentStep === 'resumeCommande') {
+            setCurrentStep('choixCategorie');
+            setSelectedCategory(null);
+            setSelectedItem(null);
+            setSelectedOption(null);
+            setSelectedDrink(null);
+            setSelectedGarnitures([]);
+            setSelectedSauces([]);
+            setSelectedViandes([]);
+            setSelectedDesserts([]);
+        }
+    }, [currentStep]);
 
     const handleNextClick = () => {
         console.log("Étape actuelle avant Next:", currentStep);
@@ -253,12 +259,12 @@ const Menu = () => {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixDessert' && selectedDesserts.length > 0) {
             console.log("Transition vers le résumé de la commande pour les desserts");
-            // Ajoutez les desserts sélectionnés à orderItems ici
+            // Ajouter les desserts sélectionnés à orderItems ici
             const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
             setOrderItems(updatedOrderItems);  // Mettez à jour l'état orderItems avec les desserts sélectionnés
             console.log("Commandes après ajout de desserts :", updatedOrderItems);
             setCurrentStep('resumeCommande');
-            setSelectedCategory(null);
+            // setSelectedCategory(null);
         }
         console.log("Nouvelle étape après Next:", currentStep);
         console.log("SelectedCategory:", selectedCategory);
@@ -266,10 +272,9 @@ const Menu = () => {
         console.log("CurrentStep:", currentStep);
     };
     
-    
     useEffect(() => {
         console.log("selectedOption a changé :", selectedOption);
-        // Vous pouvez effectuer des actions supplémentaires ici en réponse au changement
+        // On peut effectuer des actions supplémentaires ici en réponse au changement
         // Par exemple, afficher l'étape suivante de l'interface utilisateur
     }, [selectedOption]);
     
@@ -391,11 +396,6 @@ const Menu = () => {
         setSelectedDesserts([]); 
         setCurrentStep('choixCategorie');  // Retourner au choix de catégorie
     };
-    
-    const handleFinalizeOrder = () => {
-        console.log("L'utilisateur souhaite finaliser sa commande");
-        // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
-    };
 
     // Menu.jsx
 const handleRemoveItem = (index) => {
@@ -421,6 +421,11 @@ const handleRemoveItem = (index) => {
             )
         }
     });
+};
+
+const handleFinalizeOrder = () => {
+    console.log("L'utilisateur souhaite finaliser sa commande");
+    // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
 };
 
     return (
@@ -502,16 +507,18 @@ const handleRemoveItem = (index) => {
                 <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
             )}
             </div>
-            <div className='order-summary'>
+            <div className='order-summary text-center'>
             <h4>Récapitulatif de la commande</h4>
-            {currentStep === 'resumeCommande' && (
+            {(orderItems.length > 0) && (
                 <div className='container'>
+                    {(selectedOption !== 'menu' || (selectedOption === 'menu' && selectedDrink)) && (
                     <OrderSummary 
                         orderItems={orderItems} 
                         onContinueOrder={handleContinueOrder} 
                         onFinalizeOrder={handleFinalizeOrder} 
                         onRemoveItem={handleRemoveItem}
                     />
+                    )}
                 </div>
             )}
             </div>

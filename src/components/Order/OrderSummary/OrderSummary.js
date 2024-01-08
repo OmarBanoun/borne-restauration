@@ -61,21 +61,50 @@ import "./OrderSummary.css";
 // };
 
 // export default OrderSummary;
-const OrderSummary = ({ orderItems }) => {
+const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder }) => {
     console.log("OrderSummary reçoit orderItems:", orderItems);
     const calculateTotal = (items) => {
-        return items.reduce((total, item) => total + item.prix, 0);
+        return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
     };
 
     return (
         <div>
             {/* <h2>Récapitulatif de la commande</h2> */}
-            <ul>
+            <div>
                 {orderItems.map((item, index) => (
-                    <li key={index}>{item.nom} - {item.prix}€</li>
+                    <div key={index} className="mb-3">
+                        <div className="card mt-4 mx-auto">
+                            <div className="card-body">
+                                <h5 className="card-title">{item.nom}</h5>
+                                {item.categorie !== 'Dessert' && (
+                                    <p className="card-text">Option choisie : {item.option === 'seul' ? 'Seul' : 'En Menu'}</p>
+                                )}
+                                {item.drink && <p className="card-text">Boisson : {item.drink}</p>}
+                                {item.garnitures && item.garnitures.length > 0 && (
+                                    <p className="card-text">
+                                        Garnitures : {item.garnitures.map(garniture => garniture.nom).join(', ')}
+                                    </p>
+                                )}
+                                {item.sauces && item.sauces.length > 0 && (
+                                    <p className="card-text">
+                                        Sauces : {item.sauces.map(sauce => sauce.nom).join(', ')}
+                                    </p>
+                                )}
+                                <p className="card-text">Prix : {item.prix + (item.option === 'menu' ? 2 : 0)}€</p>
+                                <button onClick={() => onEditItem(index)} className="btn btn-primary">Modifier</button>
+                                <button onClick={() => onRemoveItem(index)} className="btn btn-danger ml">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
                 ))}
-            </ul>
-            <strong>Total: {calculateTotal(orderItems)}€</strong>
+            </div>
+            <strong className='my-4'>Total: {calculateTotal(orderItems)}€</strong>
+            <div>
+                <br></br>
+                <button onClick={onFinalizeOrder} type="button" className="btn btn-warning btn-lg btn-block my-auto finish_button">
+                    <Link to="" className='text-white td-none px-3'>Finaliser ma commande</Link>
+                </button>
+            </div>
         </div>
     );
 };
