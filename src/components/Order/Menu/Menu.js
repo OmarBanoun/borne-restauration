@@ -181,7 +181,9 @@ const Menu = () => {
         }
     };
     
-
+    // const handleAddToOrder = (item) => {
+    //     setOrderItems([...orderItems, item]);
+    // };
     
     const handleSelectDrink = (drink) => {
         console.log("Boisson choisie dans handleSelectDrink:", drink.nom);
@@ -192,6 +194,7 @@ const Menu = () => {
         setCurrentStep('resumeCommande');
         console.log("Transition vers le résumé de la commande après choix de boisson");
     };
+    
     
     const handleSelectGarniture = (garniture) => {
         // Vérifier si la garniture est déjà sélectionnée
@@ -238,6 +241,7 @@ const Menu = () => {
             setSelectedDesserts([...selectedDesserts, dessert]);
         }
     };
+    
 
     const handleNextClick = () => {
         console.log("Étape actuelle avant Next:", currentStep);
@@ -254,9 +258,14 @@ const Menu = () => {
             setOrderItems(updatedOrderItems);  // Mettez à jour l'état orderItems avec les desserts sélectionnés
             console.log("Commandes après ajout de desserts :", updatedOrderItems);
             setCurrentStep('resumeCommande');
+            setSelectedCategory(null);
         }
         console.log("Nouvelle étape après Next:", currentStep);
+        console.log("SelectedCategory:", selectedCategory);
+        console.log("SelectedItem:", selectedItem);
+        console.log("CurrentStep:", currentStep);
     };
+    
     
     useEffect(() => {
         console.log("selectedOption a changé :", selectedOption);
@@ -282,6 +291,21 @@ const Menu = () => {
         console.log("Boisson sélectionnée a changé :", selectedDrink);
     }, [selectedDrink]);
     
+    useEffect(() => {
+        console.log("SelectedCategory:", selectedCategory);
+        console.log("SelectedItem:", selectedItem);
+        console.log("CurrentStep:", currentStep);
+        if (!selectedCategory && !selectedItem && currentStep === 'choixCategorie') {
+            console.log("Toutes les conditions sont remplies pour afficher les catégories.");
+        }
+    }, [selectedCategory, selectedItem, currentStep]);
+
+    useEffect(() => {
+        console.log("L'étape actuelle a changé :", currentStep);
+        if (currentStep === 'resumeCommande') {
+            console.log("SelectedCategory devrait être réinitialisé :", selectedCategory);
+        }
+    }, [currentStep, selectedCategory]);
     
 
     const handleBackClick = () => {
@@ -404,98 +428,94 @@ const handleRemoveItem = (index) => {
         <h2 className='text-center my-3'>Menu</h2>
         <div className='divider'></div>
         {/* Choix des catégories */}
-        {!selectedCategory && !selectedItem && currentStep === 'choixCategorie' && (
-        <div className='container'>
-            <div className='row'>
-                {categories.map(category => (
-                    <div className='col-md-4' key={category.id}>
-                        <CategoryItem category={category} onSelect={handleCategorySelect} />
+        <div className='container-custom'>
+            <div className='order-process'>
+            {!selectedCategory && !selectedItem && currentStep === 'choixCategorie' && (
+                <div className='container'>
+                    {console.log("Rendu des catégories")}
+                    <div className='row'>
+                        {categories.map(category => (
+                            <div className='col-md-4' key={category.id}>
+                                <CategoryItem category={category} onSelect={handleCategorySelect} />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-        </div>
-        )}
-
-        {/* Choix des articles */}
-        {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
-            <div className='container'>
-                <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-                <div className='row'>
-                {articles[selectedCategory].map(item => (
-                    <div className='col-md-4 text-center' key={item.id}>
-                        <MenuItem item={item} onSelect={handleItemClick} />
-                    </div>
-                ))}
                 </div>
-            </div>
-        )}
-
-        {currentStep === 'choixDessert' && (
-            <div className='container mb-5'>
-            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-            <SelectDessert 
-                desserts={desserts} 
-                onSelectDessert={onSelectDessert} 
-                selectedDesserts={selectedDesserts} 
-                onNextClick={handleNextClick} 
-            />
-            </div>
-        )}
-
-
-        {currentStep === 'choixViande' && (
-            <div className='container'>
+            )}
+                {/* Choix des articles */}
+                {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
+                <div className='container'>
+                    <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+                    <div className='row'>
+                    {articles[selectedCategory].map(item => (
+                        <div className='col-md-4 text-center' key={item.id}>
+                            <MenuItem item={item} onSelect={handleItemClick} />
+                        </div>
+                    ))}
+                    </div>
+                </div>
+            )}
+            {currentStep === 'choixDessert' && (
+                <div className='container mb-5'>
                 <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-                <SelectViande viandes={viandes} onSelectViande={handleSelectViande} selectedViandes={selectedViandes} onNextClick={handleNextClick} maxViandes={maxViandes}  />
-            </div>
-            
-        )}
-
-        {/* Choix des garnitures */}
-        {selectedItem && (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') && currentStep === 'choixGarniture' && (
-            <div className='container'>
-                <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-                <SelectGarniture 
-                    garnitures={garnitures} 
-                    onSelectGarniture={handleSelectGarniture} 
-                    selectedGarnitures={selectedGarnitures}
+                <SelectDessert 
+                    desserts={desserts} 
+                    onSelectDessert={onSelectDessert} 
+                    selectedDesserts={selectedDesserts} 
                     onNextClick={handleNextClick} 
                 />
+                </div>
+            )}
+            {currentStep === 'choixViande' && (
+                <div className='container'>
+                    <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+                    <SelectViande viandes={viandes} onSelectViande={handleSelectViande} selectedViandes={selectedViandes} onNextClick={handleNextClick} maxViandes={maxViandes}  />
+                </div>
+            )}
+            {/* Choix des garnitures */}
+            {selectedItem && (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') && currentStep === 'choixGarniture' && (
+                <div className='container'>
+                    <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+                    <SelectGarniture 
+                        garnitures={garnitures} 
+                        onSelectGarniture={handleSelectGarniture} 
+                        selectedGarnitures={selectedGarnitures}
+                        onNextClick={handleNextClick} 
+                    />
+                </div>
+            )}
+            {currentStep === 'choixSauce' && (
+                <div className='container'>
+                    <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+                <SelectSauce sauces={sauces} onSelectSauce={handleSelectSauce} selectedSauces={selectedSauces} onNextClick={handleNextClick}  />
+                </div>
+            )}
+            {/* Choix des options */}
+            {selectedItem && currentStep === 'choixOption' && (
+                <div className='container'>
+                    <button className='btn btn-warning mb-3 text-white' onClick={() => setCurrentStep('choixGarniture')}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+                    <ItemOptions item={selectedItem} onOptionSelect={handleOptionSelect} />
+                </div>
+            )}
+            {/* Choix de la boisson */}
+            {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
+                <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
+            )}
             </div>
-        )}
-
-        {currentStep === 'choixSauce' && (
-            <div className='container'>
-                <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-            <SelectSauce sauces={sauces} onSelectSauce={handleSelectSauce} selectedSauces={selectedSauces} onNextClick={handleNextClick}  />
+            <div className='order-summary'>
+            <h4>Récapitulatif de la commande</h4>
+            {currentStep === 'resumeCommande' && (
+                <div className='container'>
+                    <OrderSummary 
+                        orderItems={orderItems} 
+                        onContinueOrder={handleContinueOrder} 
+                        onFinalizeOrder={handleFinalizeOrder} 
+                        onRemoveItem={handleRemoveItem}
+                    />
+                </div>
+            )}
             </div>
-        )}
-
-
-        {/* Choix des options */}
-        {selectedItem && currentStep === 'choixOption' && (
-            <div className='container'>
-                <button className='btn btn-warning mb-3 text-white' onClick={() => setCurrentStep('choixGarniture')}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-                <ItemOptions item={selectedItem} onOptionSelect={handleOptionSelect} />
-            </div>
-        )}
-
-        {/* Choix de la boisson */}
-        {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
-            <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
-        )}
-
-        {currentStep === 'resumeCommande' && (
-            <div className='container'>
-                <OrderSummary 
-                    orderItems={orderItems} 
-                    onContinueOrder={handleContinueOrder} 
-                    onFinalizeOrder={handleFinalizeOrder} 
-                    onRemoveItem={handleRemoveItem}
-                />
-            </div>
-        )}
-        
+        </div>
     </div>
     );
 };

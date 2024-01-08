@@ -8,3 +8,17 @@
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     background-color: rgb(255, 183, 0) !important;
 }
+.container-custom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-process {
+    width: 70%;
+}
+
+.order-summary {
+    width: 30%;
+    border-left: 2px solid #ccc; /* Juste pour visualiser la séparation */
+    padding-left: 20px;
+}
