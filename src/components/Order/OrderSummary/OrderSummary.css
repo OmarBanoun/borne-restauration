@@ -5,10 +5,28 @@ a{
     margin-left: 15px;
 }
 .finish_button{
-    padding: 20px 0;
+    padding: 50px 0;
 }
 .card{
-    width: 18rem;
+    width: 15rem;
     border: 3px solid orange;
     box-shadow: 0 20px 18px -6px rgba(0,0,0,.5);
+    margin-left: 2rem;
+}
+.summary-section{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+}
+.order-product{
+    width: 80%;
+    /* display: flex; */
+}
+.order-price{
+    width: 20%;
+    border-left: 1px solid #787474;
+}
+.summary-section h4{
+    /* padding: 20px 0; */
+    border-bottom: 3px solid grey
 }

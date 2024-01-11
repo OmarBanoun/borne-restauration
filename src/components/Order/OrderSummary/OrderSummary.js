@@ -63,17 +63,17 @@ import "./OrderSummary.css";
 // export default OrderSummary;
 const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder }) => {
     console.log("OrderSummary reçoit orderItems:", orderItems);
-    const calculateTotal = (items) => {
-        return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
-    };
+    // const calculateTotal = (items) => {
+    //     return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
+    // };
 
     return (
-        <div>
-            {/* <h2>Récapitulatif de la commande</h2> */}
-            <div>
+        <div className='summary-section'>
+            <div className='order-product d-flex flex-row col-8'>
                 {orderItems.map((item, index) => (
                     <div key={index} className="mb-3">
-                        <div className="card mt-4 mx-auto">
+                        <div className="card mt-4">
+                            <img src={item.imageUrl} alt={item.nom} className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
                                 {item.categorie !== 'Dessert' && (
@@ -98,12 +98,12 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                     </div>
                 ))}
             </div>
-            <strong className='my-4'>Total: {calculateTotal(orderItems)}€</strong>
-            <div>
-                <br></br>
+            <div className='order-price my-auto text-center col-4'>
+                <div className='border-button'>
                 <button onClick={onFinalizeOrder} type="button" className="btn btn-warning btn-lg btn-block my-auto finish_button">
                     <Link to="" className='text-white td-none px-3'>Finaliser ma commande</Link>
                 </button>
+                </div>
             </div>
         </div>
     );
