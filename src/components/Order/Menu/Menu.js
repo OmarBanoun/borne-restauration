@@ -75,17 +75,6 @@ const articles = {
         { id: 3, nom: 'Tacos 3 viandes', imageUrl: imgTacos, prix: 11.50, categorie: 'Tacos' },
     ]
 };
-// const bestSellers = [
-//     { id: 1, nom: 'Kebab', imageUrl: imgKebab, prix: 8, categorie: 'Sandwich' },
-//     { id: 2, nom: 'Chicken Curry', imageUrl: imgChickenCurry, prix: 9, categorie: 'Sandwich' },
-//     { id: 3, nom: 'Cordon Bleu', imageUrl: imgCordonBleu, prix: 9, categorie: 'Sandwich' },
-//     { id: 4, nom: 'Tacos 1 viande', imageUrl: imgTacos, prix: 9.50, categorie: 'Tacos' },
-//     { id: 5, nom: 'Tacos 2 viandes', imageUrl: imgTacos, prix: 10.50, categorie: 'Tacos' },
-//     { id: 6, nom: 'Tacos 3 viandes', imageUrl: imgTacos, prix: 11.50, categorie: 'Tacos' },
-//     { id: 7, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8, categorie: 'Burgers' },
-//     { id: 8, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9, categorie: 'Burgers' },
-//     { id: 9, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9, categorie: 'Burgers' },
-// ]
 const desserts = [
     { id: 1, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50, categorie: 'Dessert' },
     { id: 2, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50, categorie: 'Dessert' },
@@ -146,6 +135,8 @@ const Menu = () => {
             handleCategorySelect(sandwichCategory);
         }
     }, []);
+
+    
     const handleCategorySelect = (category) => {
         console.log("Catégorie sélectionnée :", category.nom);
         setSelectedCategory(category.nom);
@@ -255,20 +246,6 @@ const Menu = () => {
         }
     };
 
-    useEffect(() => {
-        if (currentStep === 'resumeCommande') {
-            setCurrentStep('choixCategorie');
-            setSelectedCategory(null);
-            setSelectedItem(null);
-            setSelectedOption(null);
-            setSelectedDrink(null);
-            setSelectedGarnitures([]);
-            setSelectedSauces([]);
-            setSelectedViandes([]);
-            setSelectedDesserts([]);
-        }
-    }, [currentStep]);
-
     const handleNextClick = () => {
         console.log("Étape actuelle avant Next:", currentStep);
         if (currentStep === 'choixGarniture') {
@@ -291,7 +268,7 @@ const Menu = () => {
         console.log("SelectedItem:", selectedItem);
         console.log("CurrentStep:", currentStep);
     };
-    
+
     useEffect(() => {
         console.log("selectedOption a changé :", selectedOption);
         // On peut effectuer des actions supplémentaires ici en réponse au changement
@@ -331,6 +308,24 @@ const Menu = () => {
             console.log("SelectedCategory devrait être réinitialisé :", selectedCategory);
         }
     }, [currentStep, selectedCategory]);
+
+    useEffect(() => {
+        if (currentStep === 'resumeCommande') {
+            const sandwichCategory = categories.find(c => c.nom === 'Sandwich');
+            if (sandwichCategory) {
+                setSelectedCategory('Sandwich');
+                setCurrentStep('choixCategorie');
+                handleCategorySelect(sandwichCategory); // Déclenchez la logique de sélection de catégorie
+                // reinitialiser
+                setSelectedItem(null);
+                setSelectedOption(null);
+                setSelectedSauces([]);
+                setSelectedGarnitures([]);
+                setSelectedViandes([]);
+                setSelectedDesserts([]);
+            }
+        }
+    }, [currentStep]);
     
 
     const handleBackClick = () => {
@@ -406,7 +401,7 @@ const Menu = () => {
 
     const handleContinueOrder = () => {
         // Réinitialiser les états pour ramener l'utilisateur à la première page
-        setSelectedCategory(null);
+        setSelectedCategory('Sandwich');
         setSelectedItem(null);
         setSelectedOption(null);
         setSelectedDrink(null);
@@ -417,7 +412,7 @@ const Menu = () => {
         setCurrentStep('choixCategorie');  // Retourner au choix de catégorie
     };
 
-    // Menu.jsx
+
 const handleRemoveItem = (index) => {
     // Afficher une alerte de confirmation avant de supprimer l'article
     Swal.fire({
@@ -448,112 +443,14 @@ const calculateTotal = (items) => {
 
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");
-    setSelectedCategory("Sandwich");
-    setCurrentStep('choixArticle');
     // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
 };
 
     return (
-    //     <div className='mb-5'>
-    //     <h2 className='text-center my-3'>Menu</h2>
-    //     <div className='divider'></div>
-    //     {/* Choix des catégories */}
-    //     <div className='container-custom'>
-    //         <div className='categories-bar'>
-    //         {!selectedCategory && !selectedItem && currentStep === 'choixCategorie' && (
-    //             <div className='container'>
-    //                 {console.log("Rendu des catégories")}
-    //                 <div className=''>
-    //                     {categories.map(category => (
-    //                         <div className='' key={category.id}>
-    //                             <CategoryItem category={category} onSelect={handleCategorySelect} />
-    //                         </div>
-    //                     ))}
-    //                 </div>
-    //             </div>
-    //         )}
-    //             {/* Choix des articles */}
-    //             {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
-    //             <div className='container'>
-    //                 <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //                 <div className='row'>
-    //                 {articles[selectedCategory].map(item => (
-    //                     <div className='col-md-4 text-center' key={item.id}>
-    //                         <MenuItem item={item} onSelect={handleItemClick} />
-    //                     </div>
-    //                 ))}
-    //                 </div>
-    //             </div>
-    //         )}
-    //         {currentStep === 'choixDessert' && (
-    //             <div className='container mb-5'>
-    //             <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //             <SelectDessert 
-    //                 desserts={desserts} 
-    //                 onSelectDessert={onSelectDessert} 
-    //                 selectedDesserts={selectedDesserts} 
-    //                 onNextClick={handleNextClick} 
-    //             />
-    //             </div>
-    //         )}
-    //         {currentStep === 'choixViande' && (
-    //             <div className='container'>
-    //                 <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //                 <SelectViande viandes={viandes} onSelectViande={handleSelectViande} selectedViandes={selectedViandes} onNextClick={handleNextClick} maxViandes={maxViandes}  />
-    //             </div>
-    //         )}
-    //         {/* Choix des garnitures */}
-    //         {selectedItem && (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') && currentStep === 'choixGarniture' && (
-    //             <div className='container'>
-    //                 <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //                 <SelectGarniture 
-    //                     garnitures={garnitures} 
-    //                     onSelectGarniture={handleSelectGarniture} 
-    //                     selectedGarnitures={selectedGarnitures}
-    //                     onNextClick={handleNextClick} 
-    //                 />
-    //             </div>
-    //         )}
-    //         {currentStep === 'choixSauce' && (
-    //             <div className='container'>
-    //                 <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //             <SelectSauce sauces={sauces} onSelectSauce={handleSelectSauce} selectedSauces={selectedSauces} onNextClick={handleNextClick}  />
-    //             </div>
-    //         )}
-    //         {/* Choix des options */}
-    //         {selectedItem && currentStep === 'choixOption' && (
-    //             <div className='container'>
-    //                 <button className='btn btn-warning mb-3 text-white' onClick={() => setCurrentStep('choixGarniture')}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-    //                 <ItemOptions item={selectedItem} onOptionSelect={handleOptionSelect} />
-    //             </div>
-    //         )}
-    //         {/* Choix de la boisson */}
-    //         {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
-    //             <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
-    //         )}
-    //         </div>
-    //         <div className='order-summary text-center'>
-    //         <h4>Récapitulatif de la commande</h4>
-    //         {(orderItems.length > 0) && (
-    //             <div className='container'>
-    //                 {(selectedOption !== 'menu' || (selectedOption === 'menu' && selectedDrink)) && (
-    //                 <OrderSummary 
-    //                     orderItems={orderItems} 
-    //                     onContinueOrder={handleContinueOrder} 
-    //                     onFinalizeOrder={handleFinalizeOrder} 
-    //                     onRemoveItem={handleRemoveItem}
-    //                 />
-    //                 )}
-    //             </div>
-    //         )}
-    //         </div>
-    //     </div>
-    // </div>
     <div className='menu-container'>
     <div className='top-section'>
     <div className='categories-bar'>
         {/* Logique pour afficher les catégories */}
-        {/* {!selectedCategory && !selectedItem && currentStep === 'choixCategorie' && ( */}
             <div className='container'>
                 <h2 className='text-center orange categ-title'>Catégories</h2>
                 {categories.map(category => (
@@ -566,6 +463,7 @@ const handleFinalizeOrder = () => {
     
     <div className='order-process'>
         {/* Choix des articles */}
+        <h2 className='text-center mt-2'>Faites votre choix :</h2>
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
             <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
