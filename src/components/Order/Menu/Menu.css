@@ -50,7 +50,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 .commande{
     /* ombrage vers le bas */
     box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
-    border-bottom: 2px solid #eee;
+    /* border-bottom: 2px solid #eee; */
     align-items: center;
 }
 .price{

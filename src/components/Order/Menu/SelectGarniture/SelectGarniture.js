@@ -5,7 +5,7 @@ import "./SelectGarniture.css";
 const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, onNextClick }) => {
     return (
         <div className='container text-center'>
-            <h3 className='mb-4'>Choisissez vos garnitures :</h3>
+            <h3 className='mb-4'>Choisissez vos condiments :</h3>
             <div className='row'>
             {garnitures.map((garniture) => {
                 const isSelected = selectedGarnitures.includes(garniture);

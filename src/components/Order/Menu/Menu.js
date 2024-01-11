@@ -569,7 +569,7 @@ const handleFinalizeOrder = () => {
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
             <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
-            <div className='row'>
+            <div className='row mt-3'>
             {articles[selectedCategory].map(item => (
                 <div className='col-md-4 text-center' key={item.id}>
                     <MenuItem item={item} onSelect={handleItemClick} />
@@ -630,9 +630,9 @@ const handleFinalizeOrder = () => {
         <div className='d-flex flex-row justify-content-between commande'>
             <h4 className='py-3 col-8 mb-0'>Prix</h4>
             <div className='col-3 bg-dark'>
-                <div className='text-white d-flex align-items-center justify-content-around h-100 text-white'>
-                    <div className='Total'>Total</div>
-                    <strong className='my-4 price'>{calculateTotal(orderItems)}€</strong>
+                <div className='text-white d-flex align-items-center justify-content-around h-100 text-white commande'>
+                    <strong className='Total'>Total</strong>
+                    <h2 className='my-4 price orange'>{calculateTotal(orderItems)}€</h2>
                 </div>
             </div>
         </div>
