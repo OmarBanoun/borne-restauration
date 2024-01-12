@@ -193,10 +193,13 @@ const Menu = () => {
         console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
         setSelectedItem(item);
         setSelectedOption(null);
-    
         if (item.categorie === 'Dessert') {
-            const updatedItem = { ...item, quantity: 1 };
-            setOrderItems([...orderItems, updatedItem]);
+            console.log("Passage à l'étape resumeCommande pour les desserts");
+            const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
+            const newOrderItems = [...orderItems, updatedItem];
+            setOrderItems(newOrderItems); // Mettre à jour l'état orderItems
+            console.log("Dessert ajouté aux commandes :", updatedItem);
+            console.log("Commandes après ajout de dessert :", newOrderItems);
             setCurrentStep('resumeCommande');
         } else if (item.categorie === 'Tacos') {
             setCurrentStep('choixViande');
@@ -311,7 +314,8 @@ const Menu = () => {
     const onSelectDessert = (dessert) => {
         if (selectedDesserts.includes(dessert)) {
             setSelectedDesserts(selectedDesserts.filter(d => d.id !== dessert.id));
-        } else {
+        } 
+        else {
             setSelectedDesserts([...selectedDesserts, dessert]);
         }
     };
@@ -356,6 +360,14 @@ const Menu = () => {
             setSelectedSauces([]);
             setSelectedViandes([]);
             setSelectedOption(null);
+        } else if (currentStep === 'choixDessert') {
+            // Ajoutez les desserts sélectionnés à orderItems ici
+            const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
+            setOrderItems(updatedOrderItems);
+        
+            // Réinitialiser les desserts sélectionnés et passer à l'étape suivante
+            setSelectedDesserts([]);
+            setCurrentStep('resumeCommande');
         }
     };
     
@@ -569,7 +581,7 @@ const handleFinalizeOrder = () => {
         <h2 className='text-center mt-2'>Faites votre choix :</h2>
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
-            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+            {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
             <div className='row mt-3'>
             {articles[selectedCategory].map(item => (
                 <div className='col-md-4 text-center' key={item.id}>
