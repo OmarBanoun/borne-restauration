@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 import Swal from 'sweetalert2';
 import CategoryItem from '../Categories/CategoriesItem';
 import MenuItem from './MenuItem/MenuItem';
@@ -114,10 +118,22 @@ const viandes = [
     { id: 6, nom: 'Nuggets', imageUrl: imgNuggets}
 ];
 
+const suggestion = [
+    { id: 1, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8 },
+    { id: 2, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9 },
+    { id: 3, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9 },
+    { id: 4, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50 },
+    { id: 5, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50 },
+    { id: 6, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3 },
+    { id: 7, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3 },
+    { id: 8, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50 },
+];
+
 
 const Menu = () => {
     const [selectedCategory, setSelectedCategory] = useState('Sandwich');
     const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
     const [orderItems, setOrderItems] = useState([]);
     const [selectedDrink, setSelectedDrink] = useState(null);
@@ -198,6 +214,7 @@ const Menu = () => {
         console.log("Mise à jour des articles de commande avec boisson:", updatedItem);
         setCurrentStep('resumeCommande');
         console.log("Transition vers le résumé de la commande après choix de boisson");
+        handleShowModal();
     };
     
     const handleSelectGarniture = (garniture) => {
@@ -441,6 +458,32 @@ const calculateTotal = (items) => {
     return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
 };
 
+const handleAddToOrder = (item) => {
+    setSelectedItem(item);
+    setOrderItems([...orderItems, item]);
+    handleCloseModal();
+    // reinitialiser
+    setSelectedItem(null);
+    setSelectedOption(null);
+    setSelectedSauces([]);
+    setSelectedGarnitures([]);
+    setSelectedViandes([]);
+    setSelectedDesserts([]);
+};
+const [showModal, setShowModal] = useState(false);
+const handleShowModal = () => setShowModal(true);
+const handleCloseModal = () => setShowModal(false);
+
+const handleToggleItem = (item) => {
+    if (selectedItems.find(selectedItem => selectedItem.id === item.id)) {
+        setSelectedItems(selectedItems.filter(selectedItem => selectedItem.id !== item.id));
+    } else {
+        setSelectedItems([...selectedItems, item]);
+    }
+};
+
+
+
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");
     // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
@@ -522,6 +565,41 @@ const handleFinalizeOrder = () => {
     {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
         <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
     )}
+<Modal show={showModal} onHide={handleCloseModal}>
+    <Modal.Header closeButton>
+        <Modal.Title className='d-flex justify-content-center'>Accompagner votre menu</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <Row>
+            {suggestion.map((item, index) => (
+                <Col key={item.id} xs={12} md={3} className="mb-3">
+                <div className={`text-center ${selectedItems.find(selectedItem => selectedItem.id === item.id) ? "selected-class" : ""}`} 
+                    onClick={() => handleToggleItem(item)}>
+                        <img src={item.imageUrl} alt={item.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
+                        <p>{item.nom} - {item.prix}€</p>
+                    </div>
+                </Col>
+            ))}
+        </Row>
+    </Modal.Body>
+    <Modal.Footer>
+    <Button variant="danger" onClick={handleCloseModal}>
+        Non, merci
+    </Button>
+    <Button 
+        variant="primary" 
+        onClick={() => {
+            setOrderItems([...orderItems, ...selectedItems]);
+            handleCloseModal();
+        }}
+        disabled={selectedItems.length === 0} // Désactiver si aucun article n'est sélectionné
+    >
+        Ajouter à la Commande
+    </Button>
+</Modal.Footer>
+
+</Modal>
+
     </div>
     </div>
     <div className='order-summary'>

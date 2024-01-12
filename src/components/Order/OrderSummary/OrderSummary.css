@@ -20,7 +20,23 @@ a{
 }
 .order-product{
     width: 80%;
+    overflow-x: auto;
+    white-space: nowrap; 
     /* display: flex; */
+}
+.order-product::-webkit-scrollbar{
+    width: 12px;
+}
+.order-product::-webkit-scrollbar-track{
+    background: #f2f0f0;
+}
+.order-product::-webkit-scrollbar-thumb{
+    border-radius: 20px;
+    background-color: orange;
+}
+.order-product .card {
+    display: inline-block; /* Affiche les cartes en ligne */
+    margin-right: 16px; /* Espacement entre les cartes */
 }
 .order-price{
     width: 20%;

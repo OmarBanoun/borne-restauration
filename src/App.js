@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Common/Header/Header";
 import Home from './components/Home/Home';
 import Order from './components/Order/Order';
