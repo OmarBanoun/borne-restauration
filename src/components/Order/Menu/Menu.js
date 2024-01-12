@@ -163,70 +163,123 @@ const Menu = () => {
         }
     };
 
+    // const handleItemClick = (item) => {
+    //     console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
+    //     setSelectedItem(item);
+    //     setSelectedOption(null);
+    //     if (item.categorie === 'Dessert') {
+    //         console.log("Passage à l'étape resumeCommande pour les desserts");
+    //         const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
+    //         const newOrderItems = [...orderItems, updatedItem];
+    //         setOrderItems(newOrderItems); // Mettre à jour l'état orderItems
+    //         console.log("Dessert ajouté aux commandes :", updatedItem);
+    //         console.log("Commandes après ajout de dessert :", newOrderItems);
+    //         setCurrentStep('resumeCommande');
+    //     } else if (item.categorie === 'Tacos') {
+    //         console.log("Passage à l'étape de choix des viandes pour les tacos");
+    //         setCurrentStep('choixViande');
+    //         // Définir maxViandes en fonction du type de tacos sélectionné
+    //         const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10); // Extrait le nombre de viandes du nom
+    //         setMaxViandes(nombreViandes);
+    //     } else if (item.categorie === 'Sandwich' || item.categorie === 'Burgers') {
+    //         console.log("Passage à l'étape de choix des garnitures");
+    //         setCurrentStep('choixGarniture');
+    //     } else {
+    //         console.log("Passage à l'étape de choix des options");
+    //         setCurrentStep('choixOption');
+    //     }
+    // };
     const handleItemClick = (item) => {
         console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
         setSelectedItem(item);
         setSelectedOption(null);
+    
         if (item.categorie === 'Dessert') {
-            console.log("Passage à l'étape resumeCommande pour les desserts");
-            const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
-            const newOrderItems = [...orderItems, updatedItem];
-            setOrderItems(newOrderItems); // Mettre à jour l'état orderItems
-            console.log("Dessert ajouté aux commandes :", updatedItem);
-            console.log("Commandes après ajout de dessert :", newOrderItems);
+            const updatedItem = { ...item, quantity: 1 };
+            setOrderItems([...orderItems, updatedItem]);
             setCurrentStep('resumeCommande');
         } else if (item.categorie === 'Tacos') {
-            console.log("Passage à l'étape de choix des viandes pour les tacos");
             setCurrentStep('choixViande');
-            // Définir maxViandes en fonction du type de tacos sélectionné
-            const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10); // Extrait le nombre de viandes du nom
+            const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10);
             setMaxViandes(nombreViandes);
-        } else if (item.categorie === 'Sandwich' || item.categorie === 'Burgers') {
-            console.log("Passage à l'étape de choix des garnitures");
-            setCurrentStep('choixGarniture');
         } else {
-            console.log("Passage à l'étape de choix des options");
-            setCurrentStep('choixOption');
+            setCurrentStep('choixGarniture');
         }
     };
-    const handleOptionSelect = (item, option) => {
-        console.log("Option sélectionnée pour l'article:", item.nom, "Option:", option);
-        const updatedItem = { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes };
-        setOrderItems([...orderItems, updatedItem]);
-        setSelectedItem(updatedItem); 
-        setSelectedOption(option); 
+    // const handleOptionSelect = (item, option) => {
+    //     console.log("Option sélectionnée pour l'article:", item.nom, "Option:", option);
+    //     const updatedItem = { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes };
+    //     setOrderItems([...orderItems, updatedItem]);
+    //     setSelectedItem(updatedItem); 
+    //     setSelectedOption(option); 
     
-        // Ajuster les étapes en fonction de l'option et de la catégorie
-        if (option === 'menu' && item.categorie !== 'Dessert') {
-            console.log("Passage à l'étape choixBoisson");
+    //     // Ajuster les étapes en fonction de l'option et de la catégorie
+    //     if (option === 'menu' && item.categorie !== 'Dessert') {
+    //         console.log("Passage à l'étape choixBoisson");
+    //         setCurrentStep('choixBoisson');
+    //     } else {
+    //         console.log("Passage à l'étape resumeCommande");
+    //         setCurrentStep('resumeCommande');
+    //     }
+    // };
+    // const handleOptionSelect = (item, option) => {
+    //     setSelectedItem({ ...item, option });
+    //     setSelectedOption(option);
+    
+    //     if (option === 'menu') {
+    //         setCurrentStep('choixBoisson');
+    //     } else {
+    //         // Ajouter l'article à orderItems si l'option n'est pas 'menu'
+    //         setOrderItems([...orderItems, { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes }]);
+    //         setCurrentStep('resumeCommande');
+    //     }
+    // };
+    const handleOptionSelect = (item, option) => {
+        setSelectedItem({ ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces });
+        setSelectedOption(option);
+    
+        if (option === 'menu') {
             setCurrentStep('choixBoisson');
         } else {
-            console.log("Passage à l'étape resumeCommande");
+            setOrderItems([...orderItems, { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces }]);
             setCurrentStep('resumeCommande');
         }
     };
     
+    // const handleSelectDrink = (drink) => {
+    //     console.log("Boisson choisie dans handleSelectDrink:", drink.nom);
+    //     const updatedItem = { ...selectedItem, drink: drink.nom, option: selectedOption };
+    //     setOrderItems([...orderItems.slice(0, -1), updatedItem]);
+    //     setSelectedDrink(drink); // Enregistrer la boisson choisie
+    //     console.log("Mise à jour des articles de commande avec boisson:", updatedItem);
+    //     setCurrentStep('resumeCommande');
+    //     console.log("Transition vers le résumé de la commande après choix de boisson");
+    //     handleShowModal();
+    // };
     const handleSelectDrink = (drink) => {
-        console.log("Boisson choisie dans handleSelectDrink:", drink.nom);
-        const updatedItem = { ...selectedItem, drink: drink.nom, option: selectedOption };
-        setOrderItems([...orderItems.slice(0, -1), updatedItem]);
-        setSelectedDrink(drink); // Enregistrer la boisson choisie
-        console.log("Mise à jour des articles de commande avec boisson:", updatedItem);
+        // Ajouter l'article avec la boisson sélectionnée à orderItems
+        const updatedItem = { ...selectedItem, drink: drink.nom };
+        setOrderItems([...orderItems, updatedItem]);
+    
+        // Réinitialisation pour le prochain article
+        setSelectedItem(null);
+        setSelectedOption(null);
+        setSelectedDrink(null);
+        setSelectedGarnitures(null);
         setCurrentStep('resumeCommande');
-        console.log("Transition vers le résumé de la commande après choix de boisson");
         handleShowModal();
     };
     
     const handleSelectGarniture = (garniture) => {
-        // Vérifier si la garniture est déjà sélectionnée
         if (selectedGarnitures.includes(garniture)) {
-            // Si oui, la retirer
-            setSelectedGarnitures(selectedGarnitures.filter(item => item.id !== garniture.id));
+            setSelectedGarnitures(selectedGarnitures.filter(g => g.id !== garniture.id));
         } else {
-            // Sinon, l'ajouter à la sélection
             setSelectedGarnitures([...selectedGarnitures, garniture]);
         }
+        console.log("Garnitures sélectionnées:", selectedGarnitures);
     };
+    
+    
 
     const handleSelectSauce = (sauce) => {
         const isSelected = selectedSauces.includes(sauce);
@@ -263,28 +316,49 @@ const Menu = () => {
         }
     };
 
+    // const handleNextClick = () => {
+    //     console.log("Étape actuelle avant Next:", currentStep);
+    //     if (currentStep === 'choixGarniture') {
+    //         setCurrentStep('choixSauce');
+    //     } else if (currentStep === 'choixSauce') {
+    //         setCurrentStep('choixOption');
+    //     } else if (currentStep === 'choixViande'){
+    //         setCurrentStep('choixSauce');
+    //     } else if (currentStep === 'choixDessert' && selectedDesserts.length > 0) {
+    //         console.log("Transition vers le résumé de la commande pour les desserts");
+    //         // Ajouter les desserts sélectionnés à orderItems ici
+    //         const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
+    //         setOrderItems(updatedOrderItems);  // Mettez à jour l'état orderItems avec les desserts sélectionnés
+    //         console.log("Commandes après ajout de desserts :", updatedOrderItems);
+    //         setCurrentStep('resumeCommande');
+    //         // setSelectedCategory(null);
+    //     }
+    //     console.log("Nouvelle étape après Next:", currentStep);
+    //     console.log("SelectedCategory:", selectedCategory);
+    //     console.log("SelectedItem:", selectedItem);
+    //     console.log("CurrentStep:", currentStep);
+    // };
     const handleNextClick = () => {
-        console.log("Étape actuelle avant Next:", currentStep);
         if (currentStep === 'choixGarniture') {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixSauce') {
             setCurrentStep('choixOption');
-        } else if (currentStep === 'choixViande'){
+        } else if (currentStep === 'choixViande') {
             setCurrentStep('choixSauce');
-        } else if (currentStep === 'choixDessert' && selectedDesserts.length > 0) {
-            console.log("Transition vers le résumé de la commande pour les desserts");
-            // Ajouter les desserts sélectionnés à orderItems ici
-            const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
-            setOrderItems(updatedOrderItems);  // Mettez à jour l'état orderItems avec les desserts sélectionnés
-            console.log("Commandes après ajout de desserts :", updatedOrderItems);
+        } else if (currentStep === 'choixOption') {
+            const updatedItem = { ...selectedItem, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes, option: selectedOption };
+            setOrderItems([...orderItems, updatedItem]);
             setCurrentStep('resumeCommande');
-            // setSelectedCategory(null);
+    
+            // Réinitialisation pour le prochain article
+            setSelectedItem(null);
+            setSelectedGarnitures([]);
+            setSelectedSauces([]);
+            setSelectedViandes([]);
+            setSelectedOption(null);
         }
-        console.log("Nouvelle étape après Next:", currentStep);
-        console.log("SelectedCategory:", selectedCategory);
-        console.log("SelectedItem:", selectedItem);
-        console.log("CurrentStep:", currentStep);
     };
+    
 
     useEffect(() => {
         console.log("selectedOption a changé :", selectedOption);
@@ -458,18 +532,6 @@ const calculateTotal = (items) => {
     return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
 };
 
-const handleAddToOrder = (item) => {
-    setSelectedItem(item);
-    setOrderItems([...orderItems, item]);
-    handleCloseModal();
-    // reinitialiser
-    setSelectedItem(null);
-    setSelectedOption(null);
-    setSelectedSauces([]);
-    setSelectedGarnitures([]);
-    setSelectedViandes([]);
-    setSelectedDesserts([]);
-};
 const [showModal, setShowModal] = useState(false);
 const handleShowModal = () => setShowModal(true);
 const handleCloseModal = () => setShowModal(false);
@@ -481,8 +543,6 @@ const handleToggleItem = (item) => {
         setSelectedItems([...selectedItems, item]);
     }
 };
-
-
 
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");

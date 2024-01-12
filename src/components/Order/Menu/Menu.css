@@ -50,7 +50,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 .order-process {
     width: 80%;
     /* flex: 2; */
-    border-left: 2px solid #ccc;
+    /* border-left: 2px solid #ccc; */
 }
 .order-summary {
     flex: 1; /* Ajustez selon le besoin */
