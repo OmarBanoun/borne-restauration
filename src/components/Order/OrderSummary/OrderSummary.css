@@ -61,4 +61,5 @@ a{
     overflow-wrap: break-word;
     overflow: hidden; /* Cache le débordement du texte */
     text-overflow: ellipsis;
+    margin-bottom: 9px;
 }

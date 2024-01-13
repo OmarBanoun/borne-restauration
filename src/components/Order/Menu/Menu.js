@@ -60,6 +60,8 @@ import imgCrepe4 from "../../../assets/CREPE_NUTELLA.png";
 import imgCrepe5 from "../../../assets/CREPE_CONFITURE.png";
 import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
+import imgDemiPoulet from "../../../assets/demi-poulet.png";
+import imgPouletEntier from "../../../assets/poulet-entier.png";
 
 const categories = [
     { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
@@ -67,7 +69,7 @@ const categories = [
     { id: 3, nom: 'Tacos', imageUrl: imgTacos },
     { id: 4, nom: 'Panini', imageUrl: imgPanini },
     { id: 5, nom: 'Dessert', imageUrl: imgTiramisuChoco },
-    { id: 6, nom: 'Poulet Roti', imageUrl: imgPoulet },
+    { id: 6, nom: 'Poulet', imageUrl: imgPoulet },
 ];
 const articles = {
     'Burgers': [
@@ -91,6 +93,10 @@ const articles = {
         { id: 3, nom: 'Panini fromage', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
         { id: 4, nom: 'Panini poulet', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
         { id: 5, nom: 'Panini nutella', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+    ],
+    'Poulet': [
+        { id: 1, nom: 'Demi Poulet', imageUrl: imgDemiPoulet, prix: 4.50, categorie: 'Poulet' },
+        { id: 2, nom: 'Poulet Entier', imageUrl: imgPouletEntier, prix: 8.50, categorie: 'Poulet' }
     ]
 };
 const desserts = [
@@ -99,11 +105,11 @@ const desserts = [
     { id: 3, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3, categorie: 'Dessert' },
     { id: 4, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3, categorie: 'Dessert' },
     { id: 5, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50, categorie: 'Dessert' },
-    { id: 6, nom: 'Crepe Confiture', imageUrl: imgCrepe5, prix: 3.50, categorie: 'Crepes' },
-    { id: 7, nom: 'Crepe Nutella Banane', imageUrl: imgCrepe1, prix: 4.50, categorie: 'Crepes' },
-    { id: 8, nom: 'Crepe Sucre', imageUrl: imgCrepe3, prix: 3.50, categorie: 'Crepes' },
-    { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Crepes' },
-    { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Crepes' },
+    { id: 6, nom: 'Crepe Confiture', imageUrl: imgCrepe5, prix: 3.50, categorie: 'Dessert' },
+    { id: 7, nom: 'Crepe Nutella Banane', imageUrl: imgCrepe1, prix: 4.50, categorie: 'Dessert' },
+    { id: 8, nom: 'Crepe Sucre', imageUrl: imgCrepe3, prix: 3.50, categorie: 'Dessert' },
+    { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Dessert' },
+    { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Dessert' },
 ];
 const drinks = [
     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
@@ -201,7 +207,9 @@ const Menu = () => {
             setMaxViandes(nombreViandes);
         } else if (item.categorie === 'Panini') {
             setCurrentStep('choixOption');
-        } else {
+        } else if (item.categorie === 'Poulet') {
+            setCurrentStep('choixOption');
+        }else {
             setCurrentStep('choixGarniture');
         }
     };
@@ -639,7 +647,7 @@ const handleFinalizeOrder = () => {
         </div>
         {(orderItems.length > 0) && (
             <OrderSummary 
-                orderItems={orderItems} 
+                orderItems={orderItems}
                 onContinueOrder={handleContinueOrder} 
                 onFinalizeOrder={handleFinalizeOrder} 
                 onRemoveItem={handleRemoveItem}

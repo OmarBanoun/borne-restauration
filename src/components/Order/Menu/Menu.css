@@ -31,7 +31,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 .categories-bar {
     /* flex: 1; */
     /* height: calc(100vh - (532.7px)); */
-    height: calc(100vh - (730px));
+    height: calc(100vh - (770px));
     width: 25%;
     overflow-y: auto;
 }
@@ -50,13 +50,14 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 
 .order-process {
     width: 75%;
-    height: calc(100vh - (730px));
+    height: calc(100vh - (770px));
     overflow-y: auto;
     /* flex: 2; */
     /* border-left: 2px solid #ccc; */
 }
 .order-process::-webkit-scrollbar{
     display: none;
+    /* ne pas afficher de scrollbar */
 }
 .order-summary {
     flex: 1; /* Ajustez selon le besoin */

@@ -13,11 +13,11 @@
     object-fit: contain; /* Garantit que l'image couvre la zone sans perdre ses proportions */
 }
 
-.categoryImage:active{
+/* .categoryImage:active{
     border: 5px solid orange;
     border-radius: 5px;
     box-shadow: 0px 0px 10px orange;
-}
+} */
 
 .categoryName {
     margin-top: 10px; /* Espace entre l'image et le nom de la catégorie */

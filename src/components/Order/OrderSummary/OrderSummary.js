@@ -68,11 +68,15 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
     // };
 
     return (
-        <div className='summary-section'>
+        <div className='summary-section mb-0'>
             <div className='order-product d-flex flex-row col-8'>
                 {orderItems.map((item, index) => (
-                    <div key={index} className="mb-3">
+                    <div key={index} className="mb-4">
                         <div className="card mt-4">
+                        <div className='d-flex justify-content-end'>
+                            <button onClick={() => onRemoveItem(index)} className="d-flex btn text-danger"><strong>❌</strong></button>
+                        </div>
+                        
                             <img src={item.imageUrl} alt={item.nom} className="card-img-top img-fluid" />
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
