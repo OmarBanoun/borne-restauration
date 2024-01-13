@@ -20,6 +20,7 @@ import imgBurger from "../../../assets/burger.jpg";
 import imgDessert from "../../../assets/dessert.png";
 import imgCrepe from "../../../assets/crepe_NUTELLA BANANE.png";
 import imgPanini from '../../../assets/panini.jpg';
+import imgPaniniArticle from '../../../assets/panini_article.png';
 import imgPoulet from "../../../assets/poulet_roti.jpg";
 import imgxPoulet from "../../../assets/poulet.png";
 import imgxCordon from "../../../assets/cordon.png";
@@ -52,6 +53,13 @@ import imgSaladeFruit from "../../../assets/SALADE DE FRUIT .png";
 import imgTiramisuChoco from "../../../assets/TIRAMISU CHOCOLAT.png";
 import imgTiramisuCara from "../../../assets/TIRAMISU CARAMEL.png";
 import imgTarteDaim from "../../../assets/TARTE AU DAIM.png";
+import imgCrepe1 from "../../../assets/crepe_NUTELLA BANANE.png";
+import imgCrepe2 from "../../../assets/CREPE_MIEL AMANDE.png";
+import imgCrepe3 from "../../../assets/CREPE_SUCRE.png";
+import imgCrepe4 from "../../../assets/CREPE_NUTELLA.png";
+import imgCrepe5 from "../../../assets/CREPE_CONFITURE.png";
+import imgSP from "../../../assets/SP.png";
+import imgAE from "../../../assets/a-emporter.png";
 
 const categories = [
     { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
@@ -59,8 +67,7 @@ const categories = [
     { id: 3, nom: 'Tacos', imageUrl: imgTacos },
     { id: 4, nom: 'Panini', imageUrl: imgPanini },
     { id: 5, nom: 'Dessert', imageUrl: imgTiramisuChoco },
-    { id: 6, nom: 'Crêpes sucrées', imageUrl: imgCrepe },
-    { id: 7, nom: 'Poulet Roti', imageUrl: imgPoulet },
+    { id: 6, nom: 'Poulet Roti', imageUrl: imgPoulet },
 ];
 const articles = {
     'Burgers': [
@@ -77,6 +84,13 @@ const articles = {
         { id: 1, nom: 'Tacos 1 viande', imageUrl: imgTacos, prix: 9.50, categorie: 'Tacos' },
         { id: 2, nom: 'Tacos 2 viandes', imageUrl: imgTacos, prix: 10.50, categorie: 'Tacos' },
         { id: 3, nom: 'Tacos 3 viandes', imageUrl: imgTacos, prix: 11.50, categorie: 'Tacos' },
+    ],
+    'Panini': [
+        { id: 1, nom: 'Panini saumon', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+        { id: 2, nom: 'Panini jambon de dinde', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+        { id: 3, nom: 'Panini fromage', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+        { id: 4, nom: 'Panini poulet', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+        { id: 5, nom: 'Panini nutella', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
     ]
 };
 const desserts = [
@@ -85,6 +99,11 @@ const desserts = [
     { id: 3, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3, categorie: 'Dessert' },
     { id: 4, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3, categorie: 'Dessert' },
     { id: 5, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50, categorie: 'Dessert' },
+    { id: 6, nom: 'Crepe Confiture', imageUrl: imgCrepe5, prix: 3.50, categorie: 'Crepes' },
+    { id: 7, nom: 'Crepe Nutella Banane', imageUrl: imgCrepe1, prix: 4.50, categorie: 'Crepes' },
+    { id: 8, nom: 'Crepe Sucre', imageUrl: imgCrepe3, prix: 3.50, categorie: 'Crepes' },
+    { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Crepes' },
+    { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Crepes' },
 ];
 const drinks = [
     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
@@ -143,6 +162,7 @@ const Menu = () => {
     const [selectedViandes, setSelectedViandes] = useState([]);
     const [maxViandes, setMaxViandes] = useState(0);
     const [selectedDesserts, setSelectedDesserts] = useState([]);
+    const [orderType, setOrderType] = useState(null);
 
     useEffect(() => {
         // Simulez la sélection de la catégorie 'Sandwich' au chargement de l'application
@@ -163,37 +183,11 @@ const Menu = () => {
         }
     };
 
-    // const handleItemClick = (item) => {
-    //     console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
-    //     setSelectedItem(item);
-    //     setSelectedOption(null);
-    //     if (item.categorie === 'Dessert') {
-    //         console.log("Passage à l'étape resumeCommande pour les desserts");
-    //         const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
-    //         const newOrderItems = [...orderItems, updatedItem];
-    //         setOrderItems(newOrderItems); // Mettre à jour l'état orderItems
-    //         console.log("Dessert ajouté aux commandes :", updatedItem);
-    //         console.log("Commandes après ajout de dessert :", newOrderItems);
-    //         setCurrentStep('resumeCommande');
-    //     } else if (item.categorie === 'Tacos') {
-    //         console.log("Passage à l'étape de choix des viandes pour les tacos");
-    //         setCurrentStep('choixViande');
-    //         // Définir maxViandes en fonction du type de tacos sélectionné
-    //         const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10); // Extrait le nombre de viandes du nom
-    //         setMaxViandes(nombreViandes);
-    //     } else if (item.categorie === 'Sandwich' || item.categorie === 'Burgers') {
-    //         console.log("Passage à l'étape de choix des garnitures");
-    //         setCurrentStep('choixGarniture');
-    //     } else {
-    //         console.log("Passage à l'étape de choix des options");
-    //         setCurrentStep('choixOption');
-    //     }
-    // };
     const handleItemClick = (item) => {
         console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
         setSelectedItem(item);
         setSelectedOption(null);
-        if (item.categorie === 'Dessert') {
+        if (item.categorie === ('Dessert' || 'Crepes')) {
             console.log("Passage à l'étape resumeCommande pour les desserts");
             const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
             const newOrderItems = [...orderItems, updatedItem];
@@ -205,38 +199,12 @@ const Menu = () => {
             setCurrentStep('choixViande');
             const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10);
             setMaxViandes(nombreViandes);
+        } else if (item.categorie === 'Panini') {
+            setCurrentStep('choixOption');
         } else {
             setCurrentStep('choixGarniture');
         }
     };
-    // const handleOptionSelect = (item, option) => {
-    //     console.log("Option sélectionnée pour l'article:", item.nom, "Option:", option);
-    //     const updatedItem = { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes };
-    //     setOrderItems([...orderItems, updatedItem]);
-    //     setSelectedItem(updatedItem); 
-    //     setSelectedOption(option); 
-    
-    //     // Ajuster les étapes en fonction de l'option et de la catégorie
-    //     if (option === 'menu' && item.categorie !== 'Dessert') {
-    //         console.log("Passage à l'étape choixBoisson");
-    //         setCurrentStep('choixBoisson');
-    //     } else {
-    //         console.log("Passage à l'étape resumeCommande");
-    //         setCurrentStep('resumeCommande');
-    //     }
-    // };
-    // const handleOptionSelect = (item, option) => {
-    //     setSelectedItem({ ...item, option });
-    //     setSelectedOption(option);
-    
-    //     if (option === 'menu') {
-    //         setCurrentStep('choixBoisson');
-    //     } else {
-    //         // Ajouter l'article à orderItems si l'option n'est pas 'menu'
-    //         setOrderItems([...orderItems, { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes }]);
-    //         setCurrentStep('resumeCommande');
-    //     }
-    // };
     const handleOptionSelect = (item, option) => {
         setSelectedItem({ ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces });
         setSelectedOption(option);
@@ -249,16 +217,6 @@ const Menu = () => {
         }
     };
     
-    // const handleSelectDrink = (drink) => {
-    //     console.log("Boisson choisie dans handleSelectDrink:", drink.nom);
-    //     const updatedItem = { ...selectedItem, drink: drink.nom, option: selectedOption };
-    //     setOrderItems([...orderItems.slice(0, -1), updatedItem]);
-    //     setSelectedDrink(drink); // Enregistrer la boisson choisie
-    //     console.log("Mise à jour des articles de commande avec boisson:", updatedItem);
-    //     setCurrentStep('resumeCommande');
-    //     console.log("Transition vers le résumé de la commande après choix de boisson");
-    //     handleShowModal();
-    // };
     const handleSelectDrink = (drink) => {
         // Ajouter l'article avec la boisson sélectionnée à orderItems
         const updatedItem = { ...selectedItem, drink: drink.nom };
@@ -319,29 +277,6 @@ const Menu = () => {
             setSelectedDesserts([...selectedDesserts, dessert]);
         }
     };
-
-    // const handleNextClick = () => {
-    //     console.log("Étape actuelle avant Next:", currentStep);
-    //     if (currentStep === 'choixGarniture') {
-    //         setCurrentStep('choixSauce');
-    //     } else if (currentStep === 'choixSauce') {
-    //         setCurrentStep('choixOption');
-    //     } else if (currentStep === 'choixViande'){
-    //         setCurrentStep('choixSauce');
-    //     } else if (currentStep === 'choixDessert' && selectedDesserts.length > 0) {
-    //         console.log("Transition vers le résumé de la commande pour les desserts");
-    //         // Ajouter les desserts sélectionnés à orderItems ici
-    //         const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
-    //         setOrderItems(updatedOrderItems);  // Mettez à jour l'état orderItems avec les desserts sélectionnés
-    //         console.log("Commandes après ajout de desserts :", updatedOrderItems);
-    //         setCurrentStep('resumeCommande');
-    //         // setSelectedCategory(null);
-    //     }
-    //     console.log("Nouvelle étape après Next:", currentStep);
-    //     console.log("SelectedCategory:", selectedCategory);
-    //     console.log("SelectedItem:", selectedItem);
-    //     console.log("CurrentStep:", currentStep);
-    // };
     const handleNextClick = () => {
         if (currentStep === 'choixGarniture') {
             setCurrentStep('choixSauce');
@@ -429,7 +364,6 @@ const Menu = () => {
             }
         }
     }, [currentStep]);
-    
 
     const handleBackClick = () => {
         console.log("Click sur Retour depuis l'étape :", currentStep);
@@ -546,7 +480,10 @@ const calculateTotal = (items) => {
 
 const [showModal, setShowModal] = useState(false);
 const handleShowModal = () => setShowModal(true);
-const handleCloseModal = () => setShowModal(false);
+const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedItems([]);
+};
 
 const handleToggleItem = (item) => {
     if (selectedItems.find(selectedItem => selectedItem.id === item.id)) {
@@ -563,6 +500,23 @@ const handleFinalizeOrder = () => {
 
     return (
     <div className='menu-container'>
+        {!orderType && (
+        <div className='order-type-selection-container'>
+            <h2 className="order-type-title text-center">Où Souhaitez-vous Déguster Votre Repas ?</h2>
+            <div className='order-type-selection'>
+                <div className="card" onClick={() => setOrderType('sur_place')}>
+                    <img src={imgSP} alt="img-SP" className="card-img-top img-fluid" />
+                    <h3 className='card-title mt-3'>Sur Place</h3>
+                </div>
+                <div className="card" onClick={() => setOrderType('a_emporter')}>
+                    <img src={imgAE} alt="img-AE" className="card-img-top img-fluid" />
+                    <h3 className='card-title mt-3'>À Emporter</h3>
+                </div>
+            </div>
+        </div>
+        )}
+        {orderType && (
+        <div>
     <div className='top-section'>
     <div className='categories-bar'>
         {/* Logique pour afficher les catégories */}
@@ -593,7 +547,6 @@ const handleFinalizeOrder = () => {
     )}
     {currentStep === 'choixDessert' && (
         <div className='container mb-5'>
-        <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
         <SelectDessert 
             desserts={desserts} 
             onSelectDessert={onSelectDessert} 
@@ -637,7 +590,7 @@ const handleFinalizeOrder = () => {
     {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
         <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
     )}
-<Modal show={showModal} onHide={handleCloseModal}>
+<Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-50w" centered>
     <Modal.Header closeButton>
         <Modal.Title className='d-flex justify-content-center'>Accompagner votre menu</Modal.Title>
     </Modal.Header>
@@ -662,6 +615,7 @@ const handleFinalizeOrder = () => {
         variant="primary" 
         onClick={() => {
             setOrderItems([...orderItems, ...selectedItems]);
+            setSelectedItems([]);
             handleCloseModal();
         }}
         disabled={selectedItems.length === 0} // Désactiver si aucun article n'est sélectionné
@@ -669,7 +623,6 @@ const handleFinalizeOrder = () => {
         Ajouter à la Commande
     </Button>
 </Modal.Footer>
-
 </Modal>
 
     </div>
@@ -693,6 +646,8 @@ const handleFinalizeOrder = () => {
             />
         )}
     </div>
+    </div>
+)};
 </div>
     );
 };

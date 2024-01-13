@@ -50,6 +50,12 @@ a{
     /* padding: 20px 0; */
     border-bottom: 3px solid grey
 }
+.card-title{
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden; /* Cache le débordement du texte */
+    text-overflow: ellipsis;
+}
 .card-text{
     word-break: break-word;
     overflow-wrap: break-word;

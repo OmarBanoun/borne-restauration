@@ -76,10 +76,10 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                             <img src={item.imageUrl} alt={item.nom} className="card-img-top img-fluid" />
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
-                                {/* {item.categorie !== 'Dessert' && (
-                                    <p className="card-text">Option choisie : {item.option === 'seul' ? 'Seul' : 'En Menu'}</p>
-                                )} */}
-                                {/* {item.drink && <p className="card-text">Boisson : {item.drink}</p>}
+                                {item.categorie !== 'Dessert' && (
+                                    <p className="card-text">Option : {item.option === 'seul' ? 'Seul' : 'En Menu'}</p>
+                                )}
+                                {item.drink && <p className="card-text">Boisson : {item.drink}</p>}
                                 {item.garnitures && item.garnitures.length > 0 && (
                                     <p className="card-text">
                                         Garnitures : {item.garnitures.map(garniture => garniture.nom).join(', ')}
@@ -91,7 +91,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                                     </p>
                                 )}
                                 <p className="card-text">Prix : {item.prix + (item.option === 'menu' ? 2 : 0)}€</p>
-                                <button onClick={() => onEditItem(index)} className="btn btn-primary">Modifier</button>
+                                {/* <button onClick={() => onEditItem(index)} className="btn btn-primary">Modifier</button>
                                 <button onClick={() => onRemoveItem(index)} className="btn btn-danger ml">Supprimer</button> */}
                             </div>
                         </div>
