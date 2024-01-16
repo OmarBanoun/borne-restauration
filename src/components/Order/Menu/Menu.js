@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css';
+import { useNavigate } from 'react-router-dom';
+import { calculateTotal } from '../../utils';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -169,6 +171,7 @@ const Menu = () => {
     const [maxViandes, setMaxViandes] = useState(0);
     const [selectedDesserts, setSelectedDesserts] = useState([]);
     const [orderType, setOrderType] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Simulez la sélection de la catégorie 'Sandwich' au chargement de l'application
@@ -482,9 +485,10 @@ const handleRemoveItem = (index) => {
         }
     });
 };
-const calculateTotal = (items) => {
-    return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
-};
+// const calculateTotal = (items) => {
+//     return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
+// };
+const total = calculateTotal(orderItems);
 
 const [showModal, setShowModal] = useState(false);
 const handleShowModal = () => setShowModal(true);
@@ -504,6 +508,7 @@ const handleToggleItem = (item) => {
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");
     // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
+    navigate('/order-summary', { state: { orderType, orderItems, total } });
 };
 
     return (
@@ -641,7 +646,7 @@ const handleFinalizeOrder = () => {
             <div className='col-3 bg-dark'>
                 <div className='text-white d-flex align-items-center justify-content-around h-100 text-white commande'>
                     <strong className='Total'>Total</strong>
-                    <h2 className='my-4 price orange'>{calculateTotal(orderItems)}€</h2>
+                    <h2 className='my-4 price orange'>{total}€</h2>
                 </div>
             </div>
         </div>

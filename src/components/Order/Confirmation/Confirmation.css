@@ -1,0 +1,13 @@
+.order-summary-page-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 350px);
+}
+.cards-pay{
+    margin-top: 150px;
+}
+.title-pay{
+    margin-top: 50%;
+}
