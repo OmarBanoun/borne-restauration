@@ -13,25 +13,6 @@ const OrderSummaryPage = ({ orderType }) => {
     const [showStripeForm, setShowStripeForm] = useState(false);
     const [paymentOption, setPaymentOption] = useState('');
 
-    // const printTicket = () => {
-    //     let ticketContent = '<h3>Votre Commande</h3>';
-      
-    //     orderItems.forEach(item => {
-    //         ticketContent += `<p>${item.nom} - ${item.prix}€</p>`;
-    //         if(item.garnitures) ticketContent += `<p>Garnitures: ${item.garnitures}</p>`;
-    //         if(item.sauces) ticketContent += `<p>Sauces: ${item.sauces}</p>`;
-    //         if(item.boisson) ticketContent += `<p>Boisson: ${item.boisson}</p>`;
-    //     });
-      
-    //     ticketContent += `<p>Total: ${total}€</p>`;
-      
-    //     const printWindow = window.open('', '_blank');
-    //     printWindow.document.write(`<html><head><title>Impression du Ticket</title></head><body>${ticketContent}</body></html>`);
-    //     printWindow.document.close();
-    //     printWindow.print();
-    //   };
-      
-
     const handleBorneClick = () => {
         setShowStripeForm(true);
     };
