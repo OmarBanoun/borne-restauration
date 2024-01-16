@@ -80,7 +80,7 @@ const PaiementForm = ({total, orderItems}) => {
 
     const createPaymentIntent = async (montant) => {
         try {
-            const response = await axios.post("https://omarbanoun.go.yo.fr/api/paiement", { montant });
+            const response = await axios.post("https://omarbanoun.go.yo.fr/borne-api/api/paiement", { montant });
             return response.data;
         } catch (error) {
             console.error('Erreur lors de la création du PaymentIntent:', error);
