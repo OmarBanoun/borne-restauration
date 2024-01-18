@@ -6,10 +6,10 @@ import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";
 import PaiementForm from '../PaiementForm/PaiementForm';
 
-const OrderSummaryPage = ({ orderType }) => {
+const OrderSummaryPage = () => {
     // const navigate = useNavigate();
     const location = useLocation();
-    const { total, orderItems } = location.state || {};
+    const { total, orderItems, orderType } = location.state || {};
     const [showStripeForm, setShowStripeForm] = useState(false);
     const [paymentOption, setPaymentOption] = useState('');
 
@@ -47,7 +47,7 @@ const OrderSummaryPage = ({ orderType }) => {
             {showStripeForm && (
             <div>
             <h2 className='text-center title-pay'>Paiement (Test)</h2>
-            <PaiementForm total={total} orderItems={orderItems}/>
+            <PaiementForm total={total} orderItems={orderItems} orderType={orderType}/>
             </div>
             )}
         </div>

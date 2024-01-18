@@ -490,6 +490,11 @@ const handleRemoveItem = (index) => {
 // };
 const total = calculateTotal(orderItems);
 
+const handleOrderTypeSelect = (type) => {
+    setOrderType(type);
+    console.log("Order Type après sélection:", type);
+};
+
 const [showModal, setShowModal] = useState(false);
 const handleShowModal = () => setShowModal(true);
 const handleCloseModal = () => {
@@ -517,11 +522,11 @@ const handleFinalizeOrder = () => {
         <div className='order-type-selection-container'>
             <h2 className="order-type-title text-center">Où Souhaitez-vous Déguster Votre Repas ?</h2>
             <div className='order-type-selection'>
-                <div className="card" onClick={() => setOrderType('sur_place')}>
+                <div className="card" onClick={() => handleOrderTypeSelect('sur_place')}>
                     <img src={imgSP} alt="img-SP" className="card-img-top img-fluid" />
                     <h3 className='card-title mt-3'>Sur Place</h3>
                 </div>
-                <div className="card" onClick={() => setOrderType('a_emporter')}>
+                <div className="card" onClick={() => handleOrderTypeSelect('a_emporter')}>
                     <img src={imgAE} alt="img-AE" className="card-img-top img-fluid" />
                     <h3 className='card-title mt-3'>À Emporter</h3>
                 </div>
