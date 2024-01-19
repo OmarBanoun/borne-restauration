@@ -16,6 +16,7 @@ import SelectGarniture from './SelectGarniture/SelectGarniture';
 import SelectViande from './SelectViande/SelectViande';
 import SelectDessert from './SelectDessert/SelectDessert';
 import SelectSauce from './SelectSauce/SelectSauce';
+import SelectPain from './SelectPain/SelectPain';
 import imgSandwich from "../../../assets/sandwich.jpg";
 import imgTacos from "../../../assets/taco.png";
 import imgBurger from "../../../assets/burger.jpg";
@@ -64,6 +65,8 @@ import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
 import imgDemiPoulet from "../../../assets/demi-poulet.png";
 import imgPouletEntier from "../../../assets/poulet-entier.png";
+import imgTortilla from "../../../assets/pain_tortilla.jpeg";
+import imgPain from "../../../assets/pain_tradi.png";
 
 const categories = [
     { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
@@ -113,6 +116,10 @@ const desserts = [
     { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Dessert' },
     { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Dessert' },
 ];
+const pains = [
+    { id:1, nom: 'Traditionnel', imageUrl: imgTortilla},
+    { id:2, nom: 'Tortilla', imageUrl: imgPain},
+]
 const drinks = [
     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
     { id: 2, nom: 'Fanta', imageUrl: imgFanta },
@@ -164,6 +171,7 @@ const Menu = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [orderItems, setOrderItems] = useState([]);
     const [selectedDrink, setSelectedDrink] = useState(null);
+    const [selectedPain, setSelectedPain] = useState(null);
     const [currentStep, setCurrentStep] = useState('choixCategorie');
     const [selectedGarnitures, setSelectedGarnitures] = useState([]);
     const [selectedSauces, setSelectedSauces] = useState([]);
@@ -212,6 +220,8 @@ const Menu = () => {
             setCurrentStep('choixOption');
         } else if (item.categorie === 'Poulet') {
             setCurrentStep('choixOption');
+        } else if (item.categorie === 'Sandwich'){
+            setCurrentStep('choixPain');
         }else {
             setCurrentStep('choixGarniture');
         }
@@ -227,7 +237,12 @@ const Menu = () => {
             setCurrentStep('resumeCommande');
         }
     };
-    
+    // handleSelectPain
+    const handleSelectPain = (pain) => {
+        setSelectedPain(pain);
+        setCurrentStep('choixGarniture');
+        console.log("Pain sélectionné :", pain);
+    }
     const handleSelectDrink = (drink) => {
         // Ajouter l'article avec la boisson sélectionnée à orderItems
         const updatedItem = { ...selectedItem, drink: drink.nom };
@@ -289,19 +304,22 @@ const Menu = () => {
         }
     };
     const handleNextClick = () => {
-        if (currentStep === 'choixGarniture') {
+        if (currentStep === 'choixPain') {
+            setCurrentStep('choixGarniture');
+        } else if (currentStep === 'choixGarniture') {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixSauce') {
             setCurrentStep('choixOption');
         } else if (currentStep === 'choixViande') {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixOption') {
-            const updatedItem = { ...selectedItem, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes, option: selectedOption };
+            const updatedItem = { ...selectedItem, pains: selectedPain, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes, option: selectedOption };
             setOrderItems([...orderItems, updatedItem]);
             setCurrentStep('resumeCommande');
     
             // Réinitialisation pour le prochain article
             setSelectedItem(null);
+            setSelectedPain(null);
             setSelectedGarnitures([]);
             setSelectedSauces([]);
             setSelectedViandes([]);
@@ -316,7 +334,10 @@ const Menu = () => {
             setCurrentStep('resumeCommande');
         }
     };
-    
+
+    useEffect(() => {
+        console.log("Choix pain a changé :", selectedPain);
+    }, [selectedPain]);
 
     useEffect(() => {
         console.log("selectedOption a changé :", selectedOption);
@@ -377,21 +398,36 @@ const Menu = () => {
     }, [currentStep]);
 
     const handleBackClick = () => {
-        console.log("Click sur Retour depuis l'étape :", currentStep);
+        // console.log("Click sur Retour depuis l'étape :", currentStep);
+        console.log("CurrentStep avant switch :", currentStep);
         switch (currentStep) {
             case 'choixArticle':
+                console.log("Test case");
                 // Retourner au choix de catégorie
                 setCurrentStep('choixCategorie');
                 setSelectedCategory(null);
                 break;
-    
-            case 'choixGarniture':
+
+            case 'choixPain':
                 // Retourner au choix d'article
                 setCurrentStep('choixArticle');
                 setSelectedItem(null);
-                setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
+                setSelectedPain(null); // Réinitialiser les pain sélectionnées
                 break;
     
+            case 'choixGarniture':
+                //si la catégorie choisie est burger le retourne au choix des burgers sinon si la catégorie c'est sandwich je reviens au choix du pain
+                if (selectedCategory === 'Burgers') {
+                    setCurrentStep('choixArticle');
+                    setSelectedItem(null);
+                    setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
+                } else {
+                    setCurrentStep('choixPain');
+                    // setSelectedItem(null);
+                    setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
+                }
+                break;
+
             case 'choixSauce':
                 // Si l'utilisateur est aux Tacos, revenir à 'choixViande', sinon à 'choixGarniture'
                 setCurrentStep(selectedItem.categorie === 'Tacos' ? 'choixViande' : 'choixGarniture');
@@ -402,7 +438,6 @@ const Menu = () => {
                 if (selectedItem && selectedItem.categorie === 'Tacos') {
                     setCurrentStep('choixArticle'); // Revenir à la sélection des tacos
                     setSelectedItem(null); // Optionnel: Réinitialiser l'article sélectionné si nécessaire
-                    setSelectedViandes([]); // Réinitialiser les viandes sélectionnées
                 }
                 break;
                 // setCurrentStep('choixArticle');
@@ -414,15 +449,16 @@ const Menu = () => {
                 setSelectedCategory(null);
                 setSelectedDesserts([]);
                 break;
-    
+                
             case 'choixOption':
                 // Décider si l'utilisateur doit revenir aux sauces, viandes ou garnitures
                 if (selectedItem.categorie === 'Tacos') {
-                    setCurrentStep('choixViande');
+                    setCurrentStep('choixSauce');
                 } else if (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') {
                     setCurrentStep('choixGarniture');
                 } else {
                     setCurrentStep('choixArticle');
+                    setSelectedItem(null);
                 }
                 break;
     
@@ -452,6 +488,7 @@ const Menu = () => {
         setSelectedCategory('Sandwich');
         setSelectedItem(null);
         setSelectedOption(null);
+        setSelectedPain(null);
         setSelectedDrink(null);
         setSelectedGarnitures([]);// Et les garnitures sélectionnées si nécessaire
         setSelectedSauces([]); 
@@ -565,6 +602,7 @@ const handleFinalizeOrder = () => {
     )}
     {currentStep === 'choixDessert' && (
         <div className='container mb-5'>
+        {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
         <SelectDessert 
             desserts={desserts} 
             onSelectDessert={onSelectDessert} 
@@ -579,8 +617,15 @@ const handleFinalizeOrder = () => {
             <SelectViande viandes={viandes} onSelectViande={handleSelectViande} selectedViandes={selectedViandes} onNextClick={handleNextClick} maxViandes={maxViandes}  />
         </div>
     )}
+    {/* Choix du pain */}
+    {selectedItem && (selectedItem.categorie === 'Sandwich') && currentStep === 'choixPain' && (
+        <div className='container'>
+            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+            <SelectPain pains={pains} onSelectPain={handleSelectPain} selectedPain={selectedPain} onNextClick={handleNextClick} />
+        </div>
+    )}
     {/* Choix des garnitures */}
-    {selectedItem && (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') && currentStep === 'choixGarniture' && (
+    {currentStep === 'choixGarniture' && (
         <div className='container'>
             <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
             <SelectGarniture 
@@ -600,7 +645,7 @@ const handleFinalizeOrder = () => {
     {/* Choix des options */}
     {selectedItem && currentStep === 'choixOption' && (
         <div className='container'>
-            <button className='btn btn-warning mb-3 text-white' onClick={() => setCurrentStep('choixGarniture')}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
             <ItemOptions item={selectedItem} onOptionSelect={handleOptionSelect} />
         </div>
     )}
