@@ -233,7 +233,7 @@ const Menu = () => {
         if (option === 'menu') {
             setCurrentStep('choixBoisson');
         } else {
-            setOrderItems([...orderItems, { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces }]);
+            setOrderItems([...orderItems, { ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces}]);
             setCurrentStep('resumeCommande');
         }
     };
@@ -389,6 +389,7 @@ const Menu = () => {
                 // reinitialiser
                 setSelectedItem(null);
                 setSelectedOption(null);
+                setSelectedPain(null);
                 setSelectedSauces([]);
                 setSelectedGarnitures([]);
                 setSelectedViandes([]);

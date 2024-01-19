@@ -5,13 +5,14 @@
 }
 main h1{
     position: absolute;
-    top: 33%;
+    top: 27%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: rgb(255, 183, 0);
     text-align: center;
     /* font-family: 'Pacifico', sans-serif; */
     font-family: 'Besttia Brush', sans-serif;
+    font-size: 59px;
 }
 h2, .itemPrice{
     font-family: 'Besttia Brush', sans-serif;
@@ -28,18 +29,19 @@ h2, .itemPrice{
 }
 .btn-orange {
     position: absolute;
-    top: 60%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-size: 300% 100%;
-    border: none;
+    border: 10px solid whitesmoke;
     border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 600;
-    height: 100px;
+    font-weight: 700;
+    height: 150px;
     margin: 0;
     text-align: center;
+    width: 400px;
 }
 main a{
     text-decoration: none;
