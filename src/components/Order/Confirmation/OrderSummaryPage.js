@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Importez useHistory si vous utilisez React Router
+import { useLocation } from 'react-router-dom'; // Importez useHistory si vous utilisez React Router
 import imgBornePay from '../../../assets/paiement.png';
 import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";

@@ -5,7 +5,7 @@ import { calculateTotal } from '../../utils';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'
+import Col from 'react-bootstrap/Col';
 import Swal from 'sweetalert2';
 import CategoryItem from '../Categories/CategoriesItem';
 import MenuItem from './MenuItem/MenuItem';
@@ -117,8 +117,8 @@ const desserts = [
     { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Dessert' },
 ];
 const pains = [
-    { id:1, nom: 'Traditionnel', imageUrl: imgTortilla},
-    { id:2, nom: 'Tortilla', imageUrl: imgPain},
+    { id:1, nom: 'Tortilla', imageUrl: imgTortilla},
+    { id:2, nom: 'Traditionnel', imageUrl: imgPain},
 ]
 const drinks = [
     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
@@ -189,22 +189,43 @@ const Menu = () => {
         }
     }, []);
 
-    
     const handleCategorySelect = (category) => {
-        console.log("Catégorie sélectionnée :", category.nom);
-        setSelectedCategory(category.nom);
-        if (category.nom === 'Dessert') {
+        if (selectedItem) {
+            Swal.fire({
+                title: 'Voulez-vous annuler cette commande en cours ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Non'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setSelectedCategory(category.nom);
+                    setCurrentStep('choixArticle');
+                    setSelectedItem(null);
+                    setSelectedOption(null); // Réinitialiser l'option sélectionnée
+                    setSelectedDrink(null); // Réinitialiser la boisson sélectionnée
+                    setSelectedPain(null); // Réinitialiser le pain sélectionné
+                    setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
+                    setSelectedSauces([]); // Réinitialiser les sauces sélectionnées
+                    setSelectedViandes([]); // Réinitialiser les viandes sélectionnées
+                    setSelectedDesserts([]);
+                }
+            });
+        } else if(category.nom === "Dessert"){
+            setSelectedCategory(category.nom);
             setCurrentStep('choixDessert');
         } else {
+            setSelectedCategory(category.nom);
             setCurrentStep('choixArticle');
         }
     };
-
     const handleItemClick = (item) => {
         console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
         setSelectedItem(item);
         setSelectedOption(null);
-        if (item.categorie === ('Dessert' || 'Crepes')) {
+        if (item.categorie === ('Dessert')) {
             console.log("Passage à l'étape resumeCommande pour les desserts");
             const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
             const newOrderItems = [...orderItems, updatedItem];
@@ -240,6 +261,7 @@ const Menu = () => {
     // handleSelectPain
     const handleSelectPain = (pain) => {
         setSelectedPain(pain);
+        setSelectedItem({ ...selectedItem, pain: pain.nom });
         setCurrentStep('choixGarniture');
         console.log("Pain sélectionné :", pain);
     }
@@ -591,6 +613,7 @@ const handleFinalizeOrder = () => {
         <h2 className='text-center mt-2'>Faites votre choix :</h2>
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
+            <h3 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h3>
             {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
             <div className='row mt-3'>
             {articles[selectedCategory].map(item => (
@@ -603,7 +626,6 @@ const handleFinalizeOrder = () => {
     )}
     {currentStep === 'choixDessert' && (
         <div className='container mb-5'>
-        {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
         <SelectDessert 
             desserts={desserts} 
             onSelectDessert={onSelectDessert} 

@@ -1,6 +1,6 @@
 // OrderSummary.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import "./OrderSummary.css";
 
 const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder }) => {
@@ -33,7 +33,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                                         Sauces : {item.sauces.map(sauce => sauce.nom).join(', ')}
                                     </p>
                                 )}
-                                {item.pain && <p className="card-text">Pain : {item.pain.nom}</p>}
+                                {item.pain && <p className="card-text">Pain : {item.pain}</p>}
                                 <p className="card-text">Prix : {item.prix + (item.option === 'menu' ? 2 : 0)}€</p>
                                 {/* <button onClick={() => onEditItem(index)} className="btn btn-primary">Modifier</button>
                                 <button onClick={() => onRemoveItem(index)} className="btn btn-danger ml">Supprimer</button> */}
@@ -45,7 +45,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
             <div className='order-price my-auto text-center col-4'>
                 <div className='border-button'>
                 <button onClick={onFinalizeOrder} type="button" className="btn btn-warning btn-lg btn-block my-auto finish_button">
-                    <Link to="" className='text-white td-none px-3'>Finaliser ma commande</Link>
+                    <div className='text-white td-none px-3'>Finaliser ma commande</div>
                 </button>
                 </div>
             </div>

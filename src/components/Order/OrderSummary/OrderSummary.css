@@ -16,7 +16,6 @@ a{
 }
 .summary-section{
     display: flex;
-    /* flex-direction: column; */
     justify-content: space-between;
 }
 .order-product{
@@ -24,7 +23,6 @@ a{
     overflow-x: auto;
     white-space: nowrap; 
     border-right: 2px solid #787474;
-    /* display: flex; */
 }
 .order-product::-webkit-scrollbar{
     width: 12px;
@@ -39,27 +37,25 @@ a{
     background-color: orange;
 }
 .order-product .card {
-    display: inline-block; /* Affiche les cartes en ligne */
-    margin-right: 16px; /* Espacement entre les cartes */
+    display: inline-block; 
+    margin-right: 16px; 
 }
 .order-price{
     width: 24.9%;
-    /* border-left: 1px solid #787474; */
 }
 .summary-section h4{
-    /* padding: 20px 0; */
     border-bottom: 3px solid grey
 }
 .card-title{
     word-break: break-word;
     overflow-wrap: break-word;
-    overflow: hidden; /* Cache le débordement du texte */
+    overflow: hidden; 
     text-overflow: ellipsis;
 }
 .card-text{
     word-break: break-word;
     overflow-wrap: break-word;
-    overflow: hidden; /* Cache le débordement du texte */
+    overflow: hidden; 
     text-overflow: ellipsis;
     margin-bottom: 9px;
 }

@@ -8,29 +8,15 @@
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     background-color: rgb(255, 183, 0) !important;
 }
-/* .container-custom {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-} */
 
-.menu-container {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-height: 100%;  */
-    /* margin: 20px 10px; */
-}
 .top-section{
     display: flex;
-    /* flex-direction: column; */
+
     justify-content: space-between;
     max-height: 10%;
     margin: 20px 10px;
 }
 .categories-bar {
-    /* flex: 1; */
-    /* height: calc(100vh - (532.7px)); */
     height: calc(100vh - (770px));
     width: 25%;
     overflow-y: auto;
@@ -52,26 +38,24 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     width: 75%;
     height: calc(100vh - (770px));
     overflow-y: auto;
-    /* flex: 2; */
-    /* border-left: 2px solid #ccc; */
+
 }
 .order-process::-webkit-scrollbar{
     display: none;
-    /* ne pas afficher de scrollbar */
+
 }
 .order-summary {
-    flex: 1; /* Ajustez selon le besoin */
+    flex: 1;
     border-top: 2px solid grey;
-    /* margin: 0 10px; */
-    /* height: 400px; */
+
 }
 .order-summary h4{
     margin-left: 2rem;
 }
 .commande{
-    /* ombrage vers le bas */
+
     box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
-    /* border-bottom: 2px solid #eee; */
+
     align-items: center;
 }
 .price{
@@ -96,14 +80,13 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     display: flex;
     justify-content: space-evenly ;
     align-items: center;
- /* Utilisez 100vh pour prendre toute la hauteur de l'écran */
 }
 .order-type-title {
-    margin-bottom: 70px; /* Ajustez l'espacement selon vos besoins */
+    margin-bottom: 70px;
 }
 .order-type-selection .card {
     width: 18rem;
-    margin: 0 30px; /* Espacement entre les cartes */
+    margin: 0 30px;
     padding: 20px;
     border: 1px solid #ccc;
     text-align: center;

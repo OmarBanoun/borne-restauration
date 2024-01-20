@@ -1,11 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import '../PaiementForm/PaiementForm.css';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
-import imgLogo from '../../../assets/kebab-logo.png';
+// import imgLogo from '../../../assets/kebab-logo.png';
 
 const PaiementForm = ({total, orderItems, orderType}) => {
     const stripe = useStripe();
@@ -13,39 +12,39 @@ const PaiementForm = ({total, orderItems, orderType}) => {
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const [isPaying, setIsPaying] = useState(false);
 
-    const printTicket = (orderItems, total, orderType) => {
-        let ticketContent = `<div style="display:flex;justify-content:center;"><img src='${imgLogo}' style="width:45%;"><img/></div>`;
-        ticketContent += '<div><p style="text-align:center;margin-bottom:45px;">Restaurant Kebab de la Gare<br>6 rue Turgot - 78500 Sartrouville<br>01.39.40.41.42 - www.kebabdelagare.fr</p></div>';
-        ticketContent += `<hr>`;
-        ticketContent += '<h3>Votre Commande</h3>';
-        orderItems.forEach(item => {
-            const prixFinal = item.prix + (item.option === 'menu' ? 2 : 0);
-            const optionText = item.option === 'menu' ? '(en menu)' : '(Seul)';
-            ticketContent += `<p>${item.nom} ${optionText} - ${prixFinal}€</p>`;
-            if (item.garnitures && item.garnitures.length > 0) {
-                const garnitureNames = item.garnitures.map(g => g.nom).join(', ');
-                ticketContent += `<p>Garnitures: ${garnitureNames}</p>`;
-            }
-            if (item.sauces && item.sauces.length > 0) {
-                const sauceNames = item.sauces.map(s => s.nom).join(', ');
-                ticketContent += `<p>Sauces: ${sauceNames}</p>`;
-            }
-            if (item.drink) {
-                ticketContent += `<p>Boisson: ${item.drink}</p>`;
-                }
-                ticketContent += '<p">----------------------------</p>';
-        });
-        ticketContent += `<p style="margin-top:40px;">Type de commande : ${orderType === 'sur_place' ? 'Sur Place' : 'À Emporter'}</p>`;
-        ticketContent += `<strong>TOTAL: ${total}€</strong>`;
-        ticketContent += `<hr>`;
-        ticketContent += `<p style="margin-top:100px;">*************************************</p>`;
-        ticketContent += `<h4>Merci de votre visite ! À bientôt =)</h4>`;
-        ticketContent += `<p>*************************************</p>`;
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`<html><head><title>Impression du Ticket</title></head><body style="width:320px;text-align:left">${ticketContent}</body></html>`);
-        printWindow.document.close();
-        printWindow.print();
-      };
+    // const printTicket = (orderItems, total, orderType) => {
+    //     let ticketContent = `<div style="display:flex;justify-content:center;"><img src='${imgLogo}' style="width:45%;"><img/></div>`;
+    //     ticketContent += '<div><p style="text-align:center;margin-bottom:45px;">Restaurant Kebab de la Gare<br>6 rue Turgot - 78500 Sartrouville<br>01.39.40.41.42 - www.kebabdelagare.fr</p></div>';
+    //     ticketContent += `<hr>`;
+    //     ticketContent += '<h3>Votre Commande</h3>';
+    //     orderItems.forEach(item => {
+    //         const prixFinal = item.prix + (item.option === 'menu' ? 2 : 0);
+    //         const optionText = item.option === 'menu' ? '(en menu)' : '(Seul)';
+    //         ticketContent += `<p>${item.nom} ${optionText} - ${prixFinal}€</p>`;
+    //         if (item.garnitures && item.garnitures.length > 0) {
+    //             const garnitureNames = item.garnitures.map(g => g.nom).join(', ');
+    //             ticketContent += `<p>Garnitures: ${garnitureNames}</p>`;
+    //         }
+    //         if (item.sauces && item.sauces.length > 0) {
+    //             const sauceNames = item.sauces.map(s => s.nom).join(', ');
+    //             ticketContent += `<p>Sauces: ${sauceNames}</p>`;
+    //         }
+    //         if (item.drink) {
+    //             ticketContent += `<p>Boisson: ${item.drink}</p>`;
+    //             }
+    //             ticketContent += '<p">----------------------------</p>';
+    //     });
+    //     ticketContent += `<p style="margin-top:40px;">Type de commande : ${orderType === 'sur_place' ? 'Sur Place' : 'À Emporter'}</p>`;
+    //     ticketContent += `<strong>TOTAL: ${total}€</strong>`;
+    //     ticketContent += `<hr>`;
+    //     ticketContent += `<p style="margin-top:100px;">*************************************</p>`;
+    //     ticketContent += `<h4>Merci de votre visite ! À bientôt =)</h4>`;
+    //     ticketContent += `<p>*************************************</p>`;
+    //     const printWindow = window.open('', '_blank');
+    //     printWindow.document.write(`<html><head><title>Impression du Ticket</title></head><body style="width:320px;text-align:left">${ticketContent}</body></html>`);
+    //     printWindow.document.close();
+    //     printWindow.print();
+    //   };
     // const handleSubmit = () => {
     //     printTicket(orderItems, total, orderType);
     // }
