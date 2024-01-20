@@ -733,7 +733,7 @@ const handleFinalizeOrder = () => {
         )}
     </div>
     </div>
-)};
+)}
 </div>
     );
 };
