@@ -15,7 +15,7 @@ const SelectPain = ({ pains, onSelectPain }) => {
                     }}>
                         <div className="drink">
                             <img src={pain.imageUrl} alt={pain.nom} className="garniture-image img-fluid" />
-                            <p className='text-center'>{pain.nom}</p>
+                            <p className='text-center name-item'>{pain.nom}</p>
                         </div>
                     </div>
                 ))}

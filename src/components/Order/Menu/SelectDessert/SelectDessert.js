@@ -4,7 +4,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
     const canProceed = selectedDesserts.length > 0;
     return (
         <div className='container text-center'>
-            <h3 className='mb-4'>Choisissez vos desserts :</h3>
+            <h2 className='text-center mt-5'>Selectionnez vos desserts</h2>
             <div className='row'>
                 {desserts.map((dessert) => {
                     const isSelected = selectedDesserts.includes(dessert);
@@ -17,13 +17,14 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                             <div>
                                 <img src={dessert.imageUrl} alt={dessert.nom} className="dessert-image img-fluid" />
                                 <p className='text-center name-item'>{dessert.nom}</p>
+                                <p className="itemPrice orange">{dessert.prix.toFixed(2).replace('.', ',')}€</p>
                             </div>
                         </div>
                     );
                 })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg col-4 text-white' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                <button className='btn btn-warning btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
             </div>
         </div>
     );

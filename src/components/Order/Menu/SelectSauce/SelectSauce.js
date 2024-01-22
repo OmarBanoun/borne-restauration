@@ -3,7 +3,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
     const canProceed = selectedSauces.length > 0;
     return (
         <div className='container text-center'>
-            <h3 className='mb-4'>Choisissez vos sauces (2 max) : </h3>
+            <h2 className='mb-4'>Choisissez vos sauces (2 max) : </h2>
             <div className='row'>
             {sauces.map((sauce) => {
                 const isSelected = selectedSauces.includes(sauce);
@@ -20,7 +20,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
             })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg col-4 text-white' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                <button className='btn btn-warning py-3 btn-lg col-4 text-white mb-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
             </div>
         </div>
     );

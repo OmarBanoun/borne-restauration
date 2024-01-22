@@ -67,6 +67,7 @@ import imgDemiPoulet from "../../../assets/demi-poulet.png";
 import imgPouletEntier from "../../../assets/poulet-entier.png";
 import imgTortilla from "../../../assets/pain_tortilla.jpeg";
 import imgPain from "../../../assets/pain_tradi.png";
+import imgBuns from "../../../assets/buns.png";
 
 const categories = [
     { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
@@ -119,6 +120,7 @@ const desserts = [
 const pains = [
     { id:1, nom: 'Tortilla', imageUrl: imgTortilla},
     { id:2, nom: 'Traditionnel', imageUrl: imgPain},
+    { id:3, nom: 'Buns', imageUrl: imgBuns},
 ]
 const drinks = [
     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
@@ -190,7 +192,7 @@ const Menu = () => {
     }, []);
 
     const handleCategorySelect = (category) => {
-        if (selectedItem) {
+        if (selectedItem && selectedOption !== 'seul') {
             Swal.fire({
                 title: 'Voulez-vous annuler cette commande en cours ?',
                 icon: 'warning',
@@ -598,7 +600,7 @@ const handleFinalizeOrder = () => {
     <div className='top-section'>
     <div className='categories-bar'>
         {/* Logique pour afficher les catégories */}
-            <div className='container'>
+            <div className='container mt-4'>
                 <h2 className='text-center orange categ-title'>Catégories</h2>
                 {categories.map(category => (
                     <div key={category.id} className={selectedCategory === category.nom ? "selected-class" : ""}>
@@ -610,10 +612,10 @@ const handleFinalizeOrder = () => {
     
     <div className='order-process'>
         {/* Choix des articles */}
-        <h2 className='text-center mt-2'>Faites votre choix :</h2>
+        {/* <h2 className='text-center mt-2'>Faites votre choix :</h2> */}
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
-            <h3 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h3>
+            <h2 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h2>
             {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
             <div className='row mt-3'>
             {articles[selectedCategory].map(item => (
@@ -687,7 +689,7 @@ const handleFinalizeOrder = () => {
                 <div className={`text-center ${selectedItems.find(selectedItem => selectedItem.id === item.id) ? "selected-class" : ""}`} 
                     onClick={() => handleToggleItem(item)}>
                         <img src={item.imageUrl} alt={item.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
-                        <p>{item.nom} - {item.prix}€</p>
+                        <p>{item.nom} - {item.prix.toFixed(2).replace('.', ',')}€</p>
                     </div>
                 </Col>
             ))}
@@ -698,7 +700,7 @@ const handleFinalizeOrder = () => {
         Non, merci
     </Button>
     <Button 
-        variant="primary" 
+        variant="warning text-white" 
         onClick={() => {
             setOrderItems([...orderItems, ...selectedItems]);
             setSelectedItems([]);

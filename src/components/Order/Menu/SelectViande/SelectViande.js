@@ -4,9 +4,9 @@ const SelectViande = ({ viandes, onSelectViande, selectedViandes, onNextClick, m
     const canProceed = selectedViandes.length === maxViandes;
     return (
         <div className='container text-center'>
-            <h3 className='mb-4'>Choisissez vos viandes :</h3>
+            <h2 className='mb-4'>Choisissez vos viandes :</h2>
             {/* Afficher le compteur de viandes sélectionnées */}
-            <h6 className="mb-5">Nombre de viandes : <strong className="orange">{selectedViandes.length}/{maxViandes}</strong></h6>
+            <h4 className="mb-5">Nombre de viandes : <strong className="orange">{selectedViandes.length}/{maxViandes}</strong></h4>
             <div className='row'>
                 {viandes.map((viande) => {
                     const isSelected = selectedViandes.includes(viande);
@@ -22,7 +22,7 @@ const SelectViande = ({ viandes, onSelectViande, selectedViandes, onNextClick, m
                 })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg col-4 text-white' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                <button className='btn btn-warning py-3 btn-lg col-4 text-white' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
                 {!canProceed && <p>Veuillez sélectionner exactement {maxViandes} viande(s).</p>}
             </div>
         </div>

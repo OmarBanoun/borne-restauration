@@ -6,7 +6,7 @@ const MenuItem = ({ item, onSelect }) => {
         <div className="menuItem" onClick={() => onSelect(item)}>
             <img src={item.imageUrl} alt={item.nom} className="categoryImage itemImage img-fluid" />
             <h3 className="itemName">{item.nom}</h3>
-            <p className="itemPrice orange">{item.prix}€</p>
+            <p className="itemPrice orange">{item.prix.toFixed(2).replace('.', ',')}€</p>
         </div>
     );
 };

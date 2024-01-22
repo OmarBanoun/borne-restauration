@@ -14,15 +14,15 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 
     justify-content: space-between;
     max-height: 10%;
-    margin: 20px 10px;
+    margin: 0 10px;
 }
 .categories-bar {
-    height: calc(100vh - (770px));
+    height: calc(100vh - (736px));
     width: 25%;
     overflow-y: auto;
 }
 .categories-bar::-webkit-scrollbar{
-    width: 2px;
+    width: 5px;
 }
 .categories-bar::-webkit-scrollbar-track{
     background: #f2f0f0;
@@ -31,13 +31,14 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 }
 .categories-bar::-webkit-scrollbar-thumb{
     border-radius: 20px;
-    background-color: rgb(153, 153, 153);
+    background-color: rgb(167, 166, 166);
 }
 
 .order-process {
     width: 75%;
     height: calc(100vh - (770px));
     overflow-y: auto;
+    margin-top: 10px;
 
 }
 .order-process::-webkit-scrollbar{

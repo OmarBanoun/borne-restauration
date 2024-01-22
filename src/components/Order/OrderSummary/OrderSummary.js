@@ -34,7 +34,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                                     </p>
                                 )}
                                 {item.pain && <p className="card-text">Pain : {item.pain}</p>}
-                                <p className="card-text">Prix : {item.prix + (item.option === 'menu' ? 2 : 0)}€</p>
+                                <p className="card-text">Prix : {(item.prix + (item.option === 'menu' ? 2 : 0)).toFixed(2).replace('.', ',')}€</p>
                                 {/* <button onClick={() => onEditItem(index)} className="btn btn-primary">Modifier</button>
                                 <button onClick={() => onRemoveItem(index)} className="btn btn-danger ml">Supprimer</button> */}
                             </div>
