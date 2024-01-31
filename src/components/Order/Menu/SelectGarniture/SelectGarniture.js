@@ -5,7 +5,7 @@ import "./SelectGarniture.css";
 const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, onNextClick }) => {
     return (
         <div className='container text-center'>
-            <h3 className='mb-4'>Choisissez vos condiments :</h3>
+            <h2 className='mb-4'>Choisissez vos condiments :</h2>
             <div className='row'>
             {garnitures.map((garniture) => {
                 const isSelected = selectedGarnitures.includes(garniture);
@@ -13,7 +13,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
                 return (
                     <div key={garniture.id} className={`col-md-4 ${selectionClass}`} onClick={() => onSelectGarniture(garniture)}>
                         <div>
-                            <img src={garniture.imageUrl} alt={garniture.nom} className=" garniture-image img-fluid" />
+                            <img src={`http://localhost:3001/${garniture.imageUrl }`} alt={garniture.nom} className=" garniture-image img-fluid" />
                             <p className='text-center name-item'>{garniture.nom}</p>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>

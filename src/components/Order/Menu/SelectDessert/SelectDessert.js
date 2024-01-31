@@ -15,7 +15,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                             onSelectDessert(dessert);
                         }}>
                             <div>
-                                <img src={dessert.imageUrl} alt={dessert.nom} className="dessert-image img-fluid" />
+                                <img src={`http://localhost:3001/${dessert.imageUrl}`} alt={dessert.nom} className="dessert-image img-fluid" />
                                 <p className='text-center name-item'>{dessert.nom}</p>
                                 <p className="itemPrice orange">{dessert.prix.toFixed(2).replace('.', ',')}€</p>
                             </div>
@@ -25,6 +25,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
             </div>
             <div className='mt-5'>
                 <button className='btn btn-warning btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                {!canProceed && <p>Veuillez sélectionner au moins un dessert.</p>}
             </div>
         </div>
     );

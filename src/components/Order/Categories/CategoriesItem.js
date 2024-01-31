@@ -5,7 +5,7 @@ import './CategoriesItem.css';
 const CategoryItem = ({ category, onSelect }) => {
     return (
         <div className="categoryItem" onClick={() => onSelect(category)}>
-            <img src={category.imageUrl} alt={category.nom} className="categoryImage img-fluid" />
+            <img src={`http://localhost:3001/${category.imageUrl}`} alt={category.nom} className="categoryImage img-fluid" />
             <h3 className="categoryName">{category.nom}</h3>
         </div>
     );

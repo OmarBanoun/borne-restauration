@@ -20,6 +20,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     height: calc(100vh - (736px));
     width: 25%;
     overflow-y: auto;
+    margin-bottom: 10px;
 }
 .categories-bar::-webkit-scrollbar{
     width: 5px;

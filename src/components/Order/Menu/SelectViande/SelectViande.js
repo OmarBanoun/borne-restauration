@@ -14,7 +14,7 @@ const SelectViande = ({ viandes, onSelectViande, selectedViandes, onNextClick, m
                     return (
                         <div key={viande.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectViande(viande)}>
                             <div>
-                                <img src={viande.imageUrl} alt={viande.nom} className="viande-image img-fluid" />
+                                <img src={`http://localhost:3001/${viande.imageUrl }`} alt={viande.nom} className="viande-image img-fluid" />
                                 <p className='text-center name-item'>{viande.nom}</p>
                             </div>
                         </div>

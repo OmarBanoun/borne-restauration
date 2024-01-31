@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { calculateTotal } from '../../utils';
 import Modal from 'react-bootstrap/Modal';
@@ -69,105 +70,108 @@ import imgTortilla from "../../../assets/pain_tortilla.jpeg";
 import imgPain from "../../../assets/pain_tradi.png";
 import imgBuns from "../../../assets/buns.png";
 
-const categories = [
-    { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
-    { id: 2, nom: 'Burgers', imageUrl: classicBurger },
-    { id: 3, nom: 'Tacos', imageUrl: imgTacos },
-    { id: 4, nom: 'Panini', imageUrl: imgPanini },
-    { id: 5, nom: 'Dessert', imageUrl: imgTiramisuChoco },
-    { id: 6, nom: 'Poulet', imageUrl: imgPoulet },
-];
-const articles = {
-    'Burgers': [
-        { id: 1, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8, categorie: 'Burgers' },
-        { id: 2, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9, categorie: 'Burgers' },
-        { id: 3, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9, categorie: 'Burgers' },
-    ],
-    'Sandwich': [
-        { id: 1, nom: 'Kebab', imageUrl: imgKebab, prix: 8, categorie: 'Sandwich' },
-        { id: 2, nom: 'Chicken Curry', imageUrl: imgChickenCurry, prix: 9, categorie: 'Sandwich' },
-        { id: 3, nom: 'Cordon Bleu', imageUrl: imgCordonBleu, prix: 9, categorie: 'Sandwich' },
-    ],
-    'Tacos': [
-        { id: 1, nom: 'Tacos 1 viande', imageUrl: imgTacos, prix: 9.50, categorie: 'Tacos' },
-        { id: 2, nom: 'Tacos 2 viandes', imageUrl: imgTacos, prix: 10.50, categorie: 'Tacos' },
-        { id: 3, nom: 'Tacos 3 viandes', imageUrl: imgTacos, prix: 11.50, categorie: 'Tacos' },
-    ],
-    'Panini': [
-        { id: 1, nom: 'Panini saumon', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
-        { id: 2, nom: 'Panini jambon de dinde', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
-        { id: 3, nom: 'Panini fromage', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
-        { id: 4, nom: 'Panini poulet', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
-        { id: 5, nom: 'Panini nutella', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
-    ],
-    'Poulet': [
-        { id: 1, nom: 'Demi Poulet', imageUrl: imgDemiPoulet, prix: 4.50, categorie: 'Poulet' },
-        { id: 2, nom: 'Poulet Entier', imageUrl: imgPouletEntier, prix: 8.50, categorie: 'Poulet' }
-    ]
-};
-const desserts = [
-    { id: 1, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50, categorie: 'Dessert' },
-    { id: 2, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50, categorie: 'Dessert' },
-    { id: 3, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3, categorie: 'Dessert' },
-    { id: 4, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3, categorie: 'Dessert' },
-    { id: 5, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50, categorie: 'Dessert' },
-    { id: 6, nom: 'Crepe Confiture', imageUrl: imgCrepe5, prix: 3.50, categorie: 'Dessert' },
-    { id: 7, nom: 'Crepe Nutella Banane', imageUrl: imgCrepe1, prix: 4.50, categorie: 'Dessert' },
-    { id: 8, nom: 'Crepe Sucre', imageUrl: imgCrepe3, prix: 3.50, categorie: 'Dessert' },
-    { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Dessert' },
-    { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Dessert' },
-];
-const pains = [
-    { id:1, nom: 'Tortilla', imageUrl: imgTortilla},
-    { id:2, nom: 'Traditionnel', imageUrl: imgPain},
-    { id:3, nom: 'Buns', imageUrl: imgBuns},
-]
-const drinks = [
-    { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
-    { id: 2, nom: 'Fanta', imageUrl: imgFanta },
-    { id: 3, nom: 'Ice Tea', imageUrl: imgIceTea },
-];
+// const categories = [
+//     { id: 1, nom: 'Sandwich', imageUrl: imgKebab },
+//     { id: 2, nom: 'Burgers', imageUrl: classicBurger },
+//     { id: 3, nom: 'Tacos', imageUrl: imgTacos },
+//     { id: 4, nom: 'Panini', imageUrl: imgPanini },
+//     { id: 5, nom: 'Dessert', imageUrl: imgTiramisuChoco },
+//     { id: 6, nom: 'Poulet', imageUrl: imgPoulet },
+// ];
+// const articles = {
+//     'Burgers': [
+//         { id: 1, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8, categorie: 'Burgers' },
+//         { id: 2, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9, categorie: 'Burgers' },
+//         { id: 3, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9, categorie: 'Burgers' },
+//     ],
+//     'Sandwich': [
+//         { id: 1, nom: 'Kebab', imageUrl: imgKebab, prix: 8, categorie: 'Sandwich' },
+//         { id: 2, nom: 'Chicken Curry', imageUrl: imgChickenCurry, prix: 9, categorie: 'Sandwich' },
+//         { id: 3, nom: 'Cordon Bleu', imageUrl: imgCordonBleu, prix: 9, categorie: 'Sandwich' },
+//     ],
+//     'Tacos': [
+//         { id: 1, nom: 'Tacos 1 viande', imageUrl: imgTacos, prix: 9.50, categorie: 'Tacos' },
+//         { id: 2, nom: 'Tacos 2 viandes', imageUrl: imgTacos, prix: 10.50, categorie: 'Tacos' },
+//         { id: 3, nom: 'Tacos 3 viandes', imageUrl: imgTacos, prix: 11.50, categorie: 'Tacos' },
+//     ],
+//     'Panini': [
+//         { id: 1, nom: 'Panini saumon', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+//         { id: 2, nom: 'Panini jambon de dinde', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+//         { id: 3, nom: 'Panini fromage', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+//         { id: 4, nom: 'Panini poulet', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+//         { id: 5, nom: 'Panini nutella', imageUrl: imgPaniniArticle, prix: 5.50, categorie: 'Panini' },
+//     ],
+//     'Poulet': [
+//         { id: 1, nom: 'Demi Poulet', imageUrl: imgDemiPoulet, prix: 4.50, categorie: 'Poulet' },
+//         { id: 2, nom: 'Poulet Entier', imageUrl: imgPouletEntier, prix: 8.50, categorie: 'Poulet' }
+//     ]
+// };
+// const desserts = [
+//     { id: 1, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50, categorie: 'Dessert' },
+//     { id: 2, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50, categorie: 'Dessert' },
+//     { id: 3, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3, categorie: 'Dessert' },
+//     { id: 4, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3, categorie: 'Dessert' },
+//     { id: 5, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50, categorie: 'Dessert' },
+//     { id: 6, nom: 'Crepe Confiture', imageUrl: imgCrepe5, prix: 3.50, categorie: 'Dessert' },
+//     { id: 7, nom: 'Crepe Nutella Banane', imageUrl: imgCrepe1, prix: 4.50, categorie: 'Dessert' },
+//     { id: 8, nom: 'Crepe Sucre', imageUrl: imgCrepe3, prix: 3.50, categorie: 'Dessert' },
+//     { id: 9, nom: 'Crepe Nutella', imageUrl: imgCrepe4, prix: 3.50, categorie: 'Dessert' },
+//     { id: 10, nom: 'Crepe Miel Amende', imageUrl: imgCrepe2, prix: 3.50, categorie: 'Dessert' },
+// ];
+// const pains = [
+//     { id:1, nom: 'Tortilla', imageUrl: imgTortilla},
+//     { id:2, nom: 'Traditionnel', imageUrl: imgPain},
+//     { id:3, nom: 'Buns', imageUrl: imgBuns},
+// ]
+// const drinks = [
+//     { id: 1, nom: 'Coca-Cola', imageUrl: imgCoca },
+//     { id: 2, nom: 'Fanta', imageUrl: imgFanta },
+//     { id: 3, nom: 'Ice Tea', imageUrl: imgIceTea },
+// ];
 
-const garnitures = [
-    { id: 1, nom: 'Salade', imageUrl: imgSalade },
-    { id: 2, nom: 'Tomate', imageUrl: imgTomate },
-    { id: 3, nom: 'Oignon', imageUrl: imgOignon },
-];
+// const garnitures = [
+//     { id: 1, nom: 'Salade', imageUrl: imgSalade },
+//     { id: 2, nom: 'Tomate', imageUrl: imgTomate },
+//     { id: 3, nom: 'Oignon', imageUrl: imgOignon },
+// ];
 
-const sauces = [
-    { id: 1, nom: 'Algerienne', imageUrl: imgAlg },
-    { id: 2, nom: 'Biggy', imageUrl: imgBiggy },
-    { id: 3, nom: 'Samourai', imageUrl: imgSamourai },
-    { id: 4, nom: 'Ketchup', imageUrl: imgKetchup },
-    { id: 5, nom: 'Mayo', imageUrl: imgMayo },
-    { id: 6, nom: 'Harissa', imageUrl: imgHarissa },
-    { id: 7, nom: 'Moutarde', imageUrl: imgMoutarde },
-    { id: 8, nom: "Sans sauce", imageUrl: imgAucun }
-];
+// const sauces = [
+//     { id: 1, nom: 'Algerienne', imageUrl: imgAlg },
+//     { id: 2, nom: 'Biggy', imageUrl: imgBiggy },
+//     { id: 3, nom: 'Samourai', imageUrl: imgSamourai },
+//     { id: 4, nom: 'Ketchup', imageUrl: imgKetchup },
+//     { id: 5, nom: 'Mayo', imageUrl: imgMayo },
+//     { id: 6, nom: 'Harissa', imageUrl: imgHarissa },
+//     { id: 7, nom: 'Moutarde', imageUrl: imgMoutarde },
+//     { id: 8, nom: "Sans sauce", imageUrl: imgAucun }
+// ];
 
-const viandes = [
-    { id: 1, nom: 'Poulet', imageUrl: imgxPoulet},
-    { id: 2, nom: 'Viande hachée',  imageUrl: imgViandHachee},
-    { id: 3, nom: 'Tenders', imageUrl: imgTenders},
-    { id: 4, nom: 'Merguez', imageUrl: imgMerguez},
-    { id: 5, nom: 'Cordon bleu', imageUrl: imgxCordon},
-    { id: 6, nom: 'Nuggets', imageUrl: imgNuggets}
-];
+// const viandes = [
+//     { id: 1, nom: 'Poulet', imageUrl: imgxPoulet},
+//     { id: 2, nom: 'Viande hachée',  imageUrl: imgViandHachee},
+//     { id: 3, nom: 'Tenders', imageUrl: imgTenders},
+//     { id: 4, nom: 'Merguez', imageUrl: imgMerguez},
+//     { id: 5, nom: 'Cordon bleu', imageUrl: imgxCordon},
+//     { id: 6, nom: 'Nuggets', imageUrl: imgNuggets}
+// ];
 
-const suggestion = [
-    { id: 1, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8 },
-    { id: 2, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9 },
-    { id: 3, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9 },
-    { id: 4, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50 },
-    { id: 5, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50 },
-    { id: 6, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3 },
-    { id: 7, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3 },
-    { id: 8, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50 },
-];
+// const suggestion = [
+//     { id: 1, nom: 'Burger Classique', imageUrl: classicBurger, prix: 8 },
+//     { id: 2, nom: 'Cheese Burger', imageUrl: cheeseBurger, prix: 9 },
+//     { id: 3, nom: 'Chicken Burger', imageUrl: chickenBurger, prix: 9 },
+//     { id: 4, nom: 'Gateau Oriental', imageUrl: imgGateauOriental, prix: 1.50 },
+//     { id: 5, nom: 'Salade de fruit', imageUrl: imgSaladeFruit, prix: 3.50 },
+//     { id: 6, nom: 'Tiramisu Chocolat', imageUrl: imgTiramisuChoco, prix: 3 },
+//     { id: 7, nom: 'Tiramisu Caramel', imageUrl: imgTiramisuCara, prix: 3 },
+//     { id: 8, nom: 'Tarte au Daim', imageUrl: imgTarteDaim, prix: 3.50 },
+// ];
 
 
 const Menu = () => {
+    const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('Sandwich');
+    const [articles, setArticles] = useState([]);
+    const [desserts, setDesserts] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -182,13 +186,69 @@ const Menu = () => {
     const [selectedDesserts, setSelectedDesserts] = useState([]);
     const [orderType, setOrderType] = useState(null);
     const navigate = useNavigate();
+    const [SecondaryArticles, setSecondaryArticles] = useState([]);
+    const [drinks, setDrinks] = useState([]);
+    const [garnitures, setGarnitures] = useState([]);
+    const [sauces, setSauces] = useState([]);
+    const [viandes, setViandes] = useState([]);
+    const [pains, setPains] = useState([]);
 
     useEffect(() => {
-        // Simulez la sélection de la catégorie 'Sandwich' au chargement de l'application
-        const sandwichCategory = categories.find(c => c.nom === 'Sandwich');
-        if (sandwichCategory) {
-            handleCategorySelect(sandwichCategory);
-        }
+        // Chargement des catégories depuis l'API
+        axios.get('http://localhost:3001/api/categories')
+            .then(response => {
+                setCategories(response.data); // Mettez à jour les catégories avec les données de l'API
+                // Sélectionner une catégorie par défaut si nécessaire
+                const sandwichCategory = response.data.find(c => c.nom === 'Sandwich');
+                if (sandwichCategory) {
+                    handleCategorySelect(sandwichCategory);
+                }
+            })
+            .catch(error => console.error('Erreur lors de la récupération des catégories', error));
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/articles')
+            .then(response => {
+                // Ici, vous pouvez traiter les données reçues, par exemple, en les stockant dans un état
+                setArticles(response.data);
+                // Filtrer pour obtenir uniquement les articles de la catégorie "Dessert"
+                const filteredDesserts = response.data.filter(article => article.categorie.nom === 'Dessert');
+                setDesserts(filteredDesserts);
+            })
+            .catch(error => console.error('Erreur lors de la récupération des articles', error));
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/secondary-articles/boissons')
+            .then(response => {
+                setDrinks(response.data);
+            })
+            .catch(error => console.log(error));
+        
+        axios.get('http://localhost:3001/api/secondary-articles/garnitures')
+            .then(response => {
+                setGarnitures(response.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3001/api/secondary-articles/sauces')
+            .then(response => {
+                setSauces(response.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3001/api/secondary-articles/viandes')
+            .then(response => {
+                setViandes(response.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3001/api/secondary-articles/pains')
+            .then(response => {
+                setPains(response.data);
+            })
+            .catch(error => console.log(error));
     }, []);
 
     const handleCategorySelect = (category) => {
@@ -212,22 +272,23 @@ const Menu = () => {
                     setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
                     setSelectedSauces([]); // Réinitialiser les sauces sélectionnées
                     setSelectedViandes([]); // Réinitialiser les viandes sélectionnées
-                    setSelectedDesserts([]);
                 }
             });
-        } else if(category.nom === "Dessert"){
+        } else if (category.nom === "Dessert"){
             setSelectedCategory(category.nom);
+            setSelectedDesserts([]);
             setCurrentStep('choixDessert');
         } else {
             setSelectedCategory(category.nom);
             setCurrentStep('choixArticle');
         }
+        // si un item de categorie 'Dessert' est selectionné le reinitialiser
     };
     const handleItemClick = (item) => {
-        console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie);
+        console.log("Article sélectionné :", item.nom, "Catégorie :", item.categorie.nom);
         setSelectedItem(item);
         setSelectedOption(null);
-        if (item.categorie === ('Dessert')) {
+        if (item.categorie.nom === ('Dessert')) {
             console.log("Passage à l'étape resumeCommande pour les desserts");
             const updatedItem = { ...item, quantity: 1 }; // Ajouter une quantité pour les desserts
             const newOrderItems = [...orderItems, updatedItem];
@@ -235,20 +296,21 @@ const Menu = () => {
             console.log("Dessert ajouté aux commandes :", updatedItem);
             console.log("Commandes après ajout de dessert :", newOrderItems);
             setCurrentStep('resumeCommande');
-        } else if (item.categorie === 'Tacos') {
+        } else if (item.categorie.nom === 'Tacos') {
             setCurrentStep('choixViande');
             const nombreViandes = parseInt(item.nom.match(/\d/)[0], 10);
             setMaxViandes(nombreViandes);
-        } else if (item.categorie === 'Panini') {
+        } else if (item.categorie.nom === 'Panini') {
             setCurrentStep('choixOption');
-        } else if (item.categorie === 'Poulet') {
+        } else if (item.categorie.nom === 'Poulet') {
             setCurrentStep('choixOption');
-        } else if (item.categorie === 'Sandwich'){
+        } else if (item.categorie.nom === 'Sandwich'){
             setCurrentStep('choixPain');
         }else {
             setCurrentStep('choixGarniture');
         }
     };
+    const filteredArticles = articles.filter(item => item.categorie.nom === selectedCategory);
     const handleOptionSelect = (item, option) => {
         setSelectedItem({ ...item, option, garnitures: selectedGarnitures, sauces: selectedSauces });
         setSelectedOption(option);
@@ -455,12 +517,12 @@ const Menu = () => {
 
             case 'choixSauce':
                 // Si l'utilisateur est aux Tacos, revenir à 'choixViande', sinon à 'choixGarniture'
-                setCurrentStep(selectedItem.categorie === 'Tacos' ? 'choixViande' : 'choixGarniture');
+                setCurrentStep(selectedItem.categorie.nom === 'Tacos' ? 'choixViande' : 'choixGarniture');
                 setSelectedSauces([]); // Réinitialiser les sauces sélectionnées
                 break;
     
             case 'choixViande':
-                if (selectedItem && selectedItem.categorie === 'Tacos') {
+                if (selectedItem && selectedItem.categorie.nom === 'Tacos') {
                     setCurrentStep('choixArticle'); // Revenir à la sélection des tacos
                     setSelectedItem(null); // Optionnel: Réinitialiser l'article sélectionné si nécessaire
                 }
@@ -477,9 +539,9 @@ const Menu = () => {
                 
             case 'choixOption':
                 // Décider si l'utilisateur doit revenir aux sauces, viandes ou garnitures
-                if (selectedItem.categorie === 'Tacos') {
+                if (selectedItem.categorie.nom === 'Tacos') {
                     setCurrentStep('choixSauce');
-                } else if (selectedItem.categorie === 'Sandwich' || selectedItem.categorie === 'Burgers') {
+                } else if (selectedItem.categorie.nom === 'Sandwich' || selectedItem.categorie.nom === 'Burgers') {
                     setCurrentStep('choixGarniture');
                 } else {
                     setCurrentStep('choixArticle');
@@ -565,12 +627,17 @@ const handleCloseModal = () => {
 };
 
 const handleToggleItem = (item) => {
-    if (selectedItems.find(selectedItem => selectedItem.id === item.id)) {
-        setSelectedItems(selectedItems.filter(selectedItem => selectedItem.id !== item.id));
+    const isSelected = selectedItems.some(selectedItem => selectedItem._id === item._id);
+
+    if (isSelected) {
+        // Si l'article est déjà sélectionné, le retirer de la liste
+        setSelectedItems(selectedItems.filter(selectedItem => selectedItem._id !== item._id));
     } else {
+        // Sinon, l'ajouter à la liste
         setSelectedItems([...selectedItems, item]);
     }
 };
+
 
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");
@@ -603,10 +670,10 @@ const handleFinalizeOrder = () => {
             <div className='container mt-4'>
                 <h2 className='text-center orange categ-title'>Catégories</h2>
                 {categories.map(category => (
-                    <div key={category.id} className={selectedCategory === category.nom ? "selected-class" : ""}>
-                        <CategoryItem category={category} onSelect={handleCategorySelect} />
-                    </div>
-                ))}
+                <div key={category._id} className={selectedCategory === category.nom ? "selected-class" : ""}>
+                    <CategoryItem category={category} onSelect={handleCategorySelect} />
+                </div>
+            ))}
             </div>
     </div>
     
@@ -616,9 +683,8 @@ const handleFinalizeOrder = () => {
         {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
             <h2 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h2>
-            {/* <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button> */}
             <div className='row mt-3'>
-            {articles[selectedCategory].map(item => (
+            {filteredArticles.map(item => (
                 <div className='col-md-4 text-center' key={item.id}>
                     <MenuItem item={item} onSelect={handleItemClick} />
                 </div>
@@ -643,7 +709,7 @@ const handleFinalizeOrder = () => {
         </div>
     )}
     {/* Choix du pain */}
-    {selectedItem && (selectedItem.categorie === 'Sandwich') && currentStep === 'choixPain' && (
+    {selectedItem && (selectedItem.categorie.nom === 'Sandwich') && currentStep === 'choixPain' && (
         <div className='container'>
             <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
             <SelectPain pains={pains} onSelectPain={handleSelectPain} selectedPain={selectedPain} onNextClick={handleNextClick} />
@@ -684,34 +750,37 @@ const handleFinalizeOrder = () => {
     </Modal.Header>
     <Modal.Body>
         <Row>
-            {suggestion.map((item, index) => (
-                <Col key={item.id} xs={12} md={3} className="mb-3">
-                <div className={`text-center ${selectedItems.find(selectedItem => selectedItem.id === item.id) ? "selected-class" : ""}`} 
-                    onClick={() => handleToggleItem(item)}>
-                        <img src={item.imageUrl} alt={item.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
-                        <p>{item.nom} - {item.prix.toFixed(2).replace('.', ',')}€</p>
+            {articles
+              .filter(article => article.isSuggestion) // Filtrer les articles avec isSuggestion à true
+              .map((article, index) => (
+                <Col key={article._id} xs={12} md={3} className="mb-3">
+                    <div className={`text-center ${selectedItems.find(selectedItem => selectedItem._id === article._id) ? "selected-class" : ""}`} 
+                        onClick={() => handleToggleItem(article)}>
+                            <img src={`http://localhost:3001/${article.imageUrl}`} alt={article.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
+                            <p>{article.nom} - {article.prix.toFixed(2).replace('.', ',')}€</p>
                     </div>
                 </Col>
             ))}
         </Row>
     </Modal.Body>
     <Modal.Footer>
-    <Button variant="danger" onClick={handleCloseModal}>
-        Non, merci
-    </Button>
-    <Button 
-        variant="warning text-white" 
-        onClick={() => {
-            setOrderItems([...orderItems, ...selectedItems]);
-            setSelectedItems([]);
-            handleCloseModal();
-        }}
-        disabled={selectedItems.length === 0} // Désactiver si aucun article n'est sélectionné
-    >
-        Ajouter à la Commande
-    </Button>
-</Modal.Footer>
+        <Button variant="danger" onClick={handleCloseModal}>
+            Non, merci
+        </Button>
+        <Button 
+            variant="warning text-white" 
+            onClick={() => {
+                setOrderItems([...orderItems, ...selectedItems]);
+                setSelectedItems([]);
+                handleCloseModal();
+            }}
+            disabled={selectedItems.length === 0} // Désactiver si aucun article n'est sélectionné
+        >
+            Ajouter à la Commande
+        </Button>
+    </Modal.Footer>
 </Modal>
+
 
     </div>
     </div>
