@@ -58,7 +58,8 @@ const PaiementForm = ({total, orderItems, orderType}) => {
 
         const cardElement = elements.getElement(CardElement);
         try {
-            const montant = total * 100;
+            // const montant = total * 100;
+            const montant = parseFloat(total.replace(',', '.')) * 100;
             const { clientSecret } = await createPaymentIntent(montant);
 
             const paymentResult = await stripe.confirmCardPayment(clientSecret, {

@@ -47,6 +47,7 @@ const OrderSummaryPage = () => {
             {showStripeForm && (
             <div>
             <h2 className='text-center title-pay'>Paiement (Test)</h2>
+            <h3 className='text-center'>Total : {total}€</h3>
             <PaiementForm total={total} orderItems={orderItems} orderType={orderType}/>
             </div>
             )}
