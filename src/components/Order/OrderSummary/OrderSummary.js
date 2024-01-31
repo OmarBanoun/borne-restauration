@@ -15,7 +15,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                         <div className='d-flex justify-content-end'>
                             <button onClick={() => onRemoveItem(index)} className="d-flex btn text-danger"><strong>❌</strong></button>
                         </div>
-                            <img src={`http://localhost:3001/${item.imageUrl}`} alt={item.nom} className="card-img-top img-fluid" />
+                            <img src={`https://maro.alwaysdata.net/${item.imageUrl}`} alt={item.nom} className="card-img-top img-fluid" />
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
                                 {item.categorie !== 'Dessert' && (

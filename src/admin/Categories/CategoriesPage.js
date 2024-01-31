@@ -11,7 +11,7 @@ const CategoriesPage = () => {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/categories')
+        axios.get('https://maro.alwaysdata.net/api/categories')
             .then(response => {
                 setCategories(response.data); // Assurez-vous que cela correspond à la structure de votre réponse
             })
@@ -35,7 +35,7 @@ const CategoriesPage = () => {
                                 width: 60,
                                 marginRight: 2,
                             }}
-                            src={`http://localhost:3001/${category.imageUrl}`}
+                            src={`https://maro.alwaysdata.net/${category.imageUrl}`}
                             alt={category.nom}
                             style={{ width: 100 }}
                         />
@@ -44,7 +44,7 @@ const CategoriesPage = () => {
                         <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                             // ajouter une alerte
                             if (window.confirm('Voulez-vous supprimer cette catégorie ?')){
-                                axios.delete(`http://localhost:3001/api/categories/${category._id}`)
+                                axios.delete(`https://maro.alwaysdata.net/api/categories/${category._id}`)
                                 window.location.reload();
                             }
                         }}>Supprimer</Button>

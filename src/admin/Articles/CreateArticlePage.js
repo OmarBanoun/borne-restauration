@@ -13,7 +13,7 @@ const CreateCategory = () => {
     const Navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/categories')
+        axios.get('https://maro.alwaysdata.net/api/categories')
             .then(response => {
                 // Utilisez directement response.data ici
                 if (response.data && Array.isArray(response.data)) {
@@ -46,7 +46,7 @@ const CreateCategory = () => {
         formData.append('categorie', selectedCategory);
     
         try {
-            await axios.post('http://localhost:3001/api/articles', formData, {
+            await axios.post('https://maro.alwaysdata.net/api/articles', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

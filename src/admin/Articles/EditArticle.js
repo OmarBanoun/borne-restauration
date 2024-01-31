@@ -12,11 +12,11 @@ const EditArticle = () => {
 
   useEffect(() => {
     console.log('id:', id);
-    axios.get(`http://localhost:3001/api/articles/${id}`)
+    axios.get(`https://maro.alwaysdata.net/api/articles/${id}`)
       .then(response => {
         console.log('response.data:', response.data);
         setArticle(response.data); // Ajustez selon la structure de votre réponse
-        setTempImageUrl(`http://localhost:3001/${response.data.imageUrl}`);
+        setTempImageUrl(`https://maro.alwaysdata.net/${response.data.imageUrl}`);
       })
       .catch(error => console.log(error));
   }, [id]);
@@ -38,7 +38,7 @@ const EditArticle = () => {
   
     // Envoyez formData à votre API pour mettre à jour l'article
     try {
-      const response = await axios.put(`http://localhost:3001/api/articles/${id}`, formData, {
+      const response = await axios.put(`https://maro.alwaysdata.net/api/articles/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

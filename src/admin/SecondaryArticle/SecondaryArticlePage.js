@@ -14,7 +14,7 @@ const SecondaryArticlesPage = ({ type }) => {
 
     useEffect(() => {
         // Remplacez 'URL_API' par l'URL de votre API pour récupérer les articles secondaires
-        axios.get(`http://localhost:3001/api/secondary-articles/${type}`)
+        axios.get(`https://maro.alwaysdata.net/api/secondary-articles/${type}`)
             .then(response => {
                 setArticles(response.data);
             })
@@ -38,7 +38,7 @@ const SecondaryArticlesPage = ({ type }) => {
                       width: 60,
                       marginRight: 2,
                     }}
-                    src={`http://localhost:3001/${article.imageUrl}`}
+                    src={`https://maro.alwaysdata.net/${article.imageUrl}`}
                     alt={article.nom}
                     style={{ width: 100 }}
                   />
@@ -48,7 +48,7 @@ const SecondaryArticlesPage = ({ type }) => {
                 <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                   if(window.confirm('Voulez-vous supprimer cet article ?')){
                     // Remplacez 'URL_API' par l'URL de votre API pour supprimer l'article
-                    axios.delete(`http://localhost:3001/api/secondary-articles/${type}/${article._id}`)
+                    axios.delete(`https://maro.alwaysdata.net/api/secondary-articles/${type}/${article._id}`)
                     window.location.reload();
                   }
                 }}>Supprimer</Button>

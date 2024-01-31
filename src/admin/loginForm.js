@@ -18,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       // Ici, vous pouvez envoyer une requête à votre serveur pour vérifier les identifiants
-      const response = await axios.post('http://localhost:3001/api/login', credentials);
+      const response = await axios.post('https://maro.alwaysdata.net/api/login', credentials);
       // Si la connexion est réussie, rediriger vers la page admin
       login(response.data);
       navigate('/admin');

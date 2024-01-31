@@ -11,7 +11,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
                 return (
                     <div key={sauce.id} className={`col-md-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
                         <div className="">
-                            <img src={`http://localhost:3001/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid w-50" />
+                            <img src={`https://maro.alwaysdata.net/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid w-50" />
                             <p className='text-center name-item'>{sauce.nom}</p>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>

@@ -13,11 +13,11 @@ const EditCategory = () => {
 
   useEffect(() => {
     console.log('id:', id);
-    axios.get(`http://localhost:3001/api/categories/${id}`)
+    axios.get(`https://maro.alwaysdata.net/api/categories/${id}`)
       .then(response => {
         console.log('response.data:', response.data);
         setCategory(response.data); // Ajustez selon la structure de votre réponse
-        setTempImageUrl(`http://localhost:3001/${response.data.imageUrl}`);
+        setTempImageUrl(`https://maro.alwaysdata.net/${response.data.imageUrl}`);
       })
       .catch(error => console.log(error));
   }, [id]);
@@ -46,7 +46,7 @@ const EditCategory = () => {
   
     // Envoyez formData à votre API pour mettre à jour l'article
     try {
-      const response = await axios.put(`http://localhost:3001/api/categories/${id}`, formData, {
+      const response = await axios.put(`https://maro.alwaysdata.net/api/categories/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

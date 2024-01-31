@@ -13,7 +13,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
                 return (
                     <div key={garniture.id} className={`col-md-4 ${selectionClass}`} onClick={() => onSelectGarniture(garniture)}>
                         <div>
-                            <img src={`http://localhost:3001/${garniture.imageUrl }`} alt={garniture.nom} className=" garniture-image img-fluid" />
+                            <img src={`https://maro.alwaysdata.net/${garniture.imageUrl }`} alt={garniture.nom} className=" garniture-image img-fluid" />
                             <p className='text-center name-item'>{garniture.nom}</p>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>

@@ -26,7 +26,7 @@ const CreateSecondaryArticle = () => {
             formData.append('imageUrl', image); // Assurez-vous que 'image' est le fichier image et non un chemin d'accès
         }
         try {
-            const response = await axios.post(`http://localhost:3001/api/secondary-articles/${type}`, formData, {
+            const response = await axios.post(`https://maro.alwaysdata.net/api/secondary-articles/${type}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

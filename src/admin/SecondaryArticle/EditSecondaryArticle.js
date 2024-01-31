@@ -12,10 +12,10 @@ const EditSecondaryArticle = () => {
     const Navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/secondary-articles/${type}/${id}`)
+        axios.get(`https://maro.alwaysdata.net/api/secondary-articles/${type}/${id}`)
             .then(response => {
                 setArticle(response.data);
-                setTempImageUrl(`http://localhost:3001/${response.data.imageUrl}`);
+                setTempImageUrl(`https://maro.alwaysdata.net/${response.data.imageUrl}`);
             })
             .catch(error => console.log(error));
     }, [type, id]);
@@ -37,7 +37,7 @@ const EditSecondaryArticle = () => {
         }
 
         try {
-            await axios.put(`http://localhost:3001/api/secondary-articles/${type}/${id}`, formData, {
+            await axios.put(`https://maro.alwaysdata.net/api/secondary-articles/${type}/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

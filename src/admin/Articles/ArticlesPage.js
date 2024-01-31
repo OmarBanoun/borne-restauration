@@ -15,7 +15,7 @@ const ArticlesPage = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/articles')
+    axios.get('https://maro.alwaysdata.net/api/articles')
       .then(response => {
         const articleCategories = response.data.map(article => article.categorie)
         const uniqueCategories = [...new Set(articleCategories.map(cat => cat ? cat.nom : ''))]
@@ -30,7 +30,7 @@ const ArticlesPage = () => {
   }
 
   const handleSuggestionChange = (articleId, isChecked) => {
-    axios.put(`http://localhost:3001/api/articles/${articleId}`, { isSuggestion: isChecked })
+    axios.put(`https://maro.alwaysdata.net/api/articles/${articleId}`, { isSuggestion: isChecked })
       .then(response => {
         // Mise à jour de l'état local
         setArticles(articles.map(article => {
@@ -77,7 +77,7 @@ const ArticlesPage = () => {
                     width: 60,
                     marginRight: 2,
                   }}
-                  src={`http://localhost:3001/${article.imageUrl}`}
+                  src={`https://maro.alwaysdata.net/${article.imageUrl}`}
                   alt={article.nom}
                   style={{ width: 100 }}
                 />
@@ -93,7 +93,7 @@ const ArticlesPage = () => {
               {/* bouton pour supression */}
               <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                 if(window.confirm('Voulez-vous supprimer cet article ?')){
-                  axios.delete(`http://localhost:3001/api/articles/${article._id}`)
+                  axios.delete(`https://maro.alwaysdata.net/api/articles/${article._id}`)
                   window.location.reload();
                 }
               }}>Supprimer</Button>

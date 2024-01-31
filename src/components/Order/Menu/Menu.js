@@ -195,7 +195,7 @@ const Menu = () => {
 
     useEffect(() => {
         // Chargement des catégories depuis l'API
-        axios.get('http://localhost:3001/api/categories')
+        axios.get('https://maro.alwaysdata.net/api/categories')
             .then(response => {
                 setCategories(response.data); // Mettez à jour les catégories avec les données de l'API
                 // Sélectionner une catégorie par défaut si nécessaire
@@ -208,7 +208,7 @@ const Menu = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/articles')
+        axios.get('https://maro.alwaysdata.net/api/articles')
             .then(response => {
                 // Ici, vous pouvez traiter les données reçues, par exemple, en les stockant dans un état
                 setArticles(response.data);
@@ -220,31 +220,31 @@ const Menu = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/secondary-articles/boissons')
+        axios.get('https://maro.alwaysdata.net/api/secondary-articles/boissons')
             .then(response => {
                 setDrinks(response.data);
             })
             .catch(error => console.log(error));
         
-        axios.get('http://localhost:3001/api/secondary-articles/garnitures')
+        axios.get('https://maro.alwaysdata.net/api/secondary-articles/garnitures')
             .then(response => {
                 setGarnitures(response.data);
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3001/api/secondary-articles/sauces')
+        axios.get('https://maro.alwaysdata.net/api/secondary-articles/sauces')
             .then(response => {
                 setSauces(response.data);
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3001/api/secondary-articles/viandes')
+        axios.get('https://maro.alwaysdata.net/api/secondary-articles/viandes')
             .then(response => {
                 setViandes(response.data);
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3001/api/secondary-articles/pains')
+        axios.get('https://maro.alwaysdata.net/api/secondary-articles/pains')
             .then(response => {
                 setPains(response.data);
             })
@@ -756,7 +756,7 @@ const handleFinalizeOrder = () => {
                 <Col key={article._id} xs={12} md={3} className="mb-3">
                     <div className={`text-center ${selectedItems.find(selectedItem => selectedItem._id === article._id) ? "selected-class" : ""}`} 
                         onClick={() => handleToggleItem(article)}>
-                            <img src={`http://localhost:3001/${article.imageUrl}`} alt={article.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
+                            <img src={`https://maro.alwaysdata.net/${article.imageUrl}`} alt={article.nom} style={{ width: '100%', height: 'auto', cursor: 'pointer' }} />
                             <p>{article.nom} - {article.prix.toFixed(2).replace('.', ',')}€</p>
                     </div>
                 </Col>

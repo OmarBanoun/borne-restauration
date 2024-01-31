@@ -19,7 +19,7 @@ const CreateCategory = () => {
 
         try {
             // Remplacez 'URL_API' par l'URL de votre API
-            await axios.post('http://localhost:3001/api/categories', formData, {
+            await axios.post('https://maro.alwaysdata.net/api/categories', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -15,7 +15,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                             onSelectDessert(dessert);
                         }}>
                             <div>
-                                <img src={`http://localhost:3001/${dessert.imageUrl}`} alt={dessert.nom} className="dessert-image img-fluid" />
+                                <img src={`https://maro.alwaysdata.net/${dessert.imageUrl}`} alt={dessert.nom} className="dessert-image img-fluid" />
                                 <p className='text-center name-item'>{dessert.nom}</p>
                                 <p className="itemPrice orange">{dessert.prix.toFixed(2).replace('.', ',')}€</p>
                             </div>
