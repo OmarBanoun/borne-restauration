@@ -4,12 +4,14 @@ import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolb
 // import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/MenuBook';
 import ArticleIcon from '@mui/icons-material/LunchDining';
+import BrushIcon from '@mui/icons-material/Brush';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAuth } from './AuthContext';
 import CategoriesPage from './Categories/CategoriesPage';
 import ArticlesPage from './Articles/ArticlesPage';
 import SecondaryArticlesPage from './SecondaryArticle/SecondaryArticlePage';
+import CustomPage from './Custom/CustomPage';
 
 const drawerWidth = 240;
 
@@ -48,6 +50,7 @@ const AdminDashboard = () => {
     const handleClick = () => {
         setOpen(!open);
     };
+
     return (
         <>
         <CssBaseline />
@@ -101,6 +104,13 @@ const AdminDashboard = () => {
                     {/* Ajoutez d'autres options ici si nécessaire */}
                 </List>
             </Collapse>
+            <hr />
+            <ListItemButton component={Link} to="/admin/custom">
+                <ListItemIcon>
+                    <BrushIcon />
+                </ListItemIcon>
+                <ListItemText primary="Personnalisation" />
+            </ListItemButton>
             </List>
         </Drawer>
         <main style={{ marginLeft: drawerWidth, padding: 3 }}>
@@ -114,6 +124,7 @@ const AdminDashboard = () => {
             <Route path='boissons' element={<SecondaryArticlesPage type="boissons" />} />
             <Route path='pains' element={<SecondaryArticlesPage type="pains" />} />
             <Route path='garnitures' element={<SecondaryArticlesPage type="garnitures" />} />
+            <Route path='custom' element={<CustomPage />} />
             {/* Autres routes ici */}
             </Routes>
         </main>
