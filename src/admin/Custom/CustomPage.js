@@ -6,6 +6,8 @@ import { Settings } from '@mui/icons-material';
 
 const CustomPage = () => {
 const [settings, setSettings] = useState([]);
+const [themePrimaryColor, setThemePrimaryColor] = useState('#ffb700');
+const [themeSecondaryColor, setThemeSecondaryColor] = useState('#151313');
 const [image, setImage] = useState(null);
 const [tempImageUrl, setTempImageUrl] = useState(null);
 const handleFileChange = (e) => {
@@ -21,6 +23,8 @@ useEffect(() => {
             console.log('response.data:', response.data);
             setSettings(response.data);
             setTempImageUrl(`https://maro.alwaysdata.net/${response.data[0].logo}`);
+            setThemePrimaryColor(response.data[0].themePrimaryColor);
+            setThemeSecondaryColor(response.data[0].themeSecondaryColor);
         })
         .catch(error => console.log(error));
 }, []);
@@ -28,20 +32,45 @@ useEffect(() => {
 const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('logo', image);
+    formData.append('logo', image); // Ajoute le logo
+    // Ajoute également les couleurs primaires et secondaires au formData
+    formData.append('themePrimaryColor', themePrimaryColor);
+    formData.append('themeSecondaryColor', themeSecondaryColor);
+
     try {
-        const response = await axios.put('https://maro.alwaysdata.net/api/settings', formData, {
+        await axios.put('https://maro.alwaysdata.net/api/settings', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-        }).then(response => {
-            window.location.reload();
-        })
-        console.log('Logo mis à jour avec succès', response.data);
+        });
+        console.log('Logo et couleurs mis à jour avec succès');
+        window.location.reload(); // Ou une meilleure façon de rafraîchir les données affichées
     } catch (error) {
-        console.error("Erreur lors de la mise à jour du logo", error);
+        console.error("Erreur lors de la mise à jour du logo et des couleurs", error);
     }
-}
+};
+
+const handlePrimaryColorChange = (event) => {
+    setThemePrimaryColor(event.target.value);
+  };
+  
+  const handleSecondaryColorChange = (event) => {
+    setThemeSecondaryColor(event.target.value);
+  };
+
+//   const saveColorChanges = () => {
+//     axios.put('https://maro.alwaysdata.net/api/settings', {
+//       themePrimaryColor,
+//       themeSecondaryColor
+//     })
+//     .then(response => {
+//       console.log("Configuration des couleurs mise à jour avec succès");
+//     })
+//     .catch(error => {
+//       console.error("Erreur lors de la mise à jour des couleurs", error);
+//     });
+//   };
+
 
 useEffect(() => {
     return () => {
@@ -86,12 +115,12 @@ return (
             <hr />
             <ListItem >
                 <Typography variant="h6" style={{ padding: 20 }}>Couleur principale</Typography>
-                <input type="color" value={settings && settings.length > 0 ? settings[0].themePrimaryColor : ''} />
+                <input type="color" value={themePrimaryColor} onChange={handlePrimaryColorChange} />
             </ListItem>
             <hr />
             <ListItem >
                 <Typography variant="h6" style={{ padding: 20 }}>Couleur secondaire</Typography>
-                <input type="color" value={settings && settings.length > 0 ? settings[0].ThemeSecondaryColor : ''} />
+                <input type="color" value={themeSecondaryColor} onChange={handleSecondaryColorChange} />
             </ListItem>
             <hr />
             <Button variant="contained" style={{ marginTop: 20 }} color="primary" onClick={handleSubmit}>
