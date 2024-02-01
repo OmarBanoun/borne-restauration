@@ -8,7 +8,7 @@ main h1{
     top: 27%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: rgb(255, 183, 0);
+    color: var(--primary-color);
     text-align: center;
     font-family: 'Besttia Brush', sans-serif;
     font-size: 59px;
@@ -24,7 +24,7 @@ h2, .itemPrice{
     transition: all .4s ease-in-out;
 }
 .btn-orange {
-    background-image: linear-gradient(90deg,#e6b17e,#f4b643,#eeaa2b,#da8f04);
+    background-image: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
 }
 .btn-orange {
     position: absolute;

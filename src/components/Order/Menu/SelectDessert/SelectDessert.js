@@ -24,7 +24,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                 })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-warning btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                <button className='btn btn-back btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
                 {!canProceed && <p>Veuillez sélectionner au moins un dessert.</p>}
             </div>
         </div>

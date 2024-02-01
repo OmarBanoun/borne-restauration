@@ -2,8 +2,11 @@
     width: 150px;
 }
 .h-border{
-    border-bottom: 30px solid rgb(255, 183, 0);
+    border-bottom: 30px solid var(--primary-color);
 }
 .orange{
-    color: #ffb700;
+    color: var(--primary-color);
+}
+.header-bg{
+    background-color: var(--secondary-color);
 }

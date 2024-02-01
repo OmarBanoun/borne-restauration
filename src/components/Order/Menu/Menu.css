@@ -3,10 +3,10 @@
     height: 4px;
     margin: 20px auto 40px;
     width: 100px;
-    background: #ffb700;
+    background: var(--primary-color);
 }
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
-    background-color: rgb(255, 183, 0) !important;
+    background-color: var(--primary-color) !important;
 }
 
 .top-section{
@@ -98,4 +98,8 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 
 .order-type-selection .card:hover {
     background-color: #f0f0f0;
+}
+
+.btn-warning {
+    background-color: var(--primary-color) !important;
 }

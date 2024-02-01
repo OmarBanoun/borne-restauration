@@ -1,4 +1,5 @@
 import React from "react";
+import '../Menu.css';
 const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => {
     const canProceed = selectedSauces.length > 0;
     return (

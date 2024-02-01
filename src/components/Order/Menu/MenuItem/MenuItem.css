@@ -11,3 +11,6 @@
 .centrage{
     margin-top: 50%;
 }
+.btn-option{
+    background-color: var(--primary-color);
+}

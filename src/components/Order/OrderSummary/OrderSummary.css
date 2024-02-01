@@ -10,7 +10,7 @@ a{
 .card{
     text-align: center;
     width: 11rem;
-    border: 3px solid orange;
+    border: 3px solid var(--primary-color);
     box-shadow: 0 20px 18px -6px rgba(0,0,0,.5);
     margin-left: 2rem;
 }
@@ -34,7 +34,7 @@ a{
 }
 .order-product::-webkit-scrollbar-thumb{
     border-radius: 20px;
-    background-color: orange;
+    background-color: var(--primary-color);
 }
 .order-product .card {
     display: inline-block; 
