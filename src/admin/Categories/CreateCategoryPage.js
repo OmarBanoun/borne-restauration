@@ -48,7 +48,7 @@ const CreateCategory = () => {
                         type="file"
                         onChange={(e) => setImage(e.target.files[0])}
                     />
-                    <Button type="submit">Créer</Button>
+                    <Button type="submit" variant="contained" color="primary">Créer</Button>
                 </Box>
             </form>
         </Paper>

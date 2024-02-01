@@ -93,7 +93,7 @@ const CreateCategory = () => {
                     ))}
                     </Select>
                 </FormControl>
-                    <Button type="submit">Créer</Button>
+                    <Button type="submit" variant="contained" color="primary">Créer</Button>
                 </Box>
             </form>
         </Paper>

@@ -34,7 +34,9 @@ const handleSubmit = async (e) => {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-        });
+        }).then(response => {
+            window.location.reload();
+        })
         console.log('Logo mis à jour avec succès', response.data);
     } catch (error) {
         console.error("Erreur lors de la mise à jour du logo", error);
