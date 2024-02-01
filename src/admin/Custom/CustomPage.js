@@ -20,7 +20,7 @@ useEffect(() => {
         .then(response => {
             console.log('response.data:', response.data);
             setSettings(response.data);
-            setTempImageUrl(`https://maro.alwaysdata.net/${response.data.logo}`);
+            setTempImageUrl(`https://maro.alwaysdata.net/${response.data[0].logo}`);
         })
         .catch(error => console.log(error));
 }, []);
@@ -53,26 +53,28 @@ useEffect(() => {
 
 return (
     <Paper style={{ margin: 20, padding: 20 }}>
-        <Typography variant="h5" style={{ marginBottom: 20 }}>
+        <Typography variant="h4" style={{ marginBottom: 20, textAlign: 'center' }}>
             Personnalisation
         </Typography>
         <List>
-            {settings && settings.length > 0 ? (
+            <Typography variant="h5" style={{ padding: 20, marginLeft: 20 }}>Logo</Typography>
+            {
+            settings && settings.length > 0 ? (
                 settings.map((setting, index) => (
-                    <ListItem key={index} alignItems="flex-start">
-                        {setting.logo ? (
-                            <Box
-                                component="img"
-                                sx={{ height: 60, width: 60, marginRight: 2 }}
-                                src={`https://maro.alwaysdata.net/${setting.logo}`}
-                                alt='Logo'
-                                style={{ width: 100 }}
-                            />
-                        ) : (
-                            <Typography variant="body1">Ajouter une image</Typography>
-                        )}
-                        <input type="file" onChange={handleFileChange} />
-                    </ListItem>
+                <ListItem key={index} alignItems="center">
+                    {tempImageUrl || setting.logo ? (
+                    <Box
+                        component="img"
+                        sx={{ height: 60, width: 60, marginRight: 2 }}
+                        src={tempImageUrl ? tempImageUrl : setting.logo ? `https://maro.alwaysdata.net/${setting.logo}` : ""}
+                        alt="Logo"
+                        style={{ width: 100 }}
+                    />
+                    ) : (
+                    <Typography variant="body1">Ajouter une image</Typography>
+                    )}
+                    <input type="file" onChange={(e) => handleFileChange(e, index)} />
+                </ListItem>
                 ))
             ) : (
                 // Cas où settings est vide ou non défini
@@ -81,7 +83,18 @@ return (
                     <input type="file" onChange={handleFileChange} />
                 </ListItem>
             )}
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <hr />
+            <ListItem >
+                <Typography variant="h6" style={{ padding: 20 }}>Couleur principale</Typography>
+                <input type="color" value={settings && settings.length > 0 ? settings[0].themePrimaryColor : ''} />
+            </ListItem>
+            <hr />
+            <ListItem >
+                <Typography variant="h6" style={{ padding: 20 }}>Couleur secondaire</Typography>
+                <input type="color" value={settings && settings.length > 0 ? settings[0].ThemeSecondaryColor : ''} />
+            </ListItem>
+            <hr />
+            <Button variant="contained" style={{ marginTop: 20 }} color="primary" onClick={handleSubmit}>
                 Sauvegarder
             </Button>
         </List>

@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Header.css';
-import Logo  from "../../../assets/kebab-logo.png";
+
 const Header = () => {
+    const [settings, setSettings] = useState([]);
+    useEffect(() => {
+        axios.get('https://maro.alwaysdata.net/api/settings')
+            .then(response => {
+                setSettings(response.data);
+            })
+    })
     return (
         <header className="text-center bg-dark h-border">
-            <img src={Logo} alt="logo" className="img-logo" />
+            {settings.map((setting) => (
+                <img src={`https://maro.alwaysdata.net/${setting.logo}`} alt="logo" className="img-logo" />
+            ))}
+            
         </header>
     );
 };

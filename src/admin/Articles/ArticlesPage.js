@@ -18,7 +18,7 @@ const ArticlesPage = () => {
     axios.get('https://maro.alwaysdata.net/api/articles')
       .then(response => {
         const articleCategories = response.data.map(article => article.categorie)
-        const uniqueCategories = [...new Set(articleCategories.map(cat => cat ? cat.nom : ''))]
+        const uniqueCategories = [...new Set(articleCategories.map(cat => cat ? cat.nom : '').filter(catNom => catNom !== ''))]
         setCategories(uniqueCategories)
         setArticles(response.data)
       })
@@ -57,6 +57,12 @@ const ArticlesPage = () => {
         onChange={handleCategoryChange}
         style={{ marginTop: 20, width: 200, marginLeft: 30 ,height: 40 }}
         displayEmpty
+        renderValue={selected => {
+          if (selected === "") {
+            return "Toutes les catégories";
+          }
+          return selected;
+        }}
       >
         {/* <MenuItem value="">Toutes les catégories</MenuItem> */}
         <MenuItem value="">Toutes les catégories</MenuItem>
@@ -66,7 +72,7 @@ const ArticlesPage = () => {
       </Select>
       <List>
         {articles
-          .filter(article => selectedCategory === "" || article.categorie.nom === selectedCategory)
+          .filter(article => selectedCategory === "" || (article.categorie && article.categorie.nom === selectedCategory))
           .map((article, index) => (
             <ListItem key={index} alignItems="center">
               {article.imageUrl && (
