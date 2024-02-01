@@ -44,7 +44,7 @@ const CategoriesPage = () => {
                         <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                             // ajouter une alerte
                             if (window.confirm('Voulez-vous supprimer cette catégorie ?')){
-                                axios.delete(`https://maro.alwaysdata.net/www/api/categories/${category._id}`)
+                                axios.delete(`https://maro.alwaysdata.net/api/categories/${category._id}`)
                                 window.location.reload();
                             }
                         }}>Supprimer</Button>
