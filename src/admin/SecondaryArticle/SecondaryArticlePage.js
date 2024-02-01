@@ -48,8 +48,9 @@ const SecondaryArticlesPage = ({ type }) => {
                 <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                   if(window.confirm('Voulez-vous supprimer cet article ?')){
                     // Remplacez 'URL_API' par l'URL de votre API pour supprimer l'article
-                    axios.delete(`https://maro.alwaysdata.net/api/secondary-articles/${type}/${article._id}`)
-                    window.location.reload();
+                    axios.delete(`https://maro.alwaysdata.net/api/secondary-articles/${type}/${article._id}`).then(() => {
+                      window.location.reload();
+                    })
                   }
                 }}>Supprimer</Button>
                 {/* bouton pour modification */}

@@ -93,8 +93,9 @@ const ArticlesPage = () => {
               {/* bouton pour supression */}
               <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                 if(window.confirm('Voulez-vous supprimer cet article ?')){
-                  axios.delete(`https://maro.alwaysdata.net/api/articles/${article._id}`)
-                  window.location.reload();
+                  axios.delete(`https://maro.alwaysdata.net/api/articles/${article._id}`).then(() => {
+                    window.location.reload();
+                  })
                 }
               }}>Supprimer</Button>
               {/* bouton pour modification */}
