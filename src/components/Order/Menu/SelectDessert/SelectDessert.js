@@ -7,7 +7,9 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
             <h2 className='text-center mt-5'>Selectionnez vos desserts</h2>
             <div className='row'>
                 {desserts.map((dessert) => {
+                    // const isSelected = selectedDesserts.includes(dessert);
                     const isSelected = selectedDesserts.includes(dessert);
+                    console.log('zubi:', dessert.nom, isSelected);
                     const selectionClass = isSelected ? 'selected-class' : ''; // Classe pour le style de sélection
                     return (
                         <div key={dessert.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => {
@@ -24,7 +26,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                 })}
             </div>
             <div className='mt-5'>
-                <button className='btn btn-back btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
+                <button className='btn btn-warning btn-lg col-4 text-white py-3' onClick={onNextClick} disabled={!canProceed}>Suivant</button>
                 {!canProceed && <p>Veuillez sélectionner au moins un dessert.</p>}
             </div>
         </div>

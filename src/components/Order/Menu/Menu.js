@@ -199,7 +199,7 @@ const Menu = () => {
     
     const handleSelectGarniture = (garniture) => {
         if (selectedGarnitures.includes(garniture)) {
-            setSelectedGarnitures(selectedGarnitures.filter(g => g.id !== garniture.id));
+            setSelectedGarnitures(selectedGarnitures.filter(g => g !== garniture));
         } else {
             setSelectedGarnitures([...selectedGarnitures, garniture]);
         }
@@ -213,7 +213,7 @@ const Menu = () => {
     
         if (isSelected) {
             // Si la sauce est déjà sélectionnée, la retirer de la sélection
-            setSelectedSauces(selectedSauces.filter(s => s.id !== sauce.id));
+            setSelectedSauces(selectedSauces.filter(s => s !== sauce));
         } else if (selectedSauces.length < 2) {
             // Ajouter la sauce à la sélection seulement si moins de 2 sont déjà sélectionnées
             setSelectedSauces([...selectedSauces, sauce]);
@@ -225,7 +225,7 @@ const Menu = () => {
     
         if (isSelected) {
             // Si la viande est déjà sélectionnée, la retirer de la sélection
-            setSelectedViandes(selectedViandes.filter(v => v.id !== viande.id));
+            setSelectedViandes(selectedViandes.filter(v => v !== viande));
         } else if (selectedViandes.length < maxViandes) {
             // Ajouter la viande à la sélection seulement si le maximum n'est pas déjà atteint
             setSelectedViandes([...selectedViandes, viande]);
@@ -237,12 +237,13 @@ const Menu = () => {
     
     const onSelectDessert = (dessert) => {
         if (selectedDesserts.includes(dessert)) {
-            setSelectedDesserts(selectedDesserts.filter(d => d.id !== dessert.id));
-        } 
-        else {
+            setSelectedDesserts(selectedDesserts.filter(d => d !== dessert));
+        } else {
             setSelectedDesserts([...selectedDesserts, dessert]);
         }
     };
+
+    
     const handleNextClick = () => {
         if (currentStep === 'choixPain') {
             setCurrentStep('choixGarniture');
@@ -264,7 +265,7 @@ const Menu = () => {
             setSelectedSauces([]);
             setSelectedViandes([]);
             setSelectedOption(null);
-        } else if (currentStep === 'choixDessert') {
+        } else if (currentStep === 'choixArticle' && selectedDesserts.length > 0) {
             // Ajoutez les desserts sélectionnés à orderItems ici
             const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
             setOrderItems(updatedOrderItems);
@@ -386,7 +387,7 @@ const Menu = () => {
                 // break;
 
             case 'choixDessert':
-                setCurrentStep('choixCategorie');
+                setCurrentStep('resumeCommande');
                 setSelectedCategory(null);
                 setSelectedDesserts([]);
                 break;
@@ -396,7 +397,7 @@ const Menu = () => {
                 if (selectedItem.categorie.nom === 'Tacos') {
                     setCurrentStep('choixSauce');
                 } else if (selectedItem.categorie.nom === 'Sandwich' || selectedItem.categorie.nom === 'Burgers') {
-                    setCurrentStep('choixGarniture');
+                    setCurrentStep('choixSauce');
                 } else {
                     setCurrentStep('choixArticle');
                     setSelectedItem(null);
@@ -446,7 +447,7 @@ const handleRemoveItem = (index) => {
         text: "Vous ne pourrez pas revenir en arrière!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        // confirmButtonColor: '--primary-color',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Oui, supprimez-le!',
         cancelButtonText: 'Annuler'
@@ -534,7 +535,7 @@ const handleFinalizeOrder = () => {
     <div className='order-process'>
         {/* Choix des articles */}
         {/* <h2 className='text-center mt-2'>Faites votre choix :</h2> */}
-        {selectedCategory && !selectedItem && currentStep === 'choixArticle' && (
+        {selectedCategory && selectedCategory !== 'Desserts' && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
             <h2 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h2>
             <div className='row mt-3'>
@@ -546,10 +547,10 @@ const handleFinalizeOrder = () => {
             </div>
         </div>
     )}
-    {currentStep === 'choixDessert' && (
+    {selectedCategory && selectedCategory === 'Desserts' && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container mb-5'>
         <SelectDessert 
-            desserts={desserts} 
+            desserts={filteredArticles} 
             onSelectDessert={onSelectDessert} 
             selectedDesserts={selectedDesserts} 
             onNextClick={handleNextClick} 
@@ -622,7 +623,8 @@ const handleFinalizeOrder = () => {
             Non, merci
         </Button>
         <Button 
-            variant="warning text-white" 
+            className='btn-warning text-white'
+            variant="text-white"
             onClick={() => {
                 setOrderItems([...orderItems, ...selectedItems]);
                 setSelectedItems([]);

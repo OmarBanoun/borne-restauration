@@ -7,7 +7,7 @@ const SelectDrink = ({ drinks, onSelectDrink }) => {
     console.log("Rendering SelectDrink");
 
     return (
-        <div className='container text-center'>
+        <div className='container text-center mt-5'>
             <h2 className='mb-4'>Choisissez votre boisson :</h2>
             <div className="row">
                 {drinks.map((drink, index) => (
