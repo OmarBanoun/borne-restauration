@@ -15,7 +15,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
                         <div>
                             <img src={`https://maro.alwaysdata.net/${garniture.imageUrl }`} alt={garniture.nom} className=" garniture-image img-fluid" />
                             <p className='text-center name-item'>{garniture.nom}</p>
-                            {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
+                            {isSelected && <span className="selection-indicator orange">✔</span>}
                         </div>
                     </div>
                 );
