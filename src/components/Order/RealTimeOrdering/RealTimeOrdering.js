@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
-// const socket = io('http://maro.alwaysdata.net');
+const socket = io('https://maro.alwaysdata.net');
 
 function RealTimeOrdering(orderItems) {
-    // useEffect(() => {
-    //     socket.on('commande', (commande) => {
-    //         // Mettez à jour votre état ici pour afficher la commande
-    //         console.log(commande);
-    //     });
+    useEffect(() => {
+        socket.on('commande', (commande) => {
+            // Mettez à jour votre état ici pour afficher la commande
+            console.log(commande);
+        });
 
-    //     return () => socket.off('commande');
-    // }, []);
+        return () => socket.off('commande');
+    }, []);
 
     return (
         <div>
