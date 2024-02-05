@@ -3,27 +3,31 @@ import axios from 'axios';
 import './Header.css';
 
 const Header = () => {
-    // const [primaryColor, setPrimaryColor] = useState('');
-    // const [secondaryColor, setSecondaryColor] = useState('');
     const [settings, setSettings] = useState([]);
 
     useEffect(() => {
         axios.get('https://maro.alwaysdata.net/api/settings')
         .then(response => {
-          // Assurez-vous que la réponse correspond à ce que vous attendez
-            // setPrimaryColor(response.data[0].themePrimaryColor);
-            // setSecondaryColor(response.data[0].themeSecondaryColor);
+            if (Array.isArray(response.data)) {
             setSettings(response.data);
+            } else {
+            // Gérer le cas où la réponse n'est pas un tableau comme attendu
+            console.error('La réponse de l\'API n\'est pas un tableau');
+            }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.error('Erreur lors de la récupération des paramètres:', error);
+            // Gérer l'erreur de manière appropriée ici
+        });
     }, []);
+
     return (
         <header className="text-center header-bg h-border">
-            {settings.map((setting) => (
-                <img src={`https://maro.alwaysdata.net/${setting.logo}`} alt="logo" className="img-logo" />
-            ))}
-            
+        {settings.map((setting) => (
+            <img key={setting.id} src={`https://maro.alwaysdata.net/${setting.logo}`} alt="logo" className="img-logo" />
+        ))}
         </header>
     );
 };
+
 export default Header;

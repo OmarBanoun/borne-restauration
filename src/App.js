@@ -20,7 +20,8 @@ import EditSecondaryArticle from './admin/SecondaryArticle/EditSecondaryArticle'
 import LoginPage from './admin/loginForm';
 import PrivateRoute from './admin/PrivateRoute';
 import { AuthProvider } from './admin/AuthContext';
-// import useThemeSettings from './components/Common/ThemeManager';
+import RealTimeOrdering from './components/Order/RealTimeOrdering/RealTimeOrdering';
+import useThemeSettings from './components/Common/ThemeManager';
 
 const stripePromise = loadStripe('pk_test_51Mbm5lB8C8ofx6bDkKoz0v3ywChiFZ0dQcCeugOjSpiKqLjE3cjcQWudzXvWER6omH7yDDhoReNTC8jvmZhdMM9S00CyxoCFLd');
 
@@ -56,6 +57,7 @@ function App() {
           <OrderSummaryPage />
           </Elements>
           } />
+          <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
           <Route path="/paiement" element={
           <Elements stripe={stripePromise}>
           <PaiementForm />
@@ -72,7 +74,7 @@ function App() {
       <>
         <useThemeSettings />
         <Header />
-        <Outlet /> {/* Outlet rendra les composants enfants correspondants */}
+        <Outlet />
       </>
     );
   }
