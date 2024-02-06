@@ -10,7 +10,7 @@ function RealTimeOrdering() {
         // Écoute pour les nouvelles commandes confirmées
         socket.on('order-confirmed', (newOrder) => {
             console.log('Nouvelle commande confirmée:', newOrder);
-            setOrders(prevOrders => [...prevOrders, ...newOrder]);
+            setOrders(prevOrders => [...prevOrders, newOrder]);
         });
 
         return () => {
@@ -23,10 +23,10 @@ function RealTimeOrdering() {
         <div>
             <h2>Commandes Confirmées</h2>
             <ul>
-                {orders.map((order, index) => (
-                    <li key={index}>
+                {orders.map((order) => (
+                    <li key={order._id}>
                         {/* Affiche les détails de la commande */}
-                        Article: {order.nom}
+                        Article: {order.nom}, Categorie: {order.categorie.nom}
                     </li>
                 ))}
             </ul>
