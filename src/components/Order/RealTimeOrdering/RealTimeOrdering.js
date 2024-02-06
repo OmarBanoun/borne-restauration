@@ -10,9 +10,11 @@ function RealTimeOrdering() {
         // Écoute pour les nouvelles commandes confirmées
         socket.on('order-confirmed', (newOrder) => {
             console.log('Nouvelle commande confirmée:', newOrder);
-            setOrders(prevOrders => [...prevOrders, newOrder]);
+            // Vérifie si newOrder est un tableau de tableaux et l'aplatit si nécessaire
+            const flattenedOrders = newOrder.flat();
+            setOrders(prevOrders => [...prevOrders, ...flattenedOrders]);
         });
-
+    
         return () => {
             socket.off('order-confirmed');
         };
