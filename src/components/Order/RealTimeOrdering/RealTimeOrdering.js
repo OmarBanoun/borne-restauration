@@ -10,7 +10,7 @@ function RealTimeOrdering() {
         // Écoute pour les nouvelles commandes confirmées
         socket.on('order-confirmed', (newOrder) => {
             console.log('Nouvelle commande confirmée:', newOrder);
-            setOrders((prevOrders) => [...prevOrders, newOrder]);
+            setOrders(prevOrders => [...prevOrders, ...newOrder]);
         });
 
         return () => {
