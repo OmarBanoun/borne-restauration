@@ -62,7 +62,7 @@ const PaiementForm = ({total, orderItems, orderType}) => {
         try {
             // const montant = total * 100;
             const montant = parseFloat(total.replace(',', '.')) * 100;
-            const { clientSecret } = await createPaymentIntent(montant);
+            const { clientSecret } = await createPaymentIntent(montant, orderItems);
 
             const paymentResult = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
@@ -105,9 +105,9 @@ const PaiementForm = ({total, orderItems, orderType}) => {
         }
     };
 
-    const createPaymentIntent = async (montant) => {
+    const createPaymentIntent = async (montant, orderItems) => {
         try {
-            const response = await axios.post("https://maro.alwaysdata.net/api/paiement", { montant });
+            const response = await axios.post("https://maro.alwaysdata.net/api/paiement", { montant, orderItems });
             // const response = await axios.post("http://localhost:3001/api/paiement", { montant, orderItems });
             return response.data;
         } catch (error) {
