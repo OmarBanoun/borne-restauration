@@ -47,6 +47,7 @@ function App() {
       <Route path="/admin/edit-secondary-article/:type/:id" element={<EditSecondaryArticle />} />
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<Home />} />
+          <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
           <Route path="/Order" element={
           <Elements stripe={stripePromise}>
           <Order />
@@ -57,7 +58,6 @@ function App() {
           <OrderSummaryPage />
           </Elements>
           } />
-          <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
           <Route path="/paiement" element={
           <Elements stripe={stripePromise}>
           <PaiementForm />

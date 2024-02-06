@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import '../PaiementForm/PaiementForm.css';
@@ -9,6 +10,7 @@ import Spinner from 'react-bootstrap/Spinner';
 const PaiementForm = ({total, orderItems, orderType}) => {
     const stripe = useStripe();
     const elements = useElements();
+    const navigate = useNavigate();
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const [isPaying, setIsPaying] = useState(false);
 
@@ -80,7 +82,8 @@ const PaiementForm = ({total, orderItems, orderType}) => {
                 await sendPrintDataToBackend(orderItems, total, orderType);
                 // printTicket(orderItems, total, orderType);
                 // rediriger vers la page d'accueil sans utiliser hisotry
-                window.location.href = "/";
+                // window.location.href = "/";
+                navigate("/");
                 // Traitez ici le succès du paiement (ex: redirection, affichage d'un message, etc.)
             }
         } catch (error) {
@@ -105,7 +108,7 @@ const PaiementForm = ({total, orderItems, orderType}) => {
     const createPaymentIntent = async (montant) => {
         try {
             const response = await axios.post("https://maro.alwaysdata.net/api/paiement", { montant });
-            // const response = await axios.post("http://localhost:3001/api/paiement", { montant });
+            // const response = await axios.post("http://localhost:3001/api/paiement", { montant, orderItems });
             return response.data;
         } catch (error) {
             console.error('Erreur lors de la création du PaymentIntent:', error);

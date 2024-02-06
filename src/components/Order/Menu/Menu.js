@@ -20,6 +20,7 @@ import SelectSauce from './SelectSauce/SelectSauce';
 import SelectPain from './SelectPain/SelectPain';
 import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
+import RealTimeOrdering from '../RealTimeOrdering/RealTimeOrdering';
 
 const Menu = () => {
     const [categories, setCategories] = useState([]);

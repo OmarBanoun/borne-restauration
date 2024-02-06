@@ -1,24 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
 const socket = io('https://maro.alwaysdata.net');
+// const socket = io('http://localhost:3001');
 
-function RealTimeOrdering(orderItems) {
+function RealTimeOrdering() {
+    const [orders, setOrders] = useState([]);
     useEffect(() => {
-        socket.on('commande', (commande) => {
-            // Mettez à jour votre état ici pour afficher la commande
-            console.log(commande);
+        // Écoute pour les nouvelles commandes confirmées
+        socket.on('order-confirmed', (newOrder) => {
+            console.log('Nouvelle commande confirmée:', newOrder);
+            setOrders((prevOrders) => [...prevOrders, newOrder]);
         });
 
-        return () => socket.off('commande');
-    }, []);
+        return () => {
+            socket.off('order-confirmed');
+        };
+    }, [socket]);
+    console.log(orders);
 
     return (
         <div>
-            <h1>Commande en cours</h1>
-            {/* Affichez ici le contenu de la commande en cours */}
-            <p>Contenu de la commande en cours</p>
-            <p>{orderItems}</p>
+            <h2>Commandes Confirmées</h2>
+            <ul>
+                {orders.map((order, index) => (
+                    <li key={index}>
+                        {/* Affiche les détails de la commande */}
+                        Article: {order.nom}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
