@@ -25,14 +25,27 @@ function RealTimeOrdering() {
         <div>
             <h2>Commandes Confirmées</h2>
             <ul>
-                {orders.map((order) => (
-                    <li key={order._id}>
-                        {/* Affiche les détails de la commande */}
-                        Article: {order.nom}, Categorie: {order.categorie.nom}
-                    </li>
-                ))}
-            </ul>
-        </div>
+            {orders.map((order) => (
+                <li key={order._id} className="card my-2">
+                    <div className="card-body">
+                        <h5 className="card-title">{order.nom}</h5>
+                        <p className="card-text">{order.categorie.nom}</p>
+                        {/* Affichage des garnitures */}
+                        {order.garnitures && order.garnitures.length > 0 && (
+                            <div>
+                                <h6>Garnitures:</h6>
+                                <ul>
+                                    {order.garnitures.map((garniture, index) => (
+                                        <li key={index}>{garniture.nom}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </li>
+            ))}
+        </ul>
+    </div>
     );
 }
 

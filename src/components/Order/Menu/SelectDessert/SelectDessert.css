@@ -1,0 +1,25 @@
+.pagination .page-item .page-link{
+    background-color: var(--primary-color) !important;
+}
+.page-item{
+    margin-right: 15px;
+}
+.page-item .page-link{
+    color: white !important;
+    padding: 10px 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.swiper-slide{
+    height: 860px !important;
+}
+.swiper-pagination{
+    bottom: -6px !important;
+}
+.swiper-pagination-bullet{
+    width: 12px !important;
+    height:  12px !important;
+}
+.swiper-pagination-bullet-active{
+    background-color: var(--primary-color) !important;
+}
