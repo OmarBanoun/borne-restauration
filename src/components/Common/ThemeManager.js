@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const useThemeSettings = () => {
+export const UseThemeSettings = () => {
   const [settings, setSettings] = useState({
     themePrimaryColor: '',
     themeSecondaryColor: '',

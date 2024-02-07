@@ -21,14 +21,14 @@ import LoginPage from './admin/loginForm';
 import PrivateRoute from './admin/PrivateRoute';
 import { AuthProvider } from './admin/AuthContext';
 import RealTimeOrdering from './components/Order/RealTimeOrdering/RealTimeOrdering';
-// import UseThemeSettings from './components/Common/ThemeManager';
+import { UseThemeSettings } from './components/Common/ThemeManager';
 
 const stripePromise = loadStripe('pk_test_51Mbm5lB8C8ofx6bDkKoz0v3ywChiFZ0dQcCeugOjSpiKqLjE3cjcQWudzXvWER6omH7yDDhoReNTC8jvmZhdMM9S00CyxoCFLd');
 
 function App() {
+  UseThemeSettings();
   return (
     <AuthProvider>
-    <useThemeSettings />
     <Router>
       <Routes>
       <Route path="/login" element={<LoginPage />} />

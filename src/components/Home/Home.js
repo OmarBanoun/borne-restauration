@@ -2,9 +2,9 @@ import React from 'react';
 import './Home.css';
 import BgMain from "../../assets/accueil.jpg";
 import { Link } from 'react-router-dom';
-import { useThemeSettings } from '../../components/Common/ThemeManager';
+import { UseThemeSettings } from '../../components/Common/ThemeManager';
 const Home = () => {
-    const { companyName } = useThemeSettings();
+    const { companyName } = UseThemeSettings();
     return (
         <div className="Home">
             <main>
