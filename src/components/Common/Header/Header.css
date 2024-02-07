@@ -11,3 +11,8 @@
 .header-bg{
     background-color: var(--secondary-color);
 }
+.swal2-timer-progress-bar {
+    background-color: var(--primary-color) !important;
+    height: 15px !important;
+    margin-top: 38px !important;
+}

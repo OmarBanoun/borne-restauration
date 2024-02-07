@@ -11,7 +11,7 @@ main h1{
     color: var(--primary-color);
     text-align: center;
     font-family: 'Besttia Brush', sans-serif;
-    font-size: 59px;
+    font-size: 80px;
 }
 h2, .itemPrice{
     font-family: 'Besttia Brush', sans-serif;

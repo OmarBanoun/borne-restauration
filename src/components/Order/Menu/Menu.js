@@ -21,6 +21,7 @@ import SelectPain from './SelectPain/SelectPain';
 import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
 import RealTimeOrdering from '../RealTimeOrdering/RealTimeOrdering';
+import { useInactivityAlert } from '../../Common/InactivityAlert';
 
 const Menu = () => {
     const [categories, setCategories] = useState([]);
@@ -47,6 +48,8 @@ const Menu = () => {
     const [sauces, setSauces] = useState([]);
     const [viandes, setViandes] = useState([]);
     const [pains, setPains] = useState([]);
+
+    useInactivityAlert();
 
     useEffect(() => {
         // Chargement des catégories depuis l'API
