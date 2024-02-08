@@ -13,7 +13,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
                     <div key={sauce.id} className={`col-md-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
                         <div className="">
                             <img src={`https://maro.alwaysdata.net/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid w-50" />
-                            <p className='text-center name-item'>{sauce.nom}</p>
+                            <h3 className='text-center itemName'>{sauce.nom}</h3>
                             {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                         </div>
                     </div>

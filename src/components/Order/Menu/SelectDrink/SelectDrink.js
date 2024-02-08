@@ -18,7 +18,7 @@ const SelectDrink = ({ drinks, onSelectDrink }) => {
                     }}>
                         <div className="drink">
                             <img src={`https://maro.alwaysdata.net/${drink.imageUrl }`} alt={drink.nom} className="drink-image img-fluid" />
-                            <p className='text-center'>{drink.nom}</p>
+                            <h3 className='text-center itemName'>{drink.nom}</h3>
                         </div>
                     </div>
                 ))}

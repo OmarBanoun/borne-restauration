@@ -15,7 +15,7 @@ const SelectViande = ({ viandes, onSelectViande, selectedViandes, onNextClick, m
                         <div key={viande.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectViande(viande)}>
                             <div>
                                 <img src={`https://maro.alwaysdata.net/${viande.imageUrl }`} alt={viande.nom} className="viande-image img-fluid" />
-                                <p className='text-center name-item'>{viande.nom}</p>
+                                <h3 className='text-center itemName'>{viande.nom}</h3>
                             </div>
                         </div>
                     );

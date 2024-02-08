@@ -601,7 +601,10 @@ const handleFinalizeOrder = () => {
     )}
     {/* Choix de la boisson */}
     {selectedItem && selectedOption === 'menu' && !selectedDrink && currentStep === 'choixBoisson' && (
-        <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
+        <div className='container'>
+            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+            <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
+        </div>
     )}
 <Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-50w" centered>
     <Modal.Header closeButton>

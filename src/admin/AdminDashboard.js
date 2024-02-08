@@ -10,10 +10,11 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAuth } from './AuthContext';
 import CategoriesPage from './Categories/CategoriesPage';
 import ArticlesPage from './Articles/ArticlesPage';
+import SupplementsPage from './Supplements/SupplementsPage';
 import SecondaryArticlesPage from './SecondaryArticle/SecondaryArticlePage';
 import CustomPage from './Custom/CustomPage';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const AdminDashboard = () => {
     const location = useLocation();
@@ -104,6 +105,10 @@ const AdminDashboard = () => {
                     {/* Ajoutez d'autres options ici si nécessaire */}
                 </List>
             </Collapse>
+            <ListItemButton component={Link} to="/admin/supplements">
+                <ListItemIcon><ArticleIcon /></ListItemIcon>
+                <ListItemText primary="Suppléments" />
+            </ListItemButton>
             <hr />
             <ListItemButton component={Link} to="/admin/custom">
                 <ListItemIcon>
@@ -119,6 +124,7 @@ const AdminDashboard = () => {
             <Route index element={<CategoriesPage />} />
             <Route path="categories" element={<CategoriesPage />} />
             <Route path="articles" element={<ArticlesPage />} />
+            <Route path='supplements' element={<SupplementsPage />} />
             <Route path='viandes' element={<SecondaryArticlesPage type="viandes" />} />
             <Route path='sauces' element={<SecondaryArticlesPage type="sauces" />} />
             <Route path='boissons' element={<SecondaryArticlesPage type="boissons" />} />

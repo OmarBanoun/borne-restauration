@@ -15,6 +15,8 @@ import CreateCategory from './admin/Categories/CreateCategoryPage';
 import CreateArticle from './admin/Articles/CreateArticlePage';
 import EditArticle from './admin/Articles/EditArticle';
 import EditCategory from './admin/Categories/EditCategory';
+import CreateSupplement from './admin/Supplements/CreateSupplement';
+import EditSupplement from './admin/Supplements/EditSupplement';
 import CreateSecondaryArticle from './admin/SecondaryArticle/CreateSecondaryArticle';
 import EditSecondaryArticle from './admin/SecondaryArticle/EditSecondaryArticle';
 import LoginPage from './admin/loginForm';
@@ -47,6 +49,8 @@ function App() {
       <Route path='/admin/edit-category/:id' element={<EditCategory />} />
       <Route path='/admin/create-secondary-article/:type' element={<CreateSecondaryArticle />} />
       <Route path="/admin/edit-secondary-article/:type/:id" element={<EditSecondaryArticle />} />
+      <Route path='/admin/create-supplement' element={<CreateSupplement />} />
+      <Route path='/admin/edit-supplement/:id' element={<EditSupplement />} />
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<Home />} />
           <Route path="/real-time-ordering" element={<RealTimeOrdering />} />

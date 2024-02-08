@@ -15,7 +15,7 @@ const SelectPain = ({ pains, onSelectPain }) => {
                     }}>
                         <div className="drink">
                             <img src={`https://maro.alwaysdata.net/${pain.imageUrl}`} alt={pain.nom} className="garniture-image img-fluid" />
-                            <p className='text-center name-item'>{pain.nom}</p>
+                            <h3 className='text-center itemName'>{pain.nom}</h3>
                         </div>
                     </div>
                 ))}

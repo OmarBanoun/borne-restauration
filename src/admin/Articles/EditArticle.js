@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography, Button, TextField, Paper, Box } from '@mui/material';
+import { Typography, Button, TextField, Paper, Box, InputAdornment } from '@mui/material';
 
 const EditArticle = () => {
   const [article, setArticle] = useState({ nom: '', prix: '', imageUrl: '' });
@@ -72,7 +72,7 @@ const EditArticle = () => {
     <div>
     <Paper style={{ padding: 20 }}>
       <Button variant="contained" color="primary" onClick={() => window.history.back()}>Retour</Button>
-      <Typography variant="h6" textAlign={'center'}>Modification de l'article</Typography>
+      <Typography variant="h6" textAlign={'center'}>Modification de l'article {article.nom}</Typography>
       <form onSubmit={handleSubmit}>
         <Box display="flex" flexDirection="column" gap={3} className="col-6" marginLeft={'auto'} marginRight={'auto'}>
         <TextField
@@ -82,11 +82,14 @@ const EditArticle = () => {
           onChange={(e) => setArticle({ ...article, nom: e.target.value })}
         />
         <TextField
-          label="Prix"
-          type="number"
-          fullWidth
-          value={article.prix}
-          onChange={(e) => setArticle({ ...article, prix: e.target.value })}
+            label="Prix"
+            type="number"
+            InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
+            fullWidth
+            value={article.prix}
+            onChange={(e) => setArticle({ ...article, prix: e.target.value })}
         />
         {article.imageUrl && <img width={200} src={tempImageUrl} alt={article.nom} />}
         <input

@@ -34,7 +34,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                                 <div key={dessert.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectDessert(dessert)}>
                                 <div>
                                     <img src={`https://maro.alwaysdata.net/${dessert.imageUrl}`} alt={dessert.nom} className="dessert-image img-fluid" />
-                                    <p className='text-center name-item'>{dessert.nom}</p>
+                                    <h3 className='text-center itemName'>{dessert.nom}</h3>
                                     <p className="itemPrice orange">{dessert.prix.toFixed(2).replace('.', ',')}€</p>
                                 </div>
                             </div>

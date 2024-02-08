@@ -33,7 +33,7 @@ export const useInactivityAlert = () => {
     // Réinitialiser le timer lors des interactions de l'utilisateur
     const resetTimer = () => {
       clearTimeout(timer);
-      timer = setTimeout(showAlert, 20000); // Réinitialiser pour 1 minute d'inactivité
+      timer = setTimeout(showAlert, 60000); // Réinitialiser pour 1 minute d'inactivité
     };
 
     window.onload = resetTimer;
@@ -47,5 +47,5 @@ export const useInactivityAlert = () => {
         document.removeEventListener('touchstart', resetTimer);
         document.removeEventListener('click', resetTimer); // N'oubliez pas de retirer les écouteurs
     };
-    }, []);
+    }, [navigate]);
 };

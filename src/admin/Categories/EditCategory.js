@@ -72,7 +72,7 @@ const EditCategory = () => {
     <div>
     <Paper style={{ padding: 20 }}>
       <Button variant="contained" color="primary" onClick={() => window.history.back()}>Retour</Button>
-      <Typography variant="h6" textAlign={'center'}>Modification de la categorie</Typography>
+      <Typography variant="h6" textAlign={'center'}>Modification de la categorie {category.nom}</Typography>
       <form onSubmit={handleSubmit}>
         <Box display="flex" flexDirection="column" gap={3} className="col-6" marginLeft={'auto'} marginRight={'auto'}>
         <TextField

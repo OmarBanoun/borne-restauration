@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, Paper, Typography, Box, Select, MenuItem, ListItem, ListItemText, FormControl, InputLabel } from '@mui/material';
+import { TextField, Button, Paper, Typography, Box, Select, MenuItem, FormControl, InputLabel, InputAdornment } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const CreateCategory = () => {
@@ -76,6 +76,9 @@ const CreateCategory = () => {
                 <TextField
                     label="Prix"
                     name="prix"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                    }}
                     value={articleData.prix}
                     onChange={handleInputChange}
                 />
