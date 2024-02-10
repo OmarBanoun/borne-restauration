@@ -4,7 +4,6 @@ import { TextField, Button, Paper, Typography, Box, Select, MenuItem, FormContro
 import { useNavigate } from 'react-router-dom';
 
 const CreateCategory = () => {
-    const [nom, setNom] = useState('');
     const [image, setImage] = useState(null);
     // const [prix, setPrix] = useState(0);
     const [categories, setCategories] = useState([]);

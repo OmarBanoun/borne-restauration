@@ -1,6 +1,7 @@
 .itemPrice{
     font-weight: bold;
     font-size: 20px;
+    color: var(--primary-color);
 }
 .optionButton {
     margin: 15px 20px;

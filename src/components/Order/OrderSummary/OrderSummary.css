@@ -60,3 +60,6 @@ a{
     text-overflow: ellipsis;
     margin-bottom: 9px;
 }
+.img-top-detail{
+    width: 70% !important;
+}

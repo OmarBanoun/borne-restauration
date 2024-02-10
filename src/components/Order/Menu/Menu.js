@@ -18,6 +18,7 @@ import SelectViande from './SelectViande/SelectViande';
 import SelectDessert from './SelectDessert/SelectDessert';
 import SelectSauce from './SelectSauce/SelectSauce';
 import SelectPain from './SelectPain/SelectPain';
+import SelectSupplements from './SelectSupplements/SelectSupplements';
 import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
 import RealTimeOrdering from '../RealTimeOrdering/RealTimeOrdering';
@@ -40,6 +41,7 @@ const Menu = () => {
     const [selectedViandes, setSelectedViandes] = useState([]);
     const [maxViandes, setMaxViandes] = useState(0);
     const [selectedDesserts, setSelectedDesserts] = useState([]);
+    const [selectedSupplements, setSelectedSupplements] = useState([]);
     const [orderType, setOrderType] = useState(null);
     const navigate = useNavigate();
     const [SecondaryArticles, setSecondaryArticles] = useState([]);
@@ -48,6 +50,7 @@ const Menu = () => {
     const [sauces, setSauces] = useState([]);
     const [viandes, setViandes] = useState([]);
     const [pains, setPains] = useState([]);
+    const [supplements, setSupplements] = useState([]);
 
     useInactivityAlert();
 
@@ -109,6 +112,14 @@ const Menu = () => {
             .catch(error => console.log(error));
     }, []);
 
+    useEffect(() => {
+        axios.get('https://maro.alwaysdata.net/api/supplements')
+            .then(response => {
+                setSupplements(response.data);
+            })
+            .catch(error => console.log(error));
+    }, []);
+
     const handleCategorySelect = (category) => {
         if (selectedItem && selectedOption !== 'seul') {
             Swal.fire({
@@ -130,6 +141,8 @@ const Menu = () => {
                     setSelectedGarnitures([]); // Réinitialiser les garnitures sélectionnées
                     setSelectedSauces([]); // Réinitialiser les sauces sélectionnées
                     setSelectedViandes([]); // Réinitialiser les viandes sélectionnées
+                    setSelectedDesserts([]); // Réinitialiser les desserts sélectionnés
+                    setSelectedSupplements([]); // Réinitialiser les supplements sélectionnés
                 }
             });
         } else if (category.nom === "Dessert"){
@@ -183,13 +196,13 @@ const Menu = () => {
     // handleSelectPain
     const handleSelectPain = (pain) => {
         setSelectedPain(pain);
-        setSelectedItem({ ...selectedItem, pain: pain.nom });
+        setSelectedItem({ ...selectedItem, pain: pain.nom, painImg: pain.imageUrl });
         setCurrentStep('choixGarniture');
         console.log("Pain sélectionné :", pain);
     }
     const handleSelectDrink = (drink) => {
         // Ajouter l'article avec la boisson sélectionnée à orderItems
-        const updatedItem = { ...selectedItem, drink: drink.nom };
+        const updatedItem = { ...selectedItem, drink: drink.nom, drinkImg: drink.imageUrl};
         setOrderItems([...orderItems, updatedItem]);
     
         // Réinitialisation pour le prochain article
@@ -238,6 +251,18 @@ const Menu = () => {
             console.log(`Vous ne pouvez pas sélectionner plus de ${maxViandes} viande(s).`);
         }
     };
+
+    const handleSelectSupplement = (supplement) => {
+        // Vérifier si le supplément est déjà sélectionné
+        if (selectedSupplements.find(s => s.id === supplement.id)) {
+            // Supprimer le supplément de la sélection
+            setSelectedSupplements(selectedSupplements.filter(s => s.id !== supplement.id));
+        } else {
+            // Ajouter le supplément à la sélection
+            setSelectedSupplements([...selectedSupplements, supplement]);
+        }
+        console.log("Supplements sélectionnés:", selectedSupplements);
+    };
     
     const onSelectDessert = (dessert) => {
         if (selectedDesserts.includes(dessert)) {
@@ -254,31 +279,47 @@ const Menu = () => {
         } else if (currentStep === 'choixGarniture') {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixSauce') {
+            setCurrentStep('choixSupplement');
+        } else if (currentStep === 'choixSupplement') {
+            // Mise à jour de l'article sélectionné avec les suppléments avant de passer à l'étape suivante
+            const updatedItem = { ...selectedItem, supplements: selectedSupplements };
+            setSelectedItem(updatedItem); // Mise à jour globale de selectedItem
             setCurrentStep('choixOption');
         } else if (currentStep === 'choixViande') {
             setCurrentStep('choixSauce');
         } else if (currentStep === 'choixOption') {
-            const updatedItem = { ...selectedItem, pains: selectedPain, garnitures: selectedGarnitures, sauces: selectedSauces, viandes: selectedViandes, option: selectedOption };
-            setOrderItems([...orderItems, updatedItem]);
+            // Vérifiez si l'article est déjà dans orderItems pour éviter les doublons
+            const itemExists = orderItems.some(item => item.id === selectedItem.id);
+            if (!itemExists) {
+                // Ajoutez seulement si l'article n'existe pas déjà
+                setOrderItems([...orderItems, selectedItem]);
+            }
             setCurrentStep('resumeCommande');
     
             // Réinitialisation pour le prochain article
-            setSelectedItem(null);
-            setSelectedPain(null);
-            setSelectedGarnitures([]);
-            setSelectedSauces([]);
-            setSelectedViandes([]);
-            setSelectedOption(null);
+            resetSelections(); // Utilisez une fonction pour réinitialiser toutes les sélections
         } else if (currentStep === 'choixArticle' && selectedDesserts.length > 0) {
             // Ajoutez les desserts sélectionnés à orderItems ici
             const updatedOrderItems = [...orderItems, ...selectedDesserts.map(d => ({ ...d, quantity: 1 }))];
             setOrderItems(updatedOrderItems);
-        
+    
             // Réinitialiser les desserts sélectionnés et passer à l'étape suivante
             setSelectedDesserts([]);
             setCurrentStep('resumeCommande');
         }
     };
+    
+    // Fonction pour réinitialiser toutes les sélections
+    const resetSelections = () => {
+        setSelectedItem(null);
+        setSelectedPain(null);
+        setSelectedGarnitures([]);
+        setSelectedSauces([]);
+        setSelectedViandes([]);
+        setSelectedOption(null);
+        setSelectedSupplements([]); // N'oubliez pas de réinitialiser les suppléments sélectionnés
+    };
+    
 
     useEffect(() => {
         console.log("Choix pain a changé :", selectedPain);
@@ -325,6 +366,11 @@ const Menu = () => {
     }, [currentStep, selectedCategory]);
 
     useEffect(() => {
+        console.log("Supplements sélectionnés après mise à jour:", selectedSupplements);
+    }, [selectedSupplements]);
+    
+
+    useEffect(() => {
         if (currentStep === 'resumeCommande') {
             const sandwichCategory = categories.find(c => c.nom === 'Sandwich');
             if (sandwichCategory) {
@@ -339,6 +385,8 @@ const Menu = () => {
                 setSelectedGarnitures([]);
                 setSelectedViandes([]);
                 setSelectedDesserts([]);
+                setSelectedDrink(null);
+                setSelectedSupplements([]);
             }
         }
     }, [currentStep]);
@@ -379,7 +427,12 @@ const Menu = () => {
                 setCurrentStep(selectedItem.categorie.nom === 'Tacos' ? 'choixViande' : 'choixGarniture');
                 setSelectedSauces([]); // Réinitialiser les sauces sélectionnées
                 break;
-    
+
+            case 'choixSupplement':
+                setCurrentStep('choixSauce');
+                setSelectedSupplements([]);
+                break;
+
             case 'choixViande':
                 if (selectedItem && selectedItem.categorie.nom === 'Tacos') {
                     setCurrentStep('choixArticle'); // Revenir à la sélection des tacos
@@ -606,6 +659,13 @@ const handleFinalizeOrder = () => {
             <SelectDrink drinks={drinks} onSelectDrink={handleSelectDrink} />
         </div>
     )}
+    {/* Choix des suppléments si la catégorie est sandwich ou burger */}
+    {selectedItem && currentStep === 'choixSupplement' && (
+        <div className='container'>
+            <button className='btn btn-warning mb-3 text-white' onClick={handleBackClick}><i className="fa-solid fa-arrow-left"></i> Retour</button>
+            <SelectSupplements supplements={supplements} onSelectSupplement={handleSelectSupplement} selectedSupplements={selectedSupplements} onNextClick={handleNextClick} />
+        </div>
+    )}
 <Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-50w" centered>
     <Modal.Header closeButton>
         <Modal.Title className='d-flex justify-content-center'>Accompagner votre menu</Modal.Title>
@@ -653,7 +713,7 @@ const handleFinalizeOrder = () => {
             <div className='col-3 bg-dark'>
                 <div className='text-white d-flex align-items-center justify-content-around h-100 text-white commande'>
                     <strong className='Total'>Total</strong>
-                    <h2 className='my-4 price orange'>{total}€</h2>
+                    <h2 className='my-4 price itemPrice'>{total}€</h2>
                 </div>
             </div>
         </div>
