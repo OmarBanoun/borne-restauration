@@ -17,7 +17,6 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
     const handleCloseModal = () => {
         setShowModal(false);
     };
-    
 
     return (
         <div className='summary-section mb-0'>
@@ -79,7 +78,8 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                     <hr />
                     {selectedDetail.categorie !== 'Dessert' && (
                         <div className='d-flex justify-content-between align-items-center mb-3'>
-                            <h4>Option : {selectedDetail.option === 'seul' ? 'Seul' : 'En Menu'}</h4>
+                            {/* <h4>Option : {selectedDetail.option === 'seul' ? 'Seul' : 'En Menu'}</h4> */}
+                            <h4>Option : {selectedDetail.option === 'seul' ? `${selectedDetail.nom} seul` : `${selectedDetail.nom} En Menu`}</h4>
                             <Button variant="outline-primary">Modifier</Button>
                         </div>
                     )}
@@ -142,9 +142,12 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder })
                     )}
                 </Modal.Body>
                 <Modal.Footer className='justify-content-between'>
-                    <Button className='col-8' variant="danger" onClick={() => onRemoveItem(selectedDetail.index)}>
-                        Supprimer
-                    </Button>
+                <Button className='col-8' variant="danger" onClick={() => {
+                    onRemoveItem(selectedDetail.index); // Supposons que cela déclenche la suppression
+                    handleCloseModal(); // Fermez la modal ici si handleRemoveItem ne retourne pas de promesse
+                }}>
+                    Supprimer
+                </Button>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Fermer
                     </Button>
