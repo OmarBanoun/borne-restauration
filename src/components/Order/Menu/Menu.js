@@ -495,7 +495,25 @@ const Menu = () => {
         setSelectedDesserts([]); 
         setCurrentStep('choixCategorie');  // Retourner au choix de catégorie
     };
-
+    // const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
+    const handleSaveChanges = (updatedDetail) => {
+        const updatedOrderItems = orderItems.map((item, index) => {
+            if (index === updatedDetail.index) {
+                return { ...item, ...updatedDetail };
+            }
+            return item;
+        });
+    
+        setOrderItems(updatedOrderItems);
+        // Alerte swal pour confirmer les modifications
+        Swal.fire({
+            title: "Modification enregistrée !",
+            text: "",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    };
 
 const handleRemoveItem = (index) => {
     // Afficher une alerte de confirmation avant de supprimer l'article
@@ -513,11 +531,13 @@ const handleRemoveItem = (index) => {
             // Si l'utilisateur confirme, supprimez l'article
             const updatedOrderItems = orderItems.filter((_, i) => i !== index);
             setOrderItems(updatedOrderItems);
-            Swal.fire(
-                'Supprimé!',
-                'Votre article a été supprimé.',
-                'success',
-            )
+            Swal.fire({
+                title: "Supprimé!",
+                text: "",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+            });
         }
     });
 };
@@ -525,14 +545,15 @@ const handleRemoveItem = (index) => {
 //     return items.reduce((total, item) => total + item.prix + (item.option === 'menu' ? 2 : 0), 0);
 // };
 const total = calculateTotal(orderItems);
-
 const handleOrderTypeSelect = (type) => {
     setOrderType(type);
     console.log("Order Type après sélection:", type);
 };
 
 const [showModal, setShowModal] = useState(false);
-const handleShowModal = () => setShowModal(true);
+const handleShowModal = () => {
+    setShowModal(true);
+};
 const handleCloseModal = () => {
     setShowModal(false);
     setSelectedItems([]);
@@ -722,7 +743,13 @@ const handleFinalizeOrder = () => {
                 orderItems={orderItems}
                 onContinueOrder={handleContinueOrder} 
                 onFinalizeOrder={handleFinalizeOrder} 
+                onEditItem={handleSaveChanges}
                 onRemoveItem={handleRemoveItem}
+                pains={pains}
+                garnitures={garnitures}
+                sauces={sauces}
+                supplements={supplements}
+                drinks={drinks}
             />
         )}
     </div>

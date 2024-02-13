@@ -10,7 +10,7 @@
     font-size: 20px;
     font-weight: bold;
 }
-.swiper-slide{
+.order-process .swiper-slide{
     height: 860px !important;
 }
 .swiper-pagination{
