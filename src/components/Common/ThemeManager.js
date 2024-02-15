@@ -6,15 +6,15 @@ export const UseThemeSettings = () => {
     themePrimaryColor: '',
     themeSecondaryColor: '',
     companyName: '',
-    homeImg: '',
+    homeImgs: [],
   });
 
   useEffect(() => {
     axios.get('https://maro.alwaysdata.net/api/settings')
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
-          const { themePrimaryColor, themeSecondaryColor, companyName, homeImg } = response.data[0];
-          setSettings({ themePrimaryColor, themeSecondaryColor, companyName, homeImg });
+          const { themePrimaryColor, themeSecondaryColor, companyName, homeImgs } = response.data[0];
+          setSettings({ themePrimaryColor, themeSecondaryColor, companyName, homeImgs });
           document.documentElement.style.setProperty('--primary-color', themePrimaryColor);
           document.documentElement.style.setProperty('--secondary-color', themeSecondaryColor);
         }

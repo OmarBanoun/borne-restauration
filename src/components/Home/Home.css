@@ -12,6 +12,7 @@ main h1{
     text-align: center;
     font-family: 'Besttia Brush', sans-serif;
     font-size: 80px;
+    z-index: 2;
 }
 h2, .itemPrice{
     font-family: 'Besttia Brush', sans-serif;
@@ -41,6 +42,7 @@ h2, .itemPrice{
     margin: 0;
     text-align: center;
     width: 400px;
+    z-index: 2;
 }
 main a{
     text-decoration: none;

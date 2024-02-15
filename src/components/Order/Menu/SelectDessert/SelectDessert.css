@@ -12,6 +12,7 @@
 }
 .order-process .swiper-slide{
     height: 860px !important;
+    padding: 0 12px !important;
 }
 .swiper-pagination{
     bottom: -6px !important;

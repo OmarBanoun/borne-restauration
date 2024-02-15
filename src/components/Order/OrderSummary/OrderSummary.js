@@ -94,7 +94,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, p
     }
 
     useEffect(() => {
-        const height = sauces.length > 9 ? '844px' : 'auto'; // Exemple de condition
+        const height = sauces.length > 9 ? '560px' : 'auto'; // Exemple de condition
         setSwiperHeight(height);
     }, [sauces]);
     

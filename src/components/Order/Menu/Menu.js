@@ -612,7 +612,6 @@ const handleFinalizeOrder = () => {
     
     <div className='order-process'>
         {/* Choix des articles */}
-        {/* <h2 className='text-center mt-2'>Faites votre choix :</h2> */}
         {selectedCategory && selectedCategory !== 'Desserts' && !selectedItem && currentStep === 'choixArticle' && (
         <div className='container'>
             <h2 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h2>
