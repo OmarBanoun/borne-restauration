@@ -31,6 +31,8 @@ const stripePromise = loadStripe('pk_test_51Mbm5lB8C8ofx6bDkKoz0v3ywChiFZ0dQcCeu
 function App() {
   UseThemeSettings();
   return (
+    <div className="scale-container">
+    <div className="app-container">
     <AuthProvider>
     <Router>
       <Routes>
@@ -73,6 +75,8 @@ function App() {
       </Routes>
     </Router>
     </AuthProvider>
+    </div>
+    </div>
   );
   }
   function LayoutWithHeader() {

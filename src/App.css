@@ -39,3 +39,49 @@
     transform: rotate(360deg);
   }
 }
+.app-container {
+  width: 1080px;
+  height: 1920px;
+  margin: 0 auto;
+  position: relative; /* Pour le positionnement des enfants */
+  overflow: hidden; /* Cache le contenu débordant si nécessaire */
+  border: 25px solid #363535;
+  border-radius: 45px;
+}
+
+/* Ajuster l'échelle si nécessaire pour s'adapter à votre écran de développement */
+.scale-container {
+  transform-origin: top center; /* Ajustez si nécessaire */
+  transform: scale(0.36); /* Ajustez cette valeur en fonction de la taille de votre écran de développement */
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#root {
+  overflow: hidden; /* Empêche le débordement horizontal et vertical */
+  max-height: 100vh; /* Assure que la hauteur ne dépasse pas celle de la fenêtre de visualisation */
+}
+/* Media Query pour neutraliser les styles sur les écrans de 1080x1920 */
+@media screen and (device-width: 1080px) and (device-height: 1920px), (device-width: 1920px) and (device-height: 1080px) {
+  .app-container {
+    width: auto;
+    height: auto;
+    margin: 0;
+    position: static;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+  }
+
+  .scale-container {
+    transform: none;
+  }
+
+  #root {
+    overflow: visible;
+    max-height: none;
+  }
+}

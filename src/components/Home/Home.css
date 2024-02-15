@@ -1,6 +1,6 @@
 .bg-main{
     width: 100%;
-    height: calc(100vh - 150px - 30px);
+    height: calc(1920px - 150px - 30px);
     object-fit: cover;
 }
 main h1{

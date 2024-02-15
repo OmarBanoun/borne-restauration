@@ -17,7 +17,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     margin: 0 10px;
 }
 .categories-bar {
-    height: calc(100vh - (736px));
+    height: calc(1920px - (736px));
     width: 25%;
     overflow-y: auto;
     margin-bottom: 10px;
@@ -37,7 +37,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 
 .order-process {
     width: 75%;
-    height: calc(100vh - (770px));
+    height: calc(1920px - (770px));
     overflow-y: auto;
     margin-top: 10px;
 
@@ -76,7 +76,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 220px);
+    height: calc(1920px - 220px);
 }
 .order-type-selection {
     display: flex;

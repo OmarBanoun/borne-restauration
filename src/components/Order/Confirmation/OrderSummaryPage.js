@@ -5,6 +5,7 @@ import imgBornePay from '../../../assets/paiement.png';
 import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";
 import PaiementForm from '../PaiementForm/PaiementForm';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const OrderSummaryPage = () => {
     // const navigate = useNavigate();
@@ -46,6 +47,7 @@ const OrderSummaryPage = () => {
             )}
             {showStripeForm && (
             <div>
+            <button className='btn btn-lg btn-warning m-5 col-2 text-white d-flex justify-content-evenly align-items-center' onClick={() => setShowStripeForm(false)}><KeyboardBackspaceIcon/><div>Retour</div></button>
             <h2 className='text-center title-pay'>Paiement (Test)</h2>
             <h3 className='text-center'>Total : {total}€</h3>
             <PaiementForm total={total} orderItems={orderItems} orderType={orderType}/>
