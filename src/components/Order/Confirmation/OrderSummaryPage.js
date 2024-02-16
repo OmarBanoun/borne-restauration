@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'; // Importez useHistory si vous utilisez React Router
 import imgBornePay from '../../../assets/paiement.png';
 import imgComptoir from '../../../assets/mode-de-paiement.png';
@@ -25,6 +24,15 @@ const OrderSummaryPage = () => {
         // Rediriger vers la page appropriée ou afficher un message de confirmation
         // navigate('/confirmation');
     };
+    useEffect(() => {
+        // Ajouter la classe quand le composant est monté
+        document.getElementById('root').classList.add('max-height');
+    
+        // Retirer la classe quand le composant est démonté
+        return () => {
+            document.getElementById('root').classList.remove('max-height');
+        };
+    }, []);
     return (
         <div className="order-summary-page">
             {!showStripeForm && (

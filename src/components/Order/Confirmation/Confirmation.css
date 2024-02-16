@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 350px);
+    height: calc(1920px - 350px);
 }
 .cards-pay{
     margin-top: 150px;

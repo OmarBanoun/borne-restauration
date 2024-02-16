@@ -120,6 +120,16 @@ const Menu = () => {
             .catch(error => console.log(error));
     }, []);
 
+    useEffect(() => {
+        // Ajouter la classe quand le composant est monté
+        document.getElementById('root').classList.add('max-height');
+    
+        // Retirer la classe quand le composant est démonté
+        return () => {
+            document.getElementById('root').classList.remove('max-height');
+        };
+    }, []);
+
     const handleCategorySelect = (category) => {
         if (selectedItem && selectedOption !== 'seul') {
             Swal.fire({

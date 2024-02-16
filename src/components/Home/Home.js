@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Home.css';
 import { Link } from 'react-router-dom';
 import { UseThemeSettings } from '../../components/Common/ThemeManager';
@@ -13,6 +13,15 @@ const Home = () => {
         delay: 5000, // Temps entre chaque slide (en millisecondes)
         disableOnInteraction: false, // Permet de continuer l'autoplay après une interaction
     };
+    useEffect(() => {
+        // Ajouter la classe quand le composant est monté
+        document.getElementById('root').classList.add('max-height');
+    
+        // Retirer la classe quand le composant est démonté
+        return () => {
+            document.getElementById('root').classList.remove('max-height');
+        };
+    }, []);
     return (
         <div className="Home">
             <main>

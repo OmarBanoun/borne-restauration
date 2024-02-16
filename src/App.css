@@ -60,9 +60,23 @@ body, html {
   height: 100%;
   width: 100%;
 }
-#root {
-  overflow: hidden; /* Empêche le débordement horizontal et vertical */
-  max-height: 100vh; /* Assure que la hauteur ne dépasse pas celle de la fenêtre de visualisation */
+.max-height {
+  overflow: hidden;
+  max-height: 100vh;
+}
+.swal2-container {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(0.36) !important;
+  width: 1080px !important;
+  height: 1920px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+div:where(.swal2-container).swal2-backdrop-show{
+  border-radius: 45px;
 }
 /* Media Query pour neutraliser les styles sur les écrans de 1080x1920 */
 @media screen and (device-width: 1080px) and (device-height: 1920px), (device-width: 1920px) and (device-height: 1080px) {
@@ -77,11 +91,30 @@ body, html {
   }
 
   .scale-container {
-    transform: none;
+    transform: none !important;
+  }
+  .max-height {
+    max-height: none;
+    overflow: visible;
   }
 
-  #root {
-    overflow: visible;
-    max-height: none;
+  .swal2-container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Overlay semi-transparent */
+    z-index: 1060; /* Assure que l'alerte est au-dessus d'autres éléments */
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+  
+
+  div:where(.swal2-container).swal2-backdrop-show {
+    border-radius: 0;
   }
 }
