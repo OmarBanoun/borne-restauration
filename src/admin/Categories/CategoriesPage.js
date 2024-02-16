@@ -43,7 +43,7 @@ const CategoriesPage = () => {
                         <ListItemText primary={category.nom} />
                         <Button variant="contained" color="error" style={{ marginRight: 10 }} onClick={() => {
                             // ajouter une alerte
-                            if (window.confirm('Voulez-vous supprimer cette catégorie ?')) {
+                            if (window.confirm('Voulez-vous supprimer cette catégorie ?<br>Cette action supprimera tous les articles associés à cette catégorie')) {
                                 axios.delete(`https://maro.alwaysdata.net/api/categories/${category._id}`)
                                 .then(response => {
                                     console.log('Catégorie supprimée', response.data);
