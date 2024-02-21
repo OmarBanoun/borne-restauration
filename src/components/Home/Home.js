@@ -44,8 +44,8 @@ const Home = () => {
                 </Swiper>
 
                 <h1>{companyName}</h1>
-                <button type="button" className="btn btn-orange btn-lg btn-block col-6 col-lg-3 my-auto">
-                    <Link to="/Order">Commander <i className="fa-solid fa-utensils"></i></Link>
+                <button type="button" className="btn btn-orange btn-lg btn-block col-6 col-lg-3 my-auto align-items-center">
+                    <Link to="/Order" className='my-auto'>Commander <i className="fa-solid fa-utensils"></i></Link>
                 </button>
             </main>
         </div>

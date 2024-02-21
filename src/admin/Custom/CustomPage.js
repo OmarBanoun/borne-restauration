@@ -196,7 +196,7 @@ return (
                         <input 
                             type="file" 
                             onChange={(e) => handleFileChange(e, 'homeImgs')} 
-                            multiple 
+                            multiple={false}
                         />
                     </div>
                 </ListItem>

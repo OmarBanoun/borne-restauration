@@ -33,7 +33,7 @@ export const useInactivityAlert = () => {
     // Réinitialiser le timer lors des interactions de l'utilisateur
     const resetTimer = () => {
       clearTimeout(timer);
-      timer = setTimeout(showAlert, 160000); // Réinitialiser pour 1 minute d'inactivité
+      timer = setTimeout(showAlert, 20000); // Réinitialiser pour 1 minute d'inactivité
     };
 
     window.onload = resetTimer;
