@@ -55,14 +55,14 @@
   transform: scale(0.36); /* Ajustez cette valeur en fonction de la taille de votre écran de développement */
 }
 /* Sur mobile .scale-conrainer a un transform-origin: top left */
-/* @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .scale-container {
     transform-origin: top left;
   }
   .swal2-container {
     transform-origin: top left;
   }
-} */
+}
 body, html {
   margin: 0;
   padding: 0;
