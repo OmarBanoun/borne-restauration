@@ -59,6 +59,13 @@
   .scale-container {
     transform-origin: top left;
   }
+  .swal2-container {
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important; /* Annule la translation et la mise à l'échelle */
+    width: 100% !important; /* Ajuste la largeur au viewport */
+    height: auto !important; /* Permet au conteneur de s'ajuster au contenu */
+  }
 }
 body, html {
   margin: 0;
