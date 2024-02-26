@@ -55,18 +55,14 @@
   transform: scale(0.36); /* Ajustez cette valeur en fonction de la taille de votre écran de développement */
 }
 /* Sur mobile .scale-conrainer a un transform-origin: top left */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .scale-container {
     transform-origin: top left;
   }
   .swal2-container {
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important; /* Annule la translation et la mise à l'échelle */
-    width: 100% !important; /* Ajuste la largeur au viewport */
-    height: auto !important; /* Permet au conteneur de s'ajuster au contenu */
+    transform-origin: top left;
   }
-}
+} */
 body, html {
   margin: 0;
   padding: 0;
