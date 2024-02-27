@@ -11,7 +11,7 @@ const SelectGarniture = ({ garnitures, onSelectGarniture, selectedGarnitures, on
                 const isSelected = selectedGarnitures.includes(garniture);
                 const selectionClass = isSelected ? 'selected-class' : ''; // Ajoutez une classe pour le style de sélection
                 return (
-                    <div key={garniture.id} className={`col-md-4 ${selectionClass}`} onClick={() => onSelectGarniture(garniture)}>
+                    <div key={garniture.id} className={`col-4 ${selectionClass}`} onClick={() => onSelectGarniture(garniture)}>
                         <div>
                             <img src={`https://maro.alwaysdata.net/${garniture.imageUrl }`} alt={garniture.nom} className=" garniture-image img-fluid" />
                             <h3 className='text-center itemName'>{garniture.nom}</h3>

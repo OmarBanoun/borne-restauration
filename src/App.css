@@ -60,7 +60,17 @@
     transform-origin: top left;
   }
   .swal2-container {
-    transform-origin: top left;
+    display: flex;
+    position: fixed;
+    width: 98% !important;
+    height: 84% !important;
+    margin: 0 auto;
+    transform-origin: top left !important;
+    transform: translate(-50%, -62%) scale(1) !important;
+    border-radius: 33px !important;
+  }
+  div:where(.swal2-container) div:where(.swal2-popup) {
+    max-width: 97% !important;
   }
 }
 body, html {
@@ -74,15 +84,15 @@ body, html {
   max-height: 100vh;
 }
 .swal2-container {
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) scale(0.36) !important;
-  width: 1080px !important;
-  height: 1920px !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.36);
+  width: 1080px;
+  height: 1920px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 div:where(.swal2-container).swal2-backdrop-show{
   border-radius: 45px;
@@ -110,8 +120,6 @@ div:where(.swal2-container).swal2-backdrop-show{
   .swal2-container {
     display: flex;
     position: fixed;
-    top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
     justify-content: center;

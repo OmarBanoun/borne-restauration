@@ -557,6 +557,9 @@ const handleRemoveItem = (index) => {
 const total = calculateTotal(orderItems);
 const handleOrderTypeSelect = (type) => {
     setOrderType(type);
+    localStorage.setItem('orderType', type);
+    // ajouter le type de commande à orderItems
+    // setOrderItems([...orderItems, { type: type }]);
     console.log("Order Type après sélection:", type);
 };
 
@@ -627,7 +630,7 @@ const handleFinalizeOrder = () => {
             <h2 className='text-center mt-5'>Selectionnez votre {selectedCategory}</h2>
             <div className='row mt-3'>
             {filteredArticles.map(item => (
-                <div className='col-md-4 text-center' key={item.id}>
+                <div className='col-4 text-center' key={item.id}>
                     <MenuItem item={item} onSelect={handleItemClick} />
                 </div>
             ))}
@@ -759,6 +762,7 @@ const handleFinalizeOrder = () => {
                 sauces={sauces}
                 supplements={supplements}
                 drinks={drinks}
+                orderType={orderType}
             />
         )}
     </div>

@@ -28,7 +28,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
                         const isSelected = selectedSauces.includes(sauce);
                         const selectionClass = isSelected ? 'selected-class' : ''; // Ajoutez une classe pour le style de sélection
                         return (
-                            <div key={sauce.id} className={`col-md-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
+                            <div key={sauce.id} className={`col-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
                                 <div className="">
                                     <img src={`https://maro.alwaysdata.net/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid w-50" />
                                     <h3 className='text-center itemName'>{sauce.nom}</h3>

@@ -10,7 +10,7 @@ import 'swiper/swiper.min.css';
 // import { Link } from 'react-router-dom';
 import "./OrderSummary.css";
 
-const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, pains, garnitures, sauces, supplements, drinks }) => {
+const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, pains, garnitures, sauces, supplements, drinks, orderType }) => {
     console.log("Order Items dans OrderSummary:", orderItems);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedDetail, setSelectedDetail] = useState({});
@@ -109,6 +109,8 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, p
                             <button onClick={() => onRemoveItem(index)} className="d-flex btn text-danger"><strong>❌</strong></button>
                         </div>
                             <img src={`https://maro.alwaysdata.net/${item.imageUrl}`} alt={item.nom} className="card-img-top img-fluid" />
+                            {/* si orderType = a_emporter écrire "à emporter" sinon écrire "sur place" */}
+                            {/* <h5>Commande: {orderType === 'a_emporter' ? 'À emporter' : 'Sur place'}</h5> */}
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
                                 <p className="card-text itemPrice mb-4">{(item.prix + (item.option === 'menu' ? 2 : 0) + (item.supplements ? item.supplements.reduce((total, supplement) => total + supplement.prix, 0) : 0)).toFixed(2).replace('.', ',')}€</p>
@@ -229,6 +231,7 @@ const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, p
                 {editingCategory === 'option' && (
                     // Affichez les options de modification pour "Option"
                     <><p>Option</p></>
+
                 )}
                 {editingCategory === 'drinks' && (
                 <Swiper

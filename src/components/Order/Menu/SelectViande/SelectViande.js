@@ -12,7 +12,7 @@ const SelectViande = ({ viandes, onSelectViande, selectedViandes, onNextClick, m
                     const isSelected = selectedViandes.includes(viande);
                     const selectionClass = isSelected ? 'selected-class' : ''; // Classe pour le style de sélection
                     return (
-                        <div key={viande.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectViande(viande)}>
+                        <div key={viande.id} className={`col-4 mb-4 ${selectionClass}`} onClick={() => onSelectViande(viande)}>
                             <div>
                                 <img src={`https://maro.alwaysdata.net/${viande.imageUrl }`} alt={viande.nom} className="viande-image img-fluid" />
                                 <h3 className='text-center itemName'>{viande.nom}</h3>

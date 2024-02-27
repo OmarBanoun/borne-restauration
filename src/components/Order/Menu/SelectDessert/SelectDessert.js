@@ -31,7 +31,7 @@ const SelectDessert = ({ desserts, onSelectDessert, selectedDesserts, onNextClic
                             const isSelected = selectedDesserts.includes(dessert);
                             const selectionClass = isSelected ? 'selected-class' : '';
                             return(
-                                <div key={dessert.id} className={`col-md-4 mb-4 ${selectionClass}`} onClick={() => onSelectDessert(dessert)}>
+                                <div key={dessert.id} className={`col-4 mb-4 ${selectionClass}`} onClick={() => onSelectDessert(dessert)}>
                                 <div>
                                     <img src={`https://maro.alwaysdata.net/${dessert.imageUrl}`} alt={dessert.nom} className="dessert-image img-fluid" />
                                     <h3 className='text-center itemName'>{dessert.nom}</h3>

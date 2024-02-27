@@ -8,7 +8,7 @@ const SelectPain = ({ pains, onSelectPain }) => {
             <h2 className='mb-4'>Choisissez votre pain :</h2>
             <div className="row">
                 {pains.map(pain => (
-                    <div key={pain._id} className="col-md-4" onClick={() => {
+                    <div key={pain._id} className="col-4" onClick={() => {
                         // Confirmer qu'une boisson est sélectionnée
                         console.log("Pain sélectioné :", pain.nom);
                         onSelectPain(pain);
