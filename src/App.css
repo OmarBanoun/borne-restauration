@@ -135,3 +135,6 @@ div:where(.swal2-container).swal2-backdrop-show{
     border-radius: 0;
   }
 }
+.primary-color{
+  color: var(--primary-color)
+}

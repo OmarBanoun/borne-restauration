@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 // import imgLogo from '../../../assets/kebab-logo.png';
 
-const PaiementForm = ({total, orderItems, orderType}) => {
+const PaiementForm = ({total, orderItems, orderType, orderNumber}) => {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -60,7 +60,6 @@ const PaiementForm = ({total, orderItems, orderType}) => {
 
         const cardElement = elements.getElement(CardElement);
         try {
-            // const montant = total * 100;
             const montant = parseFloat(total.replace(',', '.')) * 100;
             const { clientSecret } = await createPaymentIntent(montant, orderItems);
 
@@ -81,8 +80,6 @@ const PaiementForm = ({total, orderItems, orderType}) => {
                 // Envoyer les détails de la commande au backend
                 await sendPrintDataToBackend(orderItems, total, orderType);
                 // printTicket(orderItems, total, orderType);
-                // rediriger vers la page d'accueil sans utiliser hisotry
-                // window.location.href = "/";
                 navigate("/");
                 // Traitez ici le succès du paiement (ex: redirection, affichage d'un message, etc.)
             }
@@ -107,7 +104,7 @@ const PaiementForm = ({total, orderItems, orderType}) => {
 
     const createPaymentIntent = async (montant, orderItems) => {
         try {
-            const response = await axios.post("https://maro.alwaysdata.net/api/paiement", { montant, orderItems });
+            const response = await axios.post("https://maro.alwaysdata.net/api/paiement", { montant, orderItems, orderNumber });
             // const response = await axios.post("http://localhost:3001/api/paiement", { montant, orderItems });
             return response.data;
         } catch (error) {

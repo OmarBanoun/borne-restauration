@@ -10,7 +10,7 @@ import 'swiper/swiper.min.css';
 // import { Link } from 'react-router-dom';
 import "./OrderSummary.css";
 
-const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, pains, garnitures, sauces, supplements, drinks, orderType }) => {
+const OrderSummary = ({ orderItems, onEditItem, onRemoveItem, onFinalizeOrder, pains, garnitures, sauces, supplements, drinks }) => {
     console.log("Order Items dans OrderSummary:", orderItems);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedDetail, setSelectedDetail] = useState({});

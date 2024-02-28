@@ -51,6 +51,12 @@ const Menu = () => {
     const [viandes, setViandes] = useState([]);
     const [pains, setPains] = useState([]);
     const [supplements, setSupplements] = useState([]);
+    const [orderNumber, setOrderNumber] = useState(() => {
+        const savedOrderNumber = localStorage.getItem('orderNumber');
+        // Assurez-vous de retourner un nombre et non une chaîne de caractères
+        return savedOrderNumber ? Number(savedOrderNumber) : 1;
+    });
+    
 
     useInactivityAlert();
 
@@ -378,7 +384,12 @@ const Menu = () => {
     useEffect(() => {
         console.log("Supplements sélectionnés après mise à jour:", selectedSupplements);
     }, [selectedSupplements]);
-    
+
+    useEffect(() => {
+        // Ceci s'exécutera à chaque mise à jour de orderNumber, persistant la nouvelle valeur
+        localStorage.setItem('orderNumber', orderNumber.toString());
+        console.log("Persisté orderNumber:", orderNumber);
+    }, [orderNumber]);
 
     useEffect(() => {
         if (currentStep === 'resumeCommande') {
@@ -587,8 +598,19 @@ const handleToggleItem = (item) => {
 
 const handleFinalizeOrder = () => {
     console.log("L'utilisateur souhaite finaliser sa commande");
+    // Calculez le prochain numéro de commande ici
+    const nextOrderNumber = orderNumber >= 100 ? 1 : orderNumber + 1;
+
+    // Mettez à jour l'état avec le prochain numéro
+    setOrderNumber(nextOrderNumber);
+
+    // Log pour vérifier le prochain numéro
+    console.log("Prochain numéro de commande:", nextOrderNumber);
+
+    // Persistez immédiatement dans localStorage
+    localStorage.setItem('orderNumber', nextOrderNumber.toString());
     // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
-    navigate('/order-summary', { state: { orderType, orderItems, total } });
+    navigate('/order-summary', { state: { orderType, orderItems, total, orderNumber } });
 };
 
     return (
