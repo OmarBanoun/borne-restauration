@@ -1,0 +1,15 @@
+.select-sauce img{
+    width: 99px;
+}
+@keyframes swing {
+    0%, 100% {
+        transform: rotate(-25deg);
+    }
+    50% {
+        transform: rotate(25deg);
+    }
+}
+
+.hand-img {
+    animation: swing 2.5s ease-in-out infinite;
+}

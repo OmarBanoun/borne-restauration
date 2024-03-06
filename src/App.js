@@ -51,6 +51,7 @@ function App() {
       <Route path="/admin/edit-secondary-article/:type/:id" element={<EditSecondaryArticle />} />
       <Route path='/admin/create-supplement' element={<CreateSupplement />} />
       <Route path='/admin/edit-supplement/:id' element={<EditSupplement />} />
+      {/* <Route path='/admin/orders' element={<OrdersPage />} /> */}
       <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<Home />} />

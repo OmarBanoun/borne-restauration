@@ -1,9 +1,11 @@
 import React from "react";
 import '../Menu.css';
+import '../SelectSauce/SelectSauce.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
+import handImg from "../../../../assets/hand.png";
 const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => {
     const canProceed = selectedSauces.length > 0;
     const itemsPerSlide = 9;
@@ -12,7 +14,7 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
         slides.push(sauces.slice(i, i + itemsPerSlide));
     }
     return (
-        <div className='container text-center'>
+        <div className='container text-center select-sauce'>
             <h2 className='mb-4'>Choisissez vos sauces (2 max) : </h2>
             <Swiper
             slidesPerView={1}
@@ -30,13 +32,16 @@ const SelectSauce = ({ sauces, onSelectSauce, selectedSauces, onNextClick }) => 
                         return (
                             <div key={sauce.id} className={`col-4 mb-4 my-auto ${selectionClass}`} onClick={() => onSelectSauce(sauce)}>
                                 <div className="">
-                                    <img src={`https://maro.alwaysdata.net/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid w-50" />
+                                    <img src={`https://maro.alwaysdata.net/${sauce.imageUrl }`} alt={sauce.nom} className="sauce-image img-fluid" />
                                     <h3 className='text-center itemName'>{sauce.nom}</h3>
                                     {/* {isSelected && <span className="selection-indicator orange">✔</span>} */}
                                 </div>
                             </div>
                         );
                     })}
+                    <div className="text-center">
+                        <img src={handImg} alt="hand-img" className="hand-img" />
+                    </div>
                     </div>
             </SwiperSlide>
             ))}

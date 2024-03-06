@@ -7,6 +7,7 @@ const socket = io('https://maro.alwaysdata.net');
 
 function RealTimeOrdering() {
     const [orders, setOrders] = useState([]);
+    const [readyOrders, setReadyOrders] = useState([]); 
     const orderType = localStorage.getItem('orderType');
     // const orderNumber = localStorage.getItem('orderNumber');
     useEffect(() => {
@@ -25,10 +26,19 @@ function RealTimeOrdering() {
     }, [socket]);
     console.log(orders);
 
+    const handleReadyClick = (orderIndex) => {
+        const newReadyOrder = orders[orderIndex]; // Sélectionner la commande à déplacer
+        setReadyOrders([...readyOrders, newReadyOrder]); // Ajouter la commande à la liste des commandes prêtes
+        setOrders(orders.filter((_, index) => index !== orderIndex)); // Retirer la commande de la liste des commandes confirmées
+    };
+    
+
     return (
         <div className='container'>
-            <h2 className='my-5'>Commandes Confirmées</h2>
-            <ul className='d-flex flex-wrap'> {/* Ajout de flex-wrap pour une meilleure mise en page si nécessaire */}
+            <div className='row'>
+            <div className='col-6'>
+            <h2 className='my-5'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
+            <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid var(--primary-color)', minHeight: '100vh' }}> {/* Ajout de flex-wrap pour une meilleure mise en page si nécessaire */}
             {orders.map((order, index) => (
                 <li key={index} className="card my-2">
                     <div className="card-body">
@@ -70,9 +80,33 @@ function RealTimeOrdering() {
                         <hr />
                         <p className="card-text">{orderType === 'a_emporter' ? 'À emporter' : 'Sur Place'}</p>
                     </div>
+                    {/* bouton avec une icone de check mui */}
+                    <button className="btn btn-success d-flex justify-content-evenly align-items-center col-8 mx-auto mb-2" onClick={() => handleReadyClick(index)}>Prêt <i className="fas fa-check text-white pt-1"></i></button>
                 </li>
             ))}
         </ul>
+        </div>
+        
+        <div className='col-6'>
+        <h2 className='my-5 text-center'>Commandes Prêtes <i className="fas fa-square-check text-success pt-1" style={{ marginLeft: '15px' }}></i></h2>
+        <ul>
+        {readyOrders.map((order, index) => (
+            <li key={index} className="card my-2">
+                {/* Affichez les détails de la commande prête ici */}
+                <div className="card-body">
+                    <h4 className='card-title'>N°{order.orderNumber}</h4>
+                    {order.orderItems.map((item, itemIndex) => (
+                        <div key={itemIndex}>
+                            <h5 className="card-title">{item.nom}</h5>
+                            <p className="card-text">{item.option}</p>
+                        </div>
+                    ))}
+                </div>
+            </li>
+        ))}
+    </ul>
+    </div>
+        </div>
     </div>
     );    
 }

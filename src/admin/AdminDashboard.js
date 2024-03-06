@@ -7,12 +7,14 @@ import ArticleIcon from '@mui/icons-material/LunchDining';
 import BrushIcon from '@mui/icons-material/Brush';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useAuth } from './AuthContext';
 import CategoriesPage from './Categories/CategoriesPage';
 import ArticlesPage from './Articles/ArticlesPage';
 import SupplementsPage from './Supplements/SupplementsPage';
 import SecondaryArticlesPage from './SecondaryArticle/SecondaryArticlePage';
 import CustomPage from './Custom/CustomPage';
+import OrdersPage from './Orders/OrdersPage';
 
 const drawerWidth = 260;
 
@@ -116,6 +118,11 @@ const AdminDashboard = () => {
                 </ListItemIcon>
                 <ListItemText primary="Personnalisation" />
             </ListItemButton>
+            <hr />
+            <ListItemButton component={Link} to="/admin/orders">
+                <ListItemIcon><ReceiptLongIcon /></ListItemIcon>
+                <ListItemText primary="Recette" />
+            </ListItemButton>
             </List>
         </Drawer>
         <main style={{ marginLeft: drawerWidth, padding: 3 }}>
@@ -131,6 +138,7 @@ const AdminDashboard = () => {
             <Route path='pains' element={<SecondaryArticlesPage type="pains" />} />
             <Route path='garnitures' element={<SecondaryArticlesPage type="garnitures" />} />
             <Route path='custom' element={<CustomPage />} />
+            <Route path='orders' element={<OrdersPage />} />
             {/* Autres routes ici */}
             </Routes>
         </main>

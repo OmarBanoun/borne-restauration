@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Importez useHistory si vous utilisez React Router
+import { useLocation, useNavigate } from 'react-router-dom';
 import imgBornePay from '../../../assets/paiement.png';
 import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";
@@ -74,11 +74,14 @@ const OrderSummaryPage = () => {
             </div>
             )}
             {ShowComptoirPayment && (
+            <div>
+            <button className='btn btn-lg btn-warning m-5 col-2 text-white d-flex justify-content-evenly align-items-center' onClick={() => setShowComptoirPayment(false)}><KeyboardBackspaceIcon/><div>Retour</div></button>
             <div className='text-center'>
             <h1 className='title-pay mb-5'>Commande N°{orderNumber}</h1>
             <h3 className='mb-5'>Total à payer: <b className='primary-color'>{total}€</b></h3>
             <h4 className='mb-4'>Veuillez récuper votre ticket</h4>
             <h4>Merci pour votre commande !</h4>
+            </div>
             </div>
             )}
         </div>

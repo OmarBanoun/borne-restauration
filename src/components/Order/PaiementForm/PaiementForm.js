@@ -77,6 +77,10 @@ const PaiementForm = ({total, orderItems, orderType, orderNumber}) => {
                 console.log('[Paiement réussi]', paymentResult);
                 setIsPaying(false);
                 setAlert({ show: true, message: 'Paiement réussi', type: 'success' });
+                const totalNumerique = parseFloat(total.replace(',', '.'));
+                // Assurez-vous que orderNumber est un nombre
+                const orderNumberNumerique = parseInt(orderNumber, 10);
+                await sendOrderToBackend(orderItems, totalNumerique, "Carte", orderNumberNumerique);
                 // Envoyer les détails de la commande au backend
                 await sendPrintDataToBackend(orderItems, total, orderType);
                 // printTicket(orderItems, total, orderType);
@@ -88,6 +92,27 @@ const PaiementForm = ({total, orderItems, orderType, orderNumber}) => {
             setIsPaying(false);
         }
     };
+
+    const sendOrderToBackend = async (orderItems, total, paymentMethod, orderNumber) => {
+        try {
+            const response = await axios.post("https://maro.alwaysdata.net/api/orders", {
+                items: orderItems,
+                total,
+                orderNumber,
+                paymentMethod, // "Carte" pour les paiements à la borne
+                status: "Payé"
+            });
+            if (response.status === 201) {
+                console.log("Commande enregistrée avec succès:", response.data);
+                // Ici, vous pouvez gérer la réussite de l'enregistrement
+            } else {
+                console.error("La commande n'a pas été enregistrée:", response.data);
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi de la commande au backend:", error);
+        }
+    };
+    
 
     const sendPrintDataToBackend = async (orderItems, total, orderType) => {
         try {
