@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import imgBornePay from '../../../assets/paiement.png';
 import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";
@@ -19,14 +20,36 @@ const OrderSummaryPage = () => {
         setShowStripeForm(true);
     };
 
-    const handlePaymentOption = () => {
-        // Traiter le choix de paiement ici (option: 'comptoir' ou 'borne')
-        // console.log("Option de paiement choisie :", option);
-        // setPaymentOption(option);
-        // Rediriger vers la page appropriée ou afficher un message de confirmation
-        // navigate('/confirmation');
-        setShowComptoirPayment(true);
+    const handlePaymentOption = async () => {
+        try {
+            // Supposons que vous avez une fonction pour construire le corps de la requête
+            const orderDetails = {
+                items: orderItems, // Assurez-vous que cela correspond à la structure attendue par votre backend
+                orderNumber,
+                total: parseFloat(total.replace(',', '.')), // Convertir en nombre si nécessaire
+                orderType, // ou toute autre information nécessaire
+                status: "en attente", // Marquer la commande comme en attente
+                paymentMethod: "à définir", // Indiquer que le paiement se fera au comptoir
+            };
+    
+            const response = await axios.post("https://maro.alwaysdata.net/api/orders", orderDetails);
+            if (response.status === 201) {
+                console.log("Commande créée avec succès:", response.data);
+                setShowComptoirPayment(true); // Afficher l'UI pour le paiement au comptoir
+            }
+        } catch (error) {
+            console.error("Erreur lors de la création de la commande:", error);
+        }
     };
+
+    // const handlePaymentOption = () => {
+    //     // Traiter le choix de paiement ici (option: 'comptoir' ou 'borne')
+    //     // console.log("Option de paiement choisie :", option);
+    //     // setPaymentOption(option);
+    //     // Rediriger vers la page appropriée ou afficher un message de confirmation
+    //     // navigate('/confirmation');
+    //     setShowComptoirPayment(true);
+    // };
     useEffect(() => {
         // Ajouter la classe quand le composant est monté
         document.getElementById('root').classList.add('max-height');

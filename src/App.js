@@ -25,6 +25,7 @@ import { AuthProvider } from './admin/AuthContext';
 import RealTimeOrdering from './components/Order/RealTimeOrdering/RealTimeOrdering';
 import { UseThemeSettings } from './components/Common/ThemeManager';
 import { useInactivityAlert } from './components/Common/InactivityAlert';
+import VueComptoir from './VueComptoir/VueComptoir';
 
 const stripePromise = loadStripe('pk_test_51Mbm5lB8C8ofx6bDkKoz0v3ywChiFZ0dQcCeugOjSpiKqLjE3cjcQWudzXvWER6omH7yDDhoReNTC8jvmZhdMM9S00CyxoCFLd');
 
@@ -53,6 +54,7 @@ function App() {
       <Route path='/admin/edit-supplement/:id' element={<EditSupplement />} />
       {/* <Route path='/admin/orders' element={<OrdersPage />} /> */}
       <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
+      <Route path="/vuecomptoir" element={<VueComptoir />} />
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<Home />} />
           <Route path="/Order" element={

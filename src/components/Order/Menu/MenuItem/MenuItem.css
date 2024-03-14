@@ -18,3 +18,6 @@
 .btn-option:hover{
     background-color: var(--primary-color);
 }
+.menuItem img:active{
+    border: 4px solid var(--primary-color);
+}
