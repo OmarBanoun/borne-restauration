@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import io from 'socket.io-client';
 
 const VueComptoir = () => {
     const [commandes, setCommandes] = useState([]);
@@ -12,6 +13,16 @@ const VueComptoir = () => {
         };
 
         fetchCommandes();
+
+        const socket = io('http://maro.alwaysdata.net'); // Assurez-vous que l'URL correspond à votre serveur WebSocket
+
+        socket.on('nouvelle commande', (nouvelleCommande) => {
+            setCommandes((commandesActuelles) => [...commandesActuelles, nouvelleCommande]);
+        });
+
+        return () => {
+            socket.off('nouvelle commande');
+        };
     }, []);
 
     const handleUpdatePaymentMethod = async (id, method) => {
