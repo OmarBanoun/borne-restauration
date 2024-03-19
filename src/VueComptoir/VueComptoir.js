@@ -8,7 +8,7 @@ const VueComptoir = () => {
 
     useEffect(() => {
         const fetchCommandes = async () => {
-            const response = await axios.get("https://maro.alwaysdata.net/api/orders?status=en attente&paymentMethod=à définir");
+            const response = await axios.get("https://maro.alwaysdata.net/api/orders?view=vuecomptoir");
             setCommandes(response.data);
         };
     
