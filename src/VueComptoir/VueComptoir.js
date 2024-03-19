@@ -14,7 +14,7 @@ const VueComptoir = () => {
     
         fetchCommandes();
     
-        const socket = io('http://maro.alwaysdata.net');
+        const socket = io('https://maro.alwaysdata.net');
     
         socket.on('nouvelle commande', (nouvelleCommande) => {
             setCommandes((commandesActuelles) => [...commandesActuelles, nouvelleCommande]);
