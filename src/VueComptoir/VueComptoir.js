@@ -11,17 +11,25 @@ const VueComptoir = () => {
             const response = await axios.get("https://maro.alwaysdata.net/api/orders?status=en attente&paymentMethod=à définir");
             setCommandes(response.data);
         };
-
+    
         fetchCommandes();
-
-        const socket = io('http://maro.alwaysdata.net'); // Assurez-vous que l'URL correspond à votre serveur WebSocket
-
+    
+        const socket = io('http://maro.alwaysdata.net');
+    
         socket.on('nouvelle commande', (nouvelleCommande) => {
             setCommandes((commandesActuelles) => [...commandesActuelles, nouvelleCommande]);
         });
-
+    
+        // Écouter les mises à jour des commandes
+        socket.on('commande mise à jour', (commandeMiseAJour) => {
+            setCommandes((commandesActuelles) => commandesActuelles.map(commande => 
+                commande._id === commandeMiseAJour._id ? commandeMiseAJour : commande
+            ));
+        });
+    
         return () => {
             socket.off('nouvelle commande');
+            socket.off('mise à jour commande'); // Ne pas oublier de se désabonner de l'événement
         };
     }, []);
 

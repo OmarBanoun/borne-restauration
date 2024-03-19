@@ -121,6 +121,7 @@ const PaiementForm = ({total, orderItems, orderType, orderNumber}) => {
                 total: total,
                 orderType: orderType,
             });
+            
             console.log('Commande envoyée au backend');
         } catch (error) {
             console.error('Erreur lors de l’envoi de la commande:', error);
