@@ -32,7 +32,10 @@ function RealTimeOrdering() {
         setReadyOrders([...readyOrders, newReadyOrder]); // Ajouter la commande à la liste des commandes prêtes
         setOrders(orders.filter((_, index) => index !== orderIndex)); // Retirer la commande de la liste des commandes confirmées
     };
-    
+    const handleServedClick = (index) => {
+        const newReadyOrders = readyOrders.filter((_, i) => i !== index);
+        setReadyOrders(newReadyOrders);
+    };
 
     return (
         <div className='container'>
@@ -100,6 +103,7 @@ function RealTimeOrdering() {
                         <div key={itemIndex}>
                             <h5 className="card-title">{item.nom}</h5>
                             <p className="card-text">{item.option}</p>
+                            <button className="btn btn-success d-flex justify-content-evenly align-items-center col-8 mx-auto mb-2" onClick={() => handleServedClick(index)} >Servi <i className="fas fa-check text-white pt-1"></i></button>
                         </div>
                     ))}
                 </div>
