@@ -6,6 +6,8 @@ import imgComptoir from '../../../assets/mode-de-paiement.png';
 import "../Confirmation/Confirmation.css";
 import PaiementForm from '../PaiementForm/PaiementForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import VueComptoir from '../../../VueComptoir/VueComptoir';
+import Receipt from '../../../assets/receipt.png'
 
 const OrderSummaryPage = () => {
     // const navigate = useNavigate();
@@ -101,8 +103,10 @@ const OrderSummaryPage = () => {
             <button className='btn btn-lg btn-warning m-5 col-2 text-white d-flex justify-content-evenly align-items-center' onClick={() => setShowComptoirPayment(false)}><KeyboardBackspaceIcon/><div>Retour</div></button>
             <div className='text-center'>
             <h1 className='title-pay mb-5'>Commande N°{orderNumber}</h1>
+            <h2 className='mb-4'>Rendez-vous au comptoir pour régler et valider votre commande.</h2>
             <h3 className='mb-5'>Total à payer: <b className='primary-color'>{total}€</b></h3>
             <h4 className='mb-4'>Veuillez récuper votre ticket</h4>
+            <img src={Receipt} alt='receipt' className='img-fluid my-3'/>
             <h4>Merci pour votre commande !</h4>
             </div>
             </div>

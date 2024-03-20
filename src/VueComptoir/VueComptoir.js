@@ -33,11 +33,12 @@ const VueComptoir = () => {
         };
     }, []);
 
-    const handleUpdatePaymentMethod = async (id, method) => {
+    const handleUpdatePaymentMethod = async (id, method, orderItems) => {
         try {
             await axios.patch(`https://maro.alwaysdata.net/api/orders/${id}`, {
                 paymentMethod: method,
-                status: "Payé" // Optionnellement, mettre à jour le statut si nécessaire
+                status: "Payé", // Optionnellement, mettre à jour le statut si nécessaire
+                orderItems: orderItems
             });
             // Filtrer pour enlever la commande mise à jour de l'affichage
             setCommandes(commandes.filter(commande => commande._id !== id));

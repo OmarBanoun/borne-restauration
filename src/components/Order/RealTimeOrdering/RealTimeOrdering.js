@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 import orderType from '../Menu/Menu';
 
 const socket = io('https://maro.alwaysdata.net');
-// const socket = io('http://localhost:3001');
 
 function RealTimeOrdering() {
     const [orders, setOrders] = useState([]);
@@ -17,7 +16,9 @@ function RealTimeOrdering() {
             // Vérifie si newOrder est un tableau de tableaux et l'aplatit si nécessaire
             // const flattenedOrders = newOrder.flat();
             // setOrders(prevOrders => [...prevOrders, ...flattenedOrders]);
-            setOrders(prevOrders => [...prevOrders, newOrder]);
+            // setOrders(prevOrders => [...prevOrders, newOrder]);
+            const orderArray = Array.isArray(newOrder) ? newOrder : [newOrder];
+            setOrders(prevOrders => [...prevOrders, ...orderArray]);
         });
     
         return () => {
@@ -38,12 +39,12 @@ function RealTimeOrdering() {
             <div className='row'>
             <div className='col-6'>
             <h2 className='my-5'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
-            <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid var(--primary-color)', minHeight: '100vh' }}> {/* Ajout de flex-wrap pour une meilleure mise en page si nécessaire */}
+            <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid var(--primary-color)', minHeight: '500px' }}> {/* Ajout de flex-wrap pour une meilleure mise en page si nécessaire */}
             {orders.map((order, index) => (
                 <li key={index} className="card my-2">
                     <div className="card-body">
                         <h4 className='card-title'>N°{order.orderNumber}</h4>
-                        {order.orderItems.map((item, itemIndex) => ( // Itérer sur chaque article dans orderItems
+                        {order.orderItems && order.orderItems.map((item, itemIndex) => ( // Itérer sur chaque article dans orderItems
                             <div key={itemIndex}> {/* Utilisez un identifiant unique pour la clé si disponible */}
                                 <h5 className="card-title">{item.nom}</h5>
                                 <p className="card-text">{item.option}</p>
