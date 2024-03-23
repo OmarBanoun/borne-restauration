@@ -38,10 +38,10 @@ function RealTimeOrdering() {
     };
 
     return (
-        <div className='container'>
+        <div>
             <div className='row'>
             <div className='col-6'>
-            <h2 className='my-5'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
+            <h2 className='my-5 text-center'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
             <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid var(--primary-color)', minHeight: '500px' }}> {/* Ajout de flex-wrap pour une meilleure mise en page si nécessaire */}
             {orders.map((order, index) => (
                 <li key={index} className="card my-2">
@@ -93,7 +93,7 @@ function RealTimeOrdering() {
         
         <div className='col-6'>
         <h2 className='my-5 text-center'>Commandes Prêtes <i className="fas fa-square-check text-success pt-1" style={{ marginLeft: '15px' }}></i></h2>
-        <ul>
+        <ul className='d-flex flex-wrap'>
         {readyOrders.map((order, index) => (
             <li key={index} className="card my-2">
                 {/* Affichez les détails de la commande prête ici */}
