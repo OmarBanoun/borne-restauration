@@ -230,6 +230,14 @@ const Menu = () => {
         handleShowModal();
     };
     
+    // const handleSelectGarniture = (garniture) => {
+    //     if (selectedGarnitures.includes(garniture)) {
+    //         setSelectedGarnitures(selectedGarnitures.filter(g => g !== garniture));
+    //     } else {
+    //         setSelectedGarnitures([...selectedGarnitures, garniture]);
+    //     }
+    //     console.log("Garnitures sélectionnées:", selectedGarnitures);
+    // };
     const handleSelectGarniture = (garniture) => {
         if (selectedGarnitures.includes(garniture)) {
             setSelectedGarnitures(selectedGarnitures.filter(g => g !== garniture));
@@ -596,21 +604,39 @@ const handleToggleItem = (item) => {
 };
 
 
-const handleFinalizeOrder = () => {
-    console.log("L'utilisateur souhaite finaliser sa commande");
-    // Calculez le prochain numéro de commande ici
-    const nextOrderNumber = orderNumber >= 100 ? 1 : orderNumber + 1;
+// const handleFinalizeOrder = () => {
+//     console.log("L'utilisateur souhaite finaliser sa commande");
+//     // Calculez le prochain numéro de commande ici
+//     const nextOrderNumber = orderNumber >= 100 ? 1 : orderNumber + 1;
 
-    // Mettez à jour l'état avec le prochain numéro
-    setOrderNumber(nextOrderNumber);
+//     // Mettez à jour l'état avec le prochain numéro
+//     setOrderNumber(nextOrderNumber);
 
-    // Log pour vérifier le prochain numéro
-    console.log("Prochain numéro de commande:", nextOrderNumber);
+//     // Log pour vérifier le prochain numéro
+//     console.log("Prochain numéro de commande:", nextOrderNumber);
 
-    // Persistez immédiatement dans localStorage
-    localStorage.setItem('orderNumber', nextOrderNumber.toString());
-    // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
-    navigate('/order-summary', { state: { orderType, orderItems, total, orderNumber } });
+//     // Persistez immédiatement dans localStorage
+//     localStorage.setItem('orderNumber', nextOrderNumber.toString());
+//     // Ici, vous pouvez gérer la logique pour finaliser la commande, comme afficher un écran de paiement
+//     navigate('/order-summary', { state: { orderType, orderItems, total, orderNumber } });
+// };
+// Supposons que cette fonction est appelée pour finaliser la commande initialement
+const handleFinalizeOrder = async () => {
+    try {
+        const orderNumberResponse = await axios.get('https://maro.alwaysdata.net/api/next-order-number');
+        const nextOrderNumber = orderNumberResponse.data.nextOrderNumber;
+        console.log("Numéro de commande récupéré:", nextOrderNumber);
+
+        // Ici, vous pouvez passer nextOrderNumber à votre composant enfant ou le stocker dans un état partagé
+        // Exemple de mise à jour d'un état (si vous utilisez useState pour stocker le numéro de commande)
+        setOrderNumber(nextOrderNumber);
+
+        // Si vous naviguez vers un nouveau composant pour le paiement, vous pouvez passer cet état comme suit :
+        // navigate('/chemin-vers-composant-paiement', { state: { orderNumber: nextOrderNumber } });
+        navigate('/order-summary', { state: { orderType, orderItems, total, orderNumber: nextOrderNumber } });
+    } catch (error) {
+        console.error("Erreur lors de la récupération du numéro de commande:", error);
+    }
 };
 
     return (

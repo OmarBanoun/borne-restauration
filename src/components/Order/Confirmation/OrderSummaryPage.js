@@ -41,9 +41,13 @@ const OrderSummaryPage = () => {
 
     const handlePaymentOption = async () => {
         try {
-            // Supposons que vous avez une fonction pour construire le corps de la requête
             const orderDetails = {
-                items: orderItems, // Assurez-vous que cela correspond à la structure attendue par votre backend
+                items: orderItems.map(item => ({
+                    ...item,
+                    garnitures: item.garnitures ? item.garnitures.map(garniture => garniture.nom) : [],
+                    sauces: item.sauces ? item.sauces.map(sauce => sauce.nom) : [],
+                    supplements: item.supplements ? item.supplements.map(supplement => supplement.nom) : [],
+                })),
                 orderNumber,
                 total: parseFloat(total.replace(',', '.')), // Convertir en nombre si nécessaire
                 orderType, // ou toute autre information nécessaire
@@ -60,6 +64,7 @@ const OrderSummaryPage = () => {
             console.error("Erreur lors de la création de la commande:", error);
         }
     };
+    
 
     // const handlePaymentOption = () => {
     //     // Traiter le choix de paiement ici (option: 'comptoir' ou 'borne')
