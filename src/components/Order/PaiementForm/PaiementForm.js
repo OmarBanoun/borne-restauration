@@ -83,9 +83,26 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
     //         console.error('Erreur lors de l’envoi de la commande pour impression:', error);
     //     }
     // };
+    // const sendPrintDataToBackend = async (orderItems, total, orderType) => {
+    //     try {
+    //         const response = await axios.post("https://maro.alwaysdata.net/api/print", {
+    //             items: orderItems,
+    //             total: total,
+    //             orderType: orderType,
+    //         });
+    
+    //         if (response.status === 200) {
+    //             console.log('Commande envoyée au backend pour impression');
+    //         } else {
+    //             console.error('La réponse du backend n\'est pas correcte:', response.data);
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors de l’envoi de la commande pour impression:', error);
+    //     }
+    // };
     const sendPrintDataToBackend = async (orderItems, total, orderType) => {
         try {
-            const response = await axios.post("https://maro.alwaysdata.net/api/print", {
+            const response = await axios.post("https://maro.alwaysdata.net/api/print-order", {
                 items: orderItems,
                 total: total,
                 orderType: orderType,
@@ -100,6 +117,7 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
             console.error('Erreur lors de l’envoi de la commande pour impression:', error);
         }
     };
+    
     
 
     const confirmPaymentAndEmitEvent = async (paymentIntentId, orderItems, orderNumber) => {
