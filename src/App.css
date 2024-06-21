@@ -138,3 +138,6 @@ div:where(.swal2-container).swal2-backdrop-show{
 .primary-color{
   color: var(--primary-color)
 }
+h2{
+  font-size: 40px;
+}

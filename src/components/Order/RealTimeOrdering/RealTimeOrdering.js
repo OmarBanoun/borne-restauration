@@ -56,7 +56,7 @@ function RealTimeOrdering() {
       <div className='row'>
         <div className='col-6'>
           <h2 className='my-5 text-center'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
-          <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid var(--primary-color)', minHeight: '500px' }}>
+          <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid #a7a7a7', minHeight: '500px' }}>
             {orders.map((order) => (
               <li key={order.id} className="card my-2"> {/* Use order.id as unique key */}
                 <div className="card-body d-flex flex-column">

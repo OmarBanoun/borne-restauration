@@ -275,19 +275,17 @@ const Menu = () => {
             console.log(`Vous ne pouvez pas sélectionner plus de ${maxViandes} viande(s).`);
         }
     };
-
     const handleSelectSupplement = (supplement) => {
-        // Vérifier si le supplément est déjà sélectionné
-        if (selectedSupplements.find(s => s.id === supplement.id)) {
-            // Supprimer le supplément de la sélection
-            setSelectedSupplements(selectedSupplements.filter(s => s.id !== supplement.id));
-        } else {
-            // Ajouter le supplément à la sélection
-            setSelectedSupplements([...selectedSupplements, supplement]);
-        }
-        console.log("Supplements sélectionnés:", selectedSupplements);
+        setSelectedSupplements(prevState => {
+            const isAlreadySelected = prevState.includes(supplement);
+            const newSelection = isAlreadySelected 
+                ? prevState.filter(s => s !== supplement) 
+                : [...prevState, supplement];
+
+            console.log("Selected Supplements:", newSelection); // Log here to see selected supplements
+            return newSelection;
+        });
     };
-    
     const onSelectDessert = (dessert) => {
         if (selectedDesserts.includes(dessert)) {
             setSelectedDesserts(selectedDesserts.filter(d => d !== dessert));
