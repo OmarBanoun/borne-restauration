@@ -4,10 +4,10 @@
     color: var(--primary-color);
 }
 .optionButton {
-    margin: 15px 20px;
-    width: 180px;
-    height: 120px;
-    font-size: 23px;
+    margin: 35px 20px;
+    width: 200px;
+    height: 170px;
+    font-size: 31px;
 }
 .centrage{
     margin-top: 50%;
@@ -20,4 +20,7 @@
 }
 .select-item:active{
     border: 4px solid var(--primary-color);
+}
+.css-tzssek-MuiSvgIcon-root{
+    font-size: 3.1875rem !important;
 }

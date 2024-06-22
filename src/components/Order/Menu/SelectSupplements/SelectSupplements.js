@@ -44,8 +44,8 @@ const SelectSupplements = ({ supplements, onSelectSupplement, selectedSupplement
                                 const isSelected = selectedSupplements.includes(supplement);
                                 const selectionClass = isSelected ? 'selected-class' : '';
                                 return (
-                                    <div key={supplement.id} className={`col-4 mb-4`} onClick={() => onSelectSupplement(supplement)}>
-                                        <div className={selectionClass}>
+                                    <div key={supplement.id} className={`col-4 mb-4 ${selectionClass}`} onClick={() => onSelectSupplement(supplement)}>
+                                        <div>
                                             <img src={`https://maro.alwaysdata.net/${supplement.imageUrl}`} alt={supplement.nom} className="dessert-image img-fluid" />
                                             <h3 className='text-center itemName'>{supplement.nom}</h3>
                                             <p className="itemPrice orange text-center">+{supplement.prix.toFixed(2).replace('.', ',')}€</p>
