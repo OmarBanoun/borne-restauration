@@ -118,7 +118,7 @@ useEffect(() => {
               <li key={order.id} className="card my-2"> {/* Use order.id as unique key */}
                 <div className="card-body">
                   <h4 className='card-title'>N°{order.orderNumber}</h4>
-                  {order.orderItems.map((item, itemIndex) => (
+                  {order.orderItems && Array.isArray(order.orderItems) && order.orderItems.map((item, itemIndex) => (
                     <div key={itemIndex}> {/* Use itemIndex as key for orderItems */}
                       <h5 className="card-title">{item.nom}</h5>
                       <p className="card-text">{item.option}</p>
