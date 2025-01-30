@@ -15,20 +15,21 @@ function RealTimeOrdering() {
     return storedReadyOrders ? JSON.parse(storedReadyOrders) : [];
     });
 
-    useEffect(() => {
-    socket.on('order-confirmed', (newOrder) => {
-        const orderArray = Array.isArray(newOrder) ? newOrder : [newOrder];
-        setOrders(prevOrders => {
-        const updatedOrders = [...prevOrders, ...orderArray];
-        localStorage.setItem('orders', JSON.stringify(updatedOrders));
-        return updatedOrders;
-        });
+useEffect(() => {
+  socket.on('order-confirmed', (newOrder) => {
+    console.log('Nouvelle commande reçue :', newOrder); // Inspectez la structure des données
+    const orderArray = Array.isArray(newOrder) ? newOrder : [newOrder];
+    setOrders(prevOrders => {
+      const updatedOrders = [...prevOrders, ...orderArray];
+      localStorage.setItem('orders', JSON.stringify(updatedOrders));
+      return updatedOrders;
     });
+  });
 
-    return () => {
-        socket.off('order-confirmed');
-    };
-    }, []);
+  return () => {
+    socket.off('order-confirmed');
+  };
+}, []);
 
     const handleReadyClick = (order) => {
     setReadyOrders(prevReadyOrders => {
