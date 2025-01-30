@@ -63,7 +63,7 @@ useEffect(() => {
                 <div className="card-body d-flex flex-column">
                 <div className='mb-3'>
                   <h4 className='card-title'>N°{order.orderNumber}</h4>
-{order.items && order.items.map((item, itemIndex) => (
+{order.orderItems && order.orderItems.map((item, itemIndex) => (
   <div key={itemIndex} className='d-flex flex-column'>
     <h5 className="card-title">{item.nom}</h5>
     <p className="card-text">{item.option}</p>
@@ -78,7 +78,7 @@ useEffect(() => {
         <h6>Garnitures:</h6>
         {item.garnitures.map((garniture, garnitureIndex) => (
           <div className='list-style-none' key={garnitureIndex}>
-            {garniture.nom}
+            {garniture}
           </div>
         ))}
       </div>
@@ -88,7 +88,7 @@ useEffect(() => {
         <h6>Sauces:</h6>
         {item.sauces.map((sauce, sauceIndex) => (
           <div key={sauceIndex}>
-            {sauce.nom}
+            {sauce}
           </div>
         ))}
       </div>
