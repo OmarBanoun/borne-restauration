@@ -72,7 +72,7 @@ function RealTimeOrdering() {
                           <p className="card-text">{item.pain}</p>
                         </div>
                       )}
-                      {item.garnitures && item.garnitures.length > 0 && (
+                      {item.garnitures && (
                         <div className='mb-3'>
                           <h6>Garnitures:</h6>
                           {item.garnitures.map((garniture, garnitureIndex) => (
