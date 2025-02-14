@@ -15,6 +15,7 @@ import SupplementsPage from './Supplements/SupplementsPage';
 import SecondaryArticlesPage from './SecondaryArticle/SecondaryArticlePage';
 import CustomPage from './Custom/CustomPage';
 import OrdersPage from './Orders/OrdersPage';
+import StepPage from './Step/StepPage';
 
 const drawerWidth = 260;
 
@@ -36,6 +37,8 @@ const AdminDashboard = () => {
                 return 'Gestion des pains';
             case '/admin/garnitures':
                 return 'Gestion des garnitures';
+            case '/admin/step':
+                return 'Gestion des Etapes';
             default:
                 return 'Dashboard d\'Administration';
         }
@@ -112,6 +115,11 @@ const AdminDashboard = () => {
                 <ListItemText primary="Suppléments" />
             </ListItemButton>
             <hr />
+            <ListItemButton component={Link} to="/admin/step">
+                <ListItemIcon><ArticleIcon /></ListItemIcon>
+                <ListItemText primary="Etapes" />
+            </ListItemButton>
+            <hr />
             <ListItemButton component={Link} to="/admin/custom">
                 <ListItemIcon>
                     <BrushIcon />
@@ -139,6 +147,7 @@ const AdminDashboard = () => {
             <Route path='garnitures' element={<SecondaryArticlesPage type="garnitures" />} />
             <Route path='custom' element={<CustomPage />} />
             <Route path='orders' element={<OrdersPage />} />
+            <Route path='step' element={<StepPage type="step" />} />
             {/* Autres routes ici */}
             </Routes>
         </main>

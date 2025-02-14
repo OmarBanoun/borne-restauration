@@ -24,7 +24,7 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
             const paymentResult = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: 'http://localhost:3000',
+                    return_url: 'https://borne-restauration.vercel.app/',
                 },
                 redirect: 'if_required',
             });
@@ -35,7 +35,7 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
             } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
                 setAlert({ show: true, message: 'Paiement réussi', type: 'success' });
                 const totalNumerique = parseFloat(total.replace(',', '.'));
-                // Assurez-vous que orderNumber est un nombre
+                // On s'assure que orderNumber est un nombre
                 const orderNumberNumerique = parseInt(orderNumber, 10);
                 await sendOrderToBackend(orderItems, totalNumerique, "Carte", orderNumberNumerique);
                 console.log("Envoi des données d'impression au backend...");
@@ -61,7 +61,6 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
             });
             if (response.status === 201) {
                 console.log("Commande enregistrée avec succès:", response.data);
-                // Ici, vous pouvez gérer la réussite de l'enregistrement
             } else {
                 console.error("La commande n'a pas été enregistrée:", response.data);
             }
@@ -130,10 +129,8 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
     
             if (response.status === 200) {
                 console.log("Paiement confirmé, websocket émis :", response.data.message);
-                // Ici, vous pouvez gérer la suite, comme rediriger l'utilisateur vers une page de succès
             } else {
                 console.error("Paiement non confirmé :", response.data.message);
-                // Gérez l'échec du paiement ici
             }
         } catch (error) {
             console.error("Erreur lors de la confirmation du paiement :", error.response.data.message);

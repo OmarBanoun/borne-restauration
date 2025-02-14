@@ -12,28 +12,22 @@ import { loadStripe } from '@stripe/stripe-js';
 import Receipt from '../../../assets/receipt.png'
 
 const OrderSummaryPage = () => {
-    // const navigate = useNavigate();
     const location = useLocation();
     const navigate = useNavigate();
     const { total, orderItems, orderType, orderNumber } = location.state || {};
     const [clientSecret, setClientSecret] = useState(null);
     const [showStripeForm, setShowStripeForm] = useState(false);
     const [ShowComptoirPayment, setShowComptoirPayment] = useState(false);
-    const [paymentOption, setPaymentOption] = useState('');
 
     const stripePromise = loadStripe('pk_test_51Mbm5lB8C8ofx6bDkKoz0v3ywChiFZ0dQcCeugOjSpiKqLjE3cjcQWudzXvWER6omH7yDDhoReNTC8jvmZhdMM9S00CyxoCFLd');
 
-    // const handleBorneClick = () => {
-    //     setShowStripeForm(true);
-    // };
     const handleBorneClick = async () => {
-        // Ici, obtenez le clientSecret depuis votre backend avant d'afficher le formulaire
         try {
             const montantEnCentimes = Math.round(parseFloat(total.replace(',', '.')) * 100);
             const response = await axios.post('https://maro.alwaysdata.net/api/paiement', {montant: montantEnCentimes, orderItems: orderItems, orderNumber: orderNumber});
             const data = response.data;
-            setClientSecret(data.clientSecret); // Stockez le clientSecret obtenu
-            setShowStripeForm(true); // Affichez le formulaire seulement après avoir obtenu le clientSecret
+            setClientSecret(data.clientSecret); // Je stock le clientSecret obtenu
+            setShowStripeForm(true); // j'affiche le formulaire seulement après avoir obtenu le clientSecret
         } catch (error) {
             console.error("Erreur lors de la récupération du clientSecret:", error);
         }
@@ -49,36 +43,25 @@ const OrderSummaryPage = () => {
                     supplements: item.supplements ? item.supplements.map(supplement => supplement.nom) : [],
                 })),
                 orderNumber,
-                total: parseFloat(total.replace(',', '.')), // Convertir en nombre si nécessaire
-                orderType, // ou toute autre information nécessaire
-                status: "en attente", // Marquer la commande comme en attente
-                paymentMethod: "à définir", // Indiquer que le paiement se fera au comptoir
+                total: parseFloat(total.replace(',', '.')),
+                orderType,
+                status: "en attente",
+                paymentMethod: "à définir",
             };
     
             const response = await axios.post("https://maro.alwaysdata.net/api/orders", orderDetails);
             if (response.status === 201) {
                 console.log("Commande créée avec succès:", response.data);
-                setShowComptoirPayment(true); // Afficher l'UI pour le paiement au comptoir
+                setShowComptoirPayment(true);
             }
         } catch (error) {
             console.error("Erreur lors de la création de la commande:", error);
         }
     };
-    
 
-    // const handlePaymentOption = () => {
-    //     // Traiter le choix de paiement ici (option: 'comptoir' ou 'borne')
-    //     // console.log("Option de paiement choisie :", option);
-    //     // setPaymentOption(option);
-    //     // Rediriger vers la page appropriée ou afficher un message de confirmation
-    //     // navigate('/confirmation');
-    //     setShowComptoirPayment(true);
-    // };
     useEffect(() => {
-        // Ajouter la classe quand le composant est monté
         document.getElementById('root').classList.add('max-height');
     
-        // Retirer la classe quand le composant est démonté
         return () => {
             document.getElementById('root').classList.remove('max-height');
         };
@@ -86,18 +69,16 @@ const OrderSummaryPage = () => {
     useEffect(() => {
         if (ShowComptoirPayment) {
             const timer = setTimeout(() => {
-                navigate('/'); // Redirection vers la page d'accueil
-            }, 5000); // Redirection après 5 secondes
+                navigate('/');
+            }, 5000);
 
-            return () => clearTimeout(timer); // Nettoyer le timer si le composant est démonté avant la redirection
+            return () => clearTimeout(timer);
         }
     }, [ShowComptoirPayment, navigate]);
     return (
         <div className="order-summary-page">
             {!showStripeForm && !ShowComptoirPayment && (
             <div className='order-summary-page-container'>
-                {/* <p>Type de commande: {orderType === 'sur_place' ? 'Sur Place' : 'À Emporter'}</p> */}
-                {/* Afficher les détails des éléments de commande ici */}
                 <h2>Comment souhaitez-vous régler votre commande ?</h2>
                 <div className='order-type-selection cards-pay'>
                     <div className='card card-pay' onClick={() => handlePaymentOption('comptoir')}>

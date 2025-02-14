@@ -19,11 +19,14 @@ import CreateSupplement from './admin/Supplements/CreateSupplement';
 import EditSupplement from './admin/Supplements/EditSupplement';
 import CreateSecondaryArticle from './admin/SecondaryArticle/CreateSecondaryArticle';
 import EditSecondaryArticle from './admin/SecondaryArticle/EditSecondaryArticle';
+import CreateStepPage from './admin/Step/CreateStepPage';
+import EditStep from './admin/Step/EditStep';
 import LoginPage from './admin/loginForm';
 import PrivateRoute from './admin/PrivateRoute';
 import { AuthProvider } from './admin/AuthContext';
 import RealTimeOrdering from './components/Order/RealTimeOrdering/RealTimeOrdering';
 import { UseThemeSettings } from './components/Common/ThemeManager';
+// import StepsManager from './admin/Step/StepPage';
 import { useInactivityAlert } from './components/Common/InactivityAlert';
 import VueComptoir from './VueComptoir/VueComptoir';
 
@@ -52,6 +55,9 @@ function App() {
       <Route path="/admin/edit-secondary-article/:type/:id" element={<EditSecondaryArticle />} />
       <Route path='/admin/create-supplement' element={<CreateSupplement />} />
       <Route path='/admin/edit-supplement/:id' element={<EditSupplement />} />
+      {/* <Route path='/admin/step' element={<StepsManager />} /> */}
+      <Route path='/admin/create-step' element={<CreateStepPage />} />
+      <Route path='/admin/edit-step/:id' element={<EditStep />} />
       {/* <Route path='/admin/orders' element={<OrdersPage />} /> */}
       <Route path="/real-time-ordering" element={<RealTimeOrdering />} />
       <Route path="/vuecomptoir" element={<VueComptoir />} />

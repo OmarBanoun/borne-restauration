@@ -17,7 +17,7 @@ a{
 .summary-section{
     display: flex;
     justify-content: space-between;
-    height: 473px;
+    height: 400px;
 }
 .order-product{
     width: 75.1%;

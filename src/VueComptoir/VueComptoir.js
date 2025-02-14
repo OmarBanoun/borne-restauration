@@ -23,8 +23,7 @@ const VueComptoir = () => {
             setCommandes((commandesActuelles) => [...commandesActuelles, nouvelleCommande]);
         });
     
-        // Écouter les mises à jour des commandes
-        socket.on('commande mise à jour', (commandeMiseAJour) => {
+        socket.on('mise à jour commande', (commandeMiseAJour) => {
             setCommandes((commandesActuelles) => commandesActuelles.map(commande => 
                 commande._id === commandeMiseAJour._id ? commandeMiseAJour : commande
             ));
@@ -32,7 +31,7 @@ const VueComptoir = () => {
     
         return () => {
             socket.off('nouvelle commande');
-            socket.off('mise à jour commande'); // Ne pas oublier de se désabonner de l'événement
+            socket.off('mise à jour commande');
         };
     }, []);
 
@@ -49,7 +48,7 @@ const VueComptoir = () => {
         try {
             await axios.patch(`https://maro.alwaysdata.net/api/orders/${id}`, {
                 paymentMethod: method,
-                status: "Payé", // Optionnellement, mettre à jour le statut si nécessaire
+                status: "Payé",
                 orderItems: orderItems
             });
             // Filtrer pour enlever la commande mise à jour de l'affichage

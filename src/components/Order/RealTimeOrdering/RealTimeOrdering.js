@@ -17,7 +17,7 @@ function RealTimeOrdering() {
 
 useEffect(() => {
   socket.on('order-confirmed', (newOrder) => {
-    console.log('Nouvelle commande reçue :', newOrder); // Inspectez la structure des données
+    console.log('Nouvelle commande reçue :', newOrder);
     const orderArray = Array.isArray(newOrder) ? newOrder : [newOrder];
     setOrders(prevOrders => {
       const updatedOrders = [...prevOrders, ...orderArray];
@@ -59,50 +59,50 @@ useEffect(() => {
           <h2 className='my-5 text-center'>Commandes Confirmées <i class="fa-regular fa-hourglass-half pt-1 primary-color" style={{ marginLeft: '15px' }}></i></h2>
           <ul className='d-flex flex-wrap' style={{ borderRight: '3px solid #a7a7a7', minHeight: '500px' }}>
             {orders.map((order) => (
-              <li key={order.id} className="card my-2"> {/* Use order.id as unique key */}
+              <li key={order.id} className="card my-2"> 
                 <div className="card-body d-flex flex-column">
                 <div className='mb-3'>
                   <h4 className='card-title'>N°{order.orderNumber}</h4>
-{order.orderItems && order.orderItems.map((item, itemIndex) => (
-  <div key={itemIndex} className='d-flex flex-column'>
-    <h5 className="card-title">{item.nom}</h5>
-    <p className="card-text">{item.option}</p>
-    {item.pain && (
-      <div className='mb-3'>
-        <h6>Pain:</h6>
-        <p className="card-text">{item.pain}</p>
-      </div>
-    )}
-    {item.garnitures && item.garnitures.length > 0 && (
-      <div className='mb-3'>
-        <h6>Garnitures:</h6>
-        {item.garnitures.map((garniture, garnitureIndex) => (
-          <div className='list-style-none' key={garnitureIndex}>
-            {garniture}
-          </div>
-        ))}
-      </div>
-    )}
-    {item.sauces && item.sauces.length > 0 && (
-      <div className='mb-3'>
-        <h6>Sauces:</h6>
-        {item.sauces.map((sauce, sauceIndex) => (
-          <div key={sauceIndex}>
-            {sauce}
-          </div>
-        ))}
-      </div>
-    )}
-    {item.drink && (
-      <div className='mb-3'>
-        <h6>Boisson:</h6>
-        <p className="card-text">{item.drink}</p>
-      </div>
-    )}
-    <hr />
-    <p className="card-text">{orderType === 'a_emporter' ? 'À emporter' : 'Sur Place'}</p>
-  </div>
-))}
+                  {order.orderItems && order.orderItems.map((item, itemIndex) => (
+                    <div key={itemIndex} className='d-flex flex-column'>
+                      <h5 className="card-title">{item.nom}</h5>
+                      <p className="card-text">{item.option}</p>
+                      {item.pain && (
+                        <div className='mb-3'>
+                          <h6>Pain:</h6>
+                          <p className="card-text">{item.pain}</p>
+                        </div>
+                      )}
+                      {item.garnitures && item.garnitures.length > 0 && (
+                        <div className='mb-3'>
+                          <h6>Garnitures:</h6>
+                          {item.garnitures.map((garniture, garnitureIndex) => (
+                            <div className='list-style-none' key={garnitureIndex}>
+                              {garniture}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {item.sauces && item.sauces.length > 0 && (
+                        <div className='mb-3'>
+                          <h6>Sauces:</h6>
+                          {item.sauces.map((sauce, sauceIndex) => (
+                            <div key={sauceIndex}>
+                              {sauce}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {item.drink && (
+                        <div className='mb-3'>
+                          <h6>Boisson:</h6>
+                          <p className="card-text">{item.drink}</p>
+                        </div>
+                      )}
+                      <hr />
+                      <p className="card-text">{orderType === 'a_emporter' ? 'À emporter' : 'Sur Place'}</p>
+                    </div>
+                  ))}
                 </div>
                 <button className="btn btn-success d-flex justify-content-evenly align-items-center col-10 mx-auto mt-auto py-3" onClick={() => handleReadyClick(order)}><b>Prêt</b> <i className="fas fa-check text-white pt-1"></i></button>
                 </div>
