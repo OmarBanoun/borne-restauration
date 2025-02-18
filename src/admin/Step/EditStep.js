@@ -14,7 +14,6 @@ import {
   CircularProgress,
   Alert
 } from '@mui/material';
-import { set } from 'date-fns';
 
 const EditStep = () => {
   const { id } = useParams();
@@ -22,6 +21,7 @@ const EditStep = () => {
   const [selectedCategories, setSelectedCategories] = useState([]); 
   const [maxOptions, setMaxOptions] = useState("");
   const [description, setDescription] = useState("");
+  const [stepType, setStepType] = useState("FREE");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [categorie, setCategorie] = useState("");
@@ -50,6 +50,7 @@ const EditStep = () => {
         setNom(step.nom || '');
         setDescription(step.description || '');
         setCategories(categoriesRes.data);
+        setStepType(step.stepType || 'FREE');
         const categoriesIds = step.categories.map(cat => typeof cat === 'object' ? cat._id : cat);
         setSelectedCategories(categoriesIds);
         if (step.maxOptions && step.maxOptions > 0) {
@@ -66,7 +67,7 @@ const EditStep = () => {
           
           if (!opt || typeof opt === 'string') {
               console.warn('Option invalide:', opt);
-              return { nom: '', imageUrl: '' };
+              return { nom: '', imageUrl: '', prixSupplémentaire: 0 };
           }
       
           // Construction de l'URL de la même manière que dans EditArticle
@@ -79,7 +80,8 @@ const EditStep = () => {
           return {
               _id: opt._id,
               nom: opt.nom,
-              imageUrl: imageUrl
+              imageUrl: imageUrl,
+              prixSupplémentaire: opt.prixSupplémentaire || 0
           };
       });
 
@@ -149,6 +151,7 @@ const EditStep = () => {
         nom: "",            // nom vide par défaut
         imageUrl: "",       // pas d'image par défaut
         imageFile: null,    // pas de fichier par défaut
+        prixSupplémentaire: 0, // prix supplémentaire par défaut
         isNew: true        // marqueur pour identifier les nouvelles options
       }
     ]);
@@ -188,6 +191,7 @@ const handleSubmit = async (e) => {
   formData.append("nom", nom);
   formData.append("description", description);
   formData.append("categories", JSON.stringify(selectedCategories));
+  formData.append("stepType", stepType);
   const maxOptionsValue = maxOptions === '' ? -1 : parseInt(maxOptions, 10);
   console.log('maxOptions avant envoi:', maxOptionsValue);
   formData.append("maxOptions", maxOptionsValue);
@@ -201,6 +205,7 @@ const handleSubmit = async (e) => {
       existingOptions.push({
         _id: option._id,
         nom: option.nom,
+        prixSupplémentaire: option.prixSupplémentaire,
         hasNewImage: !!option.imageFile
       });
       if (option.imageFile) {
@@ -209,6 +214,7 @@ const handleSubmit = async (e) => {
     } else {
       newOptions.push({
         nom: option.nom,
+        prixSupplémentaire: option.prixSupplémentaire,
         hasImage: !!option.imageFile
       });
       if (option.imageFile) {
@@ -311,6 +317,19 @@ const handleSubmit = async (e) => {
       style={{ marginBottom: 20 }}
     />
 
+    <FormControl fullWidth style={{ marginBottom: 20 }}>
+      <InputLabel>Type d'étape</InputLabel>
+      <Select
+        value={stepType}
+        onChange={(e) => setStepType(e.target.value)}
+        required
+      >
+        <MenuItem value="FREE">Gratuit</MenuItem>
+        <MenuItem value="PAID">Payant</MenuItem>
+        <MenuItem value="MIXED">Mixte</MenuItem>
+      </Select>
+    </FormControl>
+
     <TextField
       type="number"
       fullWidth
@@ -344,29 +363,40 @@ const handleSubmit = async (e) => {
           style={{ marginBottom: 10 }}
         />
 
-<div key={index}>
-    <input
-      type="file"
-      accept="image/*"
-      onChange={(e) => handleImageChange(index, e.target.files[0])}
-    />
-    {(tempImageUrls[index] || option.imageUrl) && (
-  <img
-    src={tempImageUrls[index] || option.imageUrl}
-    alt={`Prévisualisation ${option.nom}`}
-    style={{
-      maxWidth: 100,
-      display: 'block',
-      margin: '10px 0',
-      borderRadius: 4
-    }}
-    onError={(e) => {
-      e.target.style.display = 'none';
-      console.error("Erreur image:", tempImageUrls[index] || option.imageUrl);
-    }}
-  />
-)}
-  </div>
+        {stepType === 'PAID' && (
+          <TextField
+            type="number"
+            fullWidth
+            label="Prix Supplémentaire"
+            value={option.prixSupplémentaire}
+            onChange={(e) => handleOptionChange(index, 'prixSupplémentaire', e.target.value)}
+            style={{ marginBottom: 10 }}
+          />
+        )}
+
+        <div key={index}>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageChange(index, e.target.files[0])}
+          />
+          {(tempImageUrls[index] || option.imageUrl) && (
+            <img
+              src={tempImageUrls[index] || option.imageUrl}
+              alt={`Prévisualisation ${option.nom}`}
+              style={{
+                maxWidth: 100,
+                display: 'block',
+                margin: '10px 0',
+                borderRadius: 4
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                console.error("Erreur image:", tempImageUrls[index] || option.imageUrl);
+              }}
+            />
+          )}
+        </div>
 
         <Button 
           variant="outlined" 

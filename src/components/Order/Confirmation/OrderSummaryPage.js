@@ -24,12 +24,19 @@ const OrderSummaryPage = () => {
     const handleBorneClick = async () => {
         try {
             const montantEnCentimes = Math.round(parseFloat(total.replace(',', '.')) * 100);
-            const response = await axios.post('https://maro.alwaysdata.net/api/paiement', {montant: montantEnCentimes, orderItems: orderItems, orderNumber: orderNumber});
-            const data = response.data;
-            setClientSecret(data.clientSecret); // Je stock le clientSecret obtenu
-            setShowStripeForm(true); // j'affiche le formulaire seulement après avoir obtenu le clientSecret
+            // Initialiser uniquement le paiement Stripe
+            const response = await axios.post('https://maro.alwaysdata.net/api/paiement', {
+                montant: montantEnCentimes,
+                orderItems: orderItems,
+                orderNumber: orderNumber
+            });
+    
+            if (response.data.clientSecret) {
+                setClientSecret(response.data.clientSecret);
+                setShowStripeForm(true);
+            }
         } catch (error) {
-            console.error("Erreur lors de la récupération du clientSecret:", error);
+            console.error("Erreur lors de l'initialisation du paiement:", error);
         }
     };
 
@@ -38,18 +45,20 @@ const OrderSummaryPage = () => {
             const orderDetails = {
                 items: orderItems.map(item => ({
                     ...item,
-                    garnitures: item.garnitures ? item.garnitures.map(garniture => garniture.nom) : [],
-                    sauces: item.sauces ? item.sauces.map(sauce => sauce.nom) : [],
-                    supplements: item.supplements ? item.supplements.map(supplement => supplement.nom) : [],
+                    options: item.options ? Object.entries(item.options).reduce((acc, [key, value]) => {
+                        acc[key] = value.map(opt => opt._id);
+                        return acc;
+                    }, {}) : {}
                 })),
                 orderNumber,
                 total: parseFloat(total.replace(',', '.')),
                 orderType,
                 status: "en attente",
-                paymentMethod: "à définir",
+                paymentMethod: "à définir" // Important : on met "à définir" pour que la commande apparaisse dans VueComptoir
             };
     
             const response = await axios.post("https://maro.alwaysdata.net/api/orders", orderDetails);
+            
             if (response.status === 201) {
                 console.log("Commande créée avec succès:", response.data);
                 setShowComptoirPayment(true);

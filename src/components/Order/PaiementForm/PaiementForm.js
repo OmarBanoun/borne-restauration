@@ -124,7 +124,9 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
             const response = await axios.post("https://maro.alwaysdata.net/api/payment-confirmed", {
                 paymentIntentId,
                 orderItems,
-                orderNumber
+                orderNumber,
+                orderType, // Ajouter orderType
+                total: parseFloat(total.replace(',', '.')) // Ajouter le total
             });
     
             if (response.status === 200) {
@@ -133,10 +135,9 @@ const PaiementForm = ({ total, orderItems, orderType, orderNumber }) => {
                 console.error("Paiement non confirmé :", response.data.message);
             }
         } catch (error) {
-            console.error("Erreur lors de la confirmation du paiement :", error.response.data.message);
+            console.error("Erreur lors de la confirmation du paiement :", error.response?.data?.message);
         }
     };
-    
 
     return (
         <>

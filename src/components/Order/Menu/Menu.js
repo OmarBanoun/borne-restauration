@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Menu.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { calculateTotal } from "../../utils";
+import { calculateTotal, calculateItemPrice } from "../../utils";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -23,6 +23,10 @@ import imgSP from "../../../assets/SP.png";
 import imgAE from "../../../assets/a-emporter.png";
 import RealTimeOrdering from "../RealTimeOrdering/RealTimeOrdering";
 import { useInactivityAlert } from "../../Common/InactivityAlert";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
 
 const Menu = () => {
 	const [categories, setCategories] = useState([]);
@@ -195,29 +199,32 @@ const Menu = () => {
 			setCurrentStep("choixDessert");
 		} else {
 			// Vérifier si la catégorie a des étapes associées
-			const categorySteps = steps.filter(step => 
-				step.categories.some(cat => 
-					(typeof cat === 'object' ? cat._id : cat) === category._id
+			const categorySteps = steps.filter((step) =>
+				step.categories.some(
+					(cat) => (typeof cat === "object" ? cat._id : cat) === category._id
 				)
 			);
-	
+
 			console.log("Étapes trouvées pour la catégorie:", categorySteps);
-			
+
 			setSelectedCategory(category.nom);
 			setCurrentStep("choixArticle");
 		}
 	};
 	const handleItemClick = (item) => {
-		setSelectedItem(item);
+		setSelectedItem({
+			...item,
+			prix: item.prix || 0 // Assurez-vous que le prix de base est initialisé
+		});
 		setSelectedOption(null);
-	
-		if (item.nom.toLowerCase().includes('tacos')) {
+
+		if (item.nom.toLowerCase().includes("tacos")) {
 			const match = item.nom.match(/(\d+)\s*viande/i);
 			if (match) {
 				const nbViandes = parseInt(match[1], 10);
 				console.log(`Tacos ${nbViandes} viande(s) détecté`);
-				const updatedSteps = steps.map(step => {
-					if (step.nom.toLowerCase().includes('viande')) {
+				const updatedSteps = steps.map((step) => {
+					if (step.nom.toLowerCase().includes("viande")) {
 						return { ...step, maxOptions: nbViandes };
 					}
 					return step;
@@ -225,18 +232,24 @@ const Menu = () => {
 				setSteps(updatedSteps);
 			}
 		}
-	
+
 		// Trouver les étapes associées aux catégories de l'item
-		const categorySteps = steps.filter(step => 
-			step.categories.some(cat => 
-				(typeof cat === 'object' ? cat._id : cat) === item.categorie._id
+		const categorySteps = steps
+			.filter((step) =>
+				step.categories.some(
+					(cat) =>
+						(typeof cat === "object" ? cat._id : cat) === item.categorie._id
+				)
 			)
-		).filter(step => !step.nom.toLowerCase().includes('boisson')); // Exclure l'étape boisson
-	
+			.filter((step) => !step.nom.toLowerCase().includes("boisson")); // Exclure l'étape boisson
+
+		console.log("Item sélectionné:", item);
+		console.log("Catégorie ID:", item.categorie._id);
+		console.log("Étapes disponibles:", steps);
 		console.log("Étapes trouvées pour la catégorie:", categorySteps);
-	
+
 		// Si aucune étape OU une seule étape, aller directement à choixOption
-		if (categorySteps.length === 0 || categorySteps.length === 1) {
+		if (categorySteps.length === 0) {
 			setCurrentStep("choixOption");
 		} else {
 			// Sinon commencer par la première étape
@@ -247,26 +260,39 @@ const Menu = () => {
 		(item) => item.categorie.nom === selectedCategory
 	);
 	const handleOptionSelect = (item, option) => {
-		// Sauvegarder l'option sélectionnée
 		setSelectedOption(option);
 	
-		if (option === "menu") {
-			// Si c'est un menu, chercher l'étape boisson
-			const boissonStep = steps.find(step => 
-				step.nom.toLowerCase().includes('boisson')
-			);
-			if (boissonStep) {
-				setCurrentStep(boissonStep.nom);
-			}
-		} else {
-			// Si ce n'est pas un menu, finaliser la commande
+		if (option === "seul") {
 			const finalItem = {
 				...item,
 				type: option,
-				options: selectedOptions,
-				prix: option === "menu" ? item.prix + 2 : item.prix,
+				prix: item.prix, // Utiliser le prix actuel sans recalculer
 			};
 			handleAddToCart(finalItem);
+		} else if (option === "menu") {
+			const finalItem = {
+				...item,
+				type: option,
+				prix: item.prix + 2, // Ajouter le supplément pour le menu
+			};
+	
+			// Trouver toutes les étapes pour la catégorie de l'item sélectionné
+			const categorySteps = steps.filter((step) =>
+				step.categories.some(
+					(cat) => cat._id === item.categorie._id || cat === item.categorie._id
+				)
+			);
+	
+			// Aller à la dernière étape avant choixOption
+			const filteredCategorySteps = categorySteps.filter((step) =>
+				step.nom.toLowerCase().includes("boisson")
+			);
+	
+			if (filteredCategorySteps.length > 0) {
+				setCurrentStep(filteredCategorySteps[0].nom);
+			} else {
+				handleAddToCart(finalItem);
+			}
 		}
 	};
 	// handleSelectPain
@@ -329,15 +355,17 @@ const Menu = () => {
 
 	const handleSelectViande = (viande) => {
 		if (selectedViandes.includes(viande)) {
-			setSelectedViandes(selectedViandes.filter(v => v !== viande));
+			setSelectedViandes(selectedViandes.filter((v) => v !== viande));
 		} else if (selectedViandes.length < maxViandes) {
 			setSelectedViandes([...selectedViandes, viande]);
 		} else {
 			Swal.fire({
 				title: "Maximum atteint !",
-				text: `Vous ne pouvez sélectionner que ${maxViandes} viande${maxViandes > 1 ? 's' : ''} pour ce tacos`,
+				text: `Vous ne pouvez sélectionner que ${maxViandes} viande${
+					maxViandes > 1 ? "s" : ""
+				} pour ce tacos`,
 				icon: "warning",
-				confirmButtonColor: "#3085d6"
+				confirmButtonColor: "#3085d6",
 			});
 		}
 	};
@@ -361,16 +389,20 @@ const Menu = () => {
 	};
 
 	const handleNextClick = () => {
-		const categorySteps = steps.filter(step => 
-			step.categories.some(cat => 
-				(typeof cat === 'object' ? cat._id : cat) === selectedItem.categorie._id
+		const categorySteps = steps
+			.filter((step) =>
+				step.categories.some(
+					(cat) =>
+						(typeof cat === "object" ? cat._id : cat) ===
+						selectedItem.categorie._id
+				)
 			)
-		).filter(step => !step.nom.toLowerCase().includes('boisson')); // Exclure l'étape boisson
-	
+			.filter((step) => !step.nom.toLowerCase().includes("boisson")); // Exclure l'étape boisson
+
 		const currentStepIndex = categorySteps.findIndex(
-			step => step.nom === currentStep
+			(step) => step.nom === currentStep
 		);
-	
+
 		if (currentStepIndex === categorySteps.length - 1) {
 			setCurrentStep("choixOption");
 		} else {
@@ -479,31 +511,44 @@ const Menu = () => {
 
 	const handleBackClick = () => {
 		if (currentStep === "choixOption") {
-			const categorySteps = steps.filter(step => 
-				step.categories.some(cat => 
-					(typeof cat === 'object' ? cat._id : cat) === selectedItem.categorie._id
+			// Trouver toutes les étapes pour la catégorie de l'item sélectionné
+			const categorySteps = steps.filter((step) =>
+				step.categories.some(
+					(cat) => cat._id === selectedItem.categorie._id || cat === selectedItem.categorie._id
 				)
 			);
-			setCurrentStep(categorySteps[categorySteps.length - 1].nom);
+			// Aller à la dernière étape avant choixOption
+			const filteredCategorySteps = selectedOption === "menu"
+				? categorySteps
+				: categorySteps.filter((step) => !step.nom.toLowerCase().includes("boisson"));
+			setCurrentStep(filteredCategorySteps[filteredCategorySteps.length - 1].nom);
 			return;
 		}
+	
 		if (!selectedItem) {
 			// Si pas d'item sélectionné, retour au choix de catégorie
 			setCurrentStep("choixCategorie");
 			setSelectedCategory(null);
 			return;
 		}
-
+	
 		// Récupérer toutes les étapes de la catégorie actuelle
-		const categorySteps = steps.filter(step => 
-			step.categories.includes(selectedItem.categorie._id)
+		const categorySteps = steps.filter((step) =>
+			step.categories.some(
+				(cat) => cat._id === selectedItem.categorie._id || cat === selectedItem.categorie._id
+			)
 		);
-
+	
+		// Filtrer les étapes pour exclure les boissons si l'option "en menu" n'est pas sélectionnée
+		const filteredCategorySteps = selectedOption === "menu"
+			? categorySteps
+			: categorySteps.filter((step) => !step.nom.toLowerCase().includes("boisson"));
+	
 		// Trouver l'index de l'étape actuelle
-		const currentStepIndex = categorySteps.findIndex(
-			step => step.nom === currentStep
+		const currentStepIndex = filteredCategorySteps.findIndex(
+			(step) => step.nom === currentStep
 		);
-
+	
 		if (currentStepIndex <= 0) {
 			// Si on est à la première étape, retour au choix d'article
 			setCurrentStep("choixArticle");
@@ -512,9 +557,8 @@ const Menu = () => {
 			resetSelectionsForStep(currentStep);
 		} else {
 			// Sinon, aller à l'étape précédente
-			setCurrentStep(categorySteps[currentStepIndex - 1].nom);
-			// Réinitialiser les sélections de l'étape actuelle
-			resetSelectionsForStep(currentStep);
+			setCurrentStep(filteredCategorySteps[currentStepIndex - 1].nom);
+			// Ne pas réinitialiser les sélections car on veut garder l'historique
 		}
 	};
 
@@ -545,18 +589,31 @@ const Menu = () => {
 	};
 
 	const handleOptionSelection = (stepName, option) => {
-		const currentStep = steps.find(s => s.nom === stepName);
-		
-		// Récupérer les sélections actuelles pour cette étape
+		const currentStep = steps.find((s) => s.nom === stepName);
 		const currentSelections = selectedOptions[stepName] || [];
-		const isSelected = currentSelections.some(opt => opt._id === option._id);
+		const isSelected = currentSelections.some((opt) => opt._id === option._id);
 	
 		// Si l'option est déjà sélectionnée, la retirer
 		if (isSelected) {
-			setSelectedOptions(prev => ({
-				...prev,
-				[stepName]: currentSelections.filter(opt => opt._id !== option._id)
-			}));
+			const updatedOptions = {
+				...selectedOptions,
+				[stepName]: currentSelections.filter((opt) => opt._id !== option._id),
+			};
+			setSelectedOptions(updatedOptions);
+	
+			// Mise à jour de l'item avec les nouvelles options et le prix recalculé
+			setSelectedItem((prevItem) => {
+				if (!prevItem) return null;
+	
+				// Calculer le nouveau prix en soustrayant le prix supplémentaire
+				const newPrice = (prevItem.prix || 0) - (option.prixSupplémentaire || 0);
+	
+				return {
+					...prevItem,
+					options: updatedOptions,
+					prix: newPrice
+				};
+			});
 			return;
 		}
 	
@@ -564,71 +621,143 @@ const Menu = () => {
 		if (currentStep.maxOptions && currentStep.maxOptions > 0) {
 			if (currentSelections.length >= currentStep.maxOptions) {
 				Swal.fire({
-					title: 'Maximum atteint !',
+					title: "Maximum atteint !",
 					text: `Vous ne pouvez sélectionner que ${currentStep.maxOptions} option(s)`,
-					icon: 'warning',
-					confirmButtonColor: "#3085d6"
+					icon: "warning",
+					confirmButtonColor: "#3085d6",
 				});
 				return;
 			}
 		}
-
-		if (stepName.toLowerCase().includes('boisson')) {
-			setSelectedOptions(prev => ({
-				...prev,
-				[stepName]: [option]
-			}));
 	
-			// Créer l'item final avec la boisson
+		// Cas spécial pour les boissons
+		if (stepName.toLowerCase().includes("boisson")) {
+			const updatedOptions = {
+				...selectedOptions,
+				[stepName]: [option],
+			};
+			setSelectedOptions(updatedOptions);
+	
 			const finalItem = {
 				...selectedItem,
 				type: "menu",
-				options: {
-					...selectedOptions,
-					[stepName]: [option]
-				},
-				prix: selectedItem.prix + 2, // Prix menu
+				options: updatedOptions,
 			};
 			handleAddToCart(finalItem);
 			return;
 		}
 	
-		// Gérer la sélection en fonction du type d'étape
-		if (currentStep.type === "single") {
-			// Sélection unique - remplacer l'option existante
-			setSelectedOptions(prev => ({
-				...prev,
-				[stepName]: [option]
+		// Gestion des sélections uniques vs multiples
+		if (currentStep.type === "single" || currentStep.maxOptions === 1) {
+			const updatedOptions = {
+				...selectedOptions,
+				[stepName]: [option],
+			};
+	
+			setSelectedOptions(updatedOptions);
+			setSelectedItem((prevItem) => ({
+				...prevItem,
+				options: updatedOptions,
+				prix: (prevItem.prix || 0) + (option.prixSupplémentaire || 0)
 			}));
 	
-			// Vérifier si c'est la dernière étape normale
-			const categorySteps = steps.filter(step => 
-				step.categories.some(cat => 
-					(typeof cat === 'object' ? cat._id : cat) === selectedItem.categorie._id
+			// Vérifier si c'est la dernière étape
+			const categorySteps = steps
+				.filter((step) =>
+					step.categories.some(
+						(cat) =>
+							(typeof cat === "object" ? cat._id : cat) ===
+							selectedItem.categorie._id
+					)
 				)
+				.filter((step) => !step.nom.toLowerCase().includes("boisson"));
+	
+			const currentStepIndex = categorySteps.findIndex(
+				(step) => step.nom === stepName
 			);
-			const currentStepIndex = categorySteps.findIndex(step => step.nom === stepName);
 			const isLastStep = currentStepIndex === categorySteps.length - 1;
 	
 			if (isLastStep) {
-				setCurrentStep("choixOption"); // Toujours aller à choixOption d'abord
-			} else {
+				setCurrentStep("choixOption");
+			} else if (currentStep.maxOptions === 1) {
 				handleNextClick();
 			}
 		} else {
-			// Sélection multiple - ajouter à la liste
-			setSelectedOptions(prev => ({
-				...prev,
-				[stepName]: [...currentSelections, option]
+			// Sélection multiple
+			const updatedOptions = {
+				...selectedOptions,
+				[stepName]: [...currentSelections, option],
+			};
+	
+			setSelectedOptions(updatedOptions);
+			setSelectedItem((prevItem) => ({
+				...prevItem,
+				options: updatedOptions,
+				prix: (prevItem.prix || 0) + (option.prixSupplémentaire || 0)
 			}));
 		}
 	};
-
+	// Ajout de la fonction pour passer à l'étape suivante sans sélectionner de supplément
+	const handleSkipStep = (stepName) => {
+		const step = steps.find(s => s.nom === stepName);
+		console.log('Step actuelle:', step);
+		console.log('Options actuelles:', selectedOptions);
+	
+		if (step.stepType === 'FREE') return;
+	
+		// Vérifier si des options ont été ajoutées pour cette étape
+		const optionsForStep = selectedOptions[stepName] || [];
+	
+		// Calculer le total des suppléments ajoutés pour cette étape
+		const supplementsToRemove = optionsForStep.reduce((total, option) => {
+			return total + (option.prixSupplémentaire || 0);
+		}, 0);
+	
+		console.log('Prix des suppléments à retirer:', supplementsToRemove);
+	
+		// Mettre à jour les options sans cette étape
+		const updatedOptions = { ...selectedOptions };
+		delete updatedOptions[stepName];
+	
+		console.log('Options mises à jour après suppression:', updatedOptions);
+	
+		setSelectedOptions(updatedOptions);
+	
+		// Mettre à jour le prix en enlevant uniquement les suppléments
+		setSelectedItem(prevItem => {
+			if (!prevItem) return null;
+	
+			console.log('Prix avant modification:', prevItem.prix);
+	
+			const newPrice = Math.max(0, prevItem.prix - supplementsToRemove);
+			console.log('Nouveau prix après suppression des suppléments:', newPrice);
+	
+			return {
+				...prevItem,
+				options: updatedOptions,
+				prix: newPrice
+			};
+		});
+	
+		handleNextClick();
+	};
+	
+	
 	const shouldShowNextButton = (step) => {
 		const currentSelections = selectedOptions[step.nom];
 
+		// Cas spécial pour les viandes dans les tacos
+		if (step.nom.toLowerCase().includes("viande")) {
+			// Afficher le bouton uniquement quand le nombre exact de viandes est sélectionné
+			return currentSelections?.length === step.maxOptions;
+		}
+
+		// Pour les autres étapes, ne pas afficher le bouton si maxOptions = 1
+		if (step.maxOptions === 1) return false;
+
+		// Pour les autres types d'étapes
 		if (step.type === "single") {
-			return currentSelections !== null;
+			return currentSelections?.length > 0;
 		} else {
 			return currentSelections?.length > 0;
 		}
@@ -726,20 +855,19 @@ const Menu = () => {
 			setSelectedItems([...selectedItems, item]);
 		}
 	};
+
 	const handleFinalizeOrder = async () => {
 		try {
+			// Récupérer le prochain numéro de commande
 			const orderNumberResponse = await axios.get(
 				"https://maro.alwaysdata.net/api/next-order-number"
 			);
 			const nextOrderNumber = orderNumberResponse.data.nextOrderNumber;
-			console.log("Numéro de commande récupéré:", nextOrderNumber);
 
-			// Ici, vous pouvez passer nextOrderNumber à votre composant enfant ou le stocker dans un état partagé
-			// Exemple de mise à jour d'un état (si vous utilisez useState pour stocker le numéro de commande)
+			// Au lieu de créer la commande, on navigue vers la page de paiement
 			setOrderNumber(nextOrderNumber);
+			localStorage.setItem("orderNumber", nextOrderNumber.toString());
 
-			// Si vous naviguez vers un nouveau composant pour le paiement, vous pouvez passer cet état comme suit :
-			// navigate('/chemin-vers-composant-paiement', { state: { orderNumber: nextOrderNumber } });
 			navigate("/order-summary", {
 				state: {
 					orderType,
@@ -757,6 +885,7 @@ const Menu = () => {
 	};
 
 	const handleAddToCart = (finalItem) => {
+		console.log("Item ajouté au panier:", finalItem);
 		setOrderItems((prev) => [...prev, finalItem]);
 		setSelectedItem(null);
 		setSelectedOptions({});
@@ -854,43 +983,76 @@ const Menu = () => {
 												<i className="fa-solid fa-arrow-left"></i> Retour
 											</button>
 											<h2 className="text-center mt-3">{step.description}</h2>
-											<div className="row mt-3">
-												{step.options.map((option) => (
-													<div className="col-4 text-center" key={option._id}>
-														<div
-															className={`option-card ${
-																selectedOptions[step.nom]?.some(
-																	(opt) => opt._id === option._id
-																)
-																	? "selected"
-																	: ""
-															}`}
-															onClick={() =>
-																handleOptionSelection(step.nom, option)
-															}
-														>
-															{option.imageUrl && (
-																<img
-																	src={`https://maro.alwaysdata.net/${option.imageUrl}`}
-																	alt={option.nom}
-																	className="garniture-image img-fluid"
-																/>
-															)}
-															<h3 className="mt-2">{option.nom}</h3>
+
+											<Swiper
+												slidesPerView={1}
+												modules={[Pagination]}
+												pagination={{ clickable: true }}
+												className="mySwiper"
+											>
+												{Array.from({
+													length: Math.ceil(step.options.length / 9),
+												}).map((_, slideIndex) => (
+													<SwiperSlide key={slideIndex}>
+														<div className="row mt-3">
+															{step.options
+																.slice(slideIndex * 9, (slideIndex + 1) * 9)
+																.map((option) => (
+																	<div
+																		className="col-4 text-center"
+																		key={option._id}
+																	>
+																		<div
+																			className={`option-card ${
+																				selectedOptions[step.nom]?.some(
+																					(opt) => opt._id === option._id
+																				)
+																					? "selected"
+																					: ""
+																			}`}
+																			onClick={() =>
+																				handleOptionSelection(step.nom, option)
+																			}
+																		>
+																			{option.imageUrl && (
+																				<img
+																					src={`https://maro.alwaysdata.net/${option.imageUrl}`}
+																					alt={option.nom}
+																					className="supp-image img-fluid"
+																				/>
+																			)}
+																			<h3 className="mt-2">{option.nom}</h3>
+																			{option.prixSupplémentaire > 0 && (
+																				<p className="itemPrice">
+																					+{option.prixSupplémentaire.toFixed(2).replace('.', ',')}€
+																				</p>
+																			)}
+																		</div>
+																	</div>
+																))}
 														</div>
-													</div>
+													</SwiperSlide>
 												))}
-											</div>
-											{shouldShowNextButton(step) && (
-												<div className="d-flex justify-content-center">
+											</Swiper>
+											<div className="d-flex justify-content-center mt-3">
+												{shouldShowNextButton(step) ? (
 													<button
-														className="btn btn-warning btn-lg col-5 text-white mt-3"
+														className="btn btn-warning btn-lg col-5 text-white mx-3 py-4 fs-4"
 														onClick={handleNextClick}
 													>
 														Suivant
 													</button>
-												</div>
-											)}
+												) : (
+													step.stepType === 'PAID' && (
+														<button
+															className="btn btn-secondary btn-lg col-5 text-white mx-3 py-4 fs-4"
+															onClick={() => handleSkipStep(step.nom)}
+														>
+															Non, merci
+														</button>
+													)
+												)}
+											</div>
 										</div>
 									)
 							)}
@@ -991,11 +1153,12 @@ const Menu = () => {
 								onFinalizeOrder={handleFinalizeOrder}
 								onEditItem={handleSaveChanges}
 								onRemoveItem={handleRemoveItem}
-								pains={pains}
-								garnitures={garnitures}
-								sauces={sauces}
-								supplements={supplements}
-								drinks={drinks}
+								// pains={pains}
+								// garnitures={garnitures}
+								// sauces={sauces}
+								// supplements={supplements}
+								// drinks={drinks}
+								steps={steps}
 								orderType={orderType}
 							/>
 						)}

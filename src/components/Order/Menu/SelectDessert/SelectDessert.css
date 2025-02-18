@@ -11,7 +11,7 @@
     font-weight: bold;
 }
 .order-process .swiper-slide{
-    height: 860px !important;
+    height: 926px !important;
     padding: 0 12px !important;
 }
 .swiper-pagination{
@@ -20,6 +20,7 @@
 .swiper-pagination-bullet{
     width: 12px !important;
     height:  12px !important;
+    margin-bottom: 5px !important;
 }
 .swiper-pagination-bullet-active{
     background-color: var(--primary-color) !important;
