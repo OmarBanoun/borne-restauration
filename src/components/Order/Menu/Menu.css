@@ -111,6 +111,6 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 }
 .supp-image{
     width: 100%;
-    height: 174px;
+    height: 157px;
     object-fit: contain;
 }
