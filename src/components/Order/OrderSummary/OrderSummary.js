@@ -8,7 +8,6 @@ import { Delete } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-// import { Link } from 'react-router-dom';
 import "./OrderSummary.css";
 
 const OrderSummary = ({
@@ -92,6 +91,8 @@ const OrderSummary = ({
         setCancelOrder(item, index);
     };
 
+    const total = calculateTotal(orderItems);
+
     return (
         <div className="summary-section mb-0">
             <div className="order-product d-flex flex-row col-8">
@@ -114,9 +115,7 @@ const OrderSummary = ({
                             <div className="card-body">
                                 <h5 className="card-title">{item.nom}</h5>
                                 <p className="card-text itemPrice mb-4">
-                                    {item.prix !== undefined
-                                        ? item.prix.toFixed(2).replace(".", ",")
-                                        : "0,00"}€
+                                    {Number(calculateItemPrice(item)).toFixed(2).replace(".", ",")}€
                                 </p>
                                 <button
                                     onClick={() => handleShowDetailsModal(item, index)}
@@ -136,7 +135,7 @@ const OrderSummary = ({
                         type="button"
                         className="btn btn-warning btn-lg btn-block my-auto finish_button"
                     >
-                        <div className="text-white td-none px-3">Finaliser ma commande</div>
+                        <div className="text-white td-none px-3 btn-finalize">Finaliser ma commande</div>
                     </button>
                 </div>
             </div>
@@ -153,49 +152,46 @@ const OrderSummary = ({
                             pagination={{ clickable: true }}
                             className="mySwiper"
                         >
-                            {Array.from(
-                                {
-                                    length: Math.ceil(
-                                        steps.find((s) => s.nom === editingCategory)?.options
-                                            .length / 9 || 0
-                                    ),
-                                },
-                                (_, slideIndex) => (
-                                    <SwiperSlide key={slideIndex}>
-                                        <div className="container">
-                                            <div className="row">
-                                                {steps
-                                                    .find((s) => s.nom === editingCategory)
-                                                    ?.options.slice(slideIndex * 9, (slideIndex + 1) * 9)
-                                                    .map((option, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className={`col-4 ${
-                                                                selectedDetail.options[editingCategory]?.some(
-                                                                    (opt) => opt._id === option._id
-                                                                )
-                                                                    ? "selected-class"
-                                                                    : ""
-                                                            }`}
-                                                            onClick={() =>
-                                                                handleOptionSelect(editingCategory, option)
-                                                            }
-                                                        >
-                                                            <img
-                                                                src={`https://maro.alwaysdata.net/${option.imageUrl}`}
-                                                                alt={option.nom}
-                                                                className="img-fluid img-detail"
-                                                            />
-                                                            <div className="text-center itemName">
-                                                                {option.nom}
-                                                            </div>
+                            {Array.from({
+                                length: Math.ceil(
+                                    steps.find((s) => s.nom === editingCategory)?.options
+                                        .length / 9 || 0
+                                ),
+                            }).map((_, slideIndex) => (
+                                <SwiperSlide key={slideIndex}>
+                                    <div className="container">
+                                        <div className="row">
+                                            {steps
+                                                .find((s) => s.nom === editingCategory)
+                                                ?.options.slice(slideIndex * 9, (slideIndex + 1) * 9)
+                                                .map((option, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className={`col-4 ${
+                                                            selectedDetail.options[editingCategory]?.some(
+                                                                (opt) => opt._id === option._id
+                                                            )
+                                                                ? "selected-class"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() =>
+                                                            handleOptionSelect(editingCategory, option)
+                                                        }
+                                                    >
+                                                        <img
+                                                            src={`https://maro.alwaysdata.net/${option.imageUrl}`}
+                                                            alt={option.nom}
+                                                            className="img-fluid img-detail"
+                                                        />
+                                                        <div className="text-center itemName">
+                                                            {option.nom}
                                                         </div>
-                                                    ))}
-                                            </div>
+                                                    </div>
+                                                ))}
                                         </div>
-                                    </SwiperSlide>
-                                )
-                            )}
+                                    </div>
+                                </SwiperSlide>
+                            ))}
                         </Swiper>
                     ) : (
                         <>
@@ -206,7 +202,7 @@ const OrderSummary = ({
                             />
                             <h3 className="text-center">{selectedDetail.nom}</h3>
                             <h3 className="card-text itemPrice text-center pt-1">
-                                {selectedDetail.prix !== undefined ? selectedDetail.prix.toFixed(2).replace(".", ",") : "0,00"}€
+                            {Number(calculateItemPrice(selectedDetail)).toFixed(2).replace(".", ",")}€
                             </h3>
                             <hr />
                             {steps.map(

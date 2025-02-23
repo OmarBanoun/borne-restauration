@@ -56,6 +56,12 @@ const VueComptoir = () => {
                         return itemWithOptions;
                     })
                 };
+
+                // Log the formatted order with options
+                console.log("Commande formatée avec options:", commandeWithOptions);
+    
+                // Envoyer la commande via WebSocket
+                socket.emit('commande mise à jour', commandeWithOptions);
     
                 // Mettre à jour l'état
                 setCommandes(prev => {
@@ -142,10 +148,51 @@ const VueComptoir = () => {
 
     const handleUpdatePaymentMethod = async (id, method) => {
         try {
+            // Récupérer les détails de la commande
+            const response = await axios.get(`https://maro.alwaysdata.net/api/orders/${id}`);
+            const commandeComplete = response.data;
+    
+            // Récupérer les étapes et leurs options
+            const stepsResponse = await axios.get('https://maro.alwaysdata.net/api/steps');
+            const steps = stepsResponse.data;
+    
+            // Formater la commande avec les options
+            const commandeWithOptions = {
+                ...commandeComplete,
+                items: commandeComplete.items.map(item => {
+                    const itemWithOptions = {
+                        ...item,
+                        options: {}
+                    };
+    
+                    // Pour chaque étape dans les options
+                    Object.entries(item.options || {}).forEach(([stepName, optionIds]) => {
+                        const step = steps.find(s => s.nom === stepName);
+                        if (step) {
+                            itemWithOptions.options[stepName] = step.options.filter(
+                                opt => optionIds.includes(opt._id)
+                            ).map(opt => ({
+                                _id: opt._id,
+                                nom: opt.nom,
+                                prixSupplémentaire: opt.prixSupplémentaire
+                            }));
+                        }
+                    });
+    
+                    return itemWithOptions;
+                })
+            };
+    
+            // Mettre à jour le mode de paiement et le statut
             await axios.patch(`https://maro.alwaysdata.net/api/orders/${id}`, {
                 paymentMethod: method,
                 status: "Payé"
             });
+    
+            // Envoyer la commande mise à jour via WebSocket
+            const socket = io('https://maro.alwaysdata.net');
+            socket.emit('commande mise à jour', commandeWithOptions);
+    
             // Mettre à jour l'état local immédiatement
             setCommandes(prevCommandes => 
                 prevCommandes.filter(commande => commande._id !== id)

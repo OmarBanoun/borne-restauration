@@ -693,7 +693,7 @@ const Menu = () => {
 			setSelectedItem((prevItem) => ({
 				...prevItem,
 				options: updatedOptions,
-				prix: (prevItem.prix || 0) + (option.prixSupplémentaire || 0)
+				prix: (prevItem.prix || 0)
 			}));
 		}
 	};

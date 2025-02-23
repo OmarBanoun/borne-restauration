@@ -10,7 +10,10 @@ const ItemOptions = ({ item, onOptionSelect }) => {
     };
     console.log("Item reçu dans ItemOptions:", item);
 
-    const seulPrice = item.prix || 0;
+    // const seulPrice = item.prix || 0;
+    // const menuPrice = seulPrice + 2;
+    // {Number(calculateItemPrice(item)).toFixed(2).replace(".", ",")}
+    const seulPrice = calculateItemPrice(item);
     const menuPrice = seulPrice + 2;
 
     return (

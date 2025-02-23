@@ -1,9 +1,10 @@
 export const calculateItemPrice = (item) => {
-    let itemTotal = Number(item.prix || 0); // Assurez-vous que le prix de base est initialisé
+    let itemTotal = Number(item.prixDeBase || item.prix || 0); // Utilisez prixDeBase si disponible, sinon prix
     console.log("Prix de base:", itemTotal);
 
     if (item.type === 'menu') {
         itemTotal += 2;
+        console.log("Ajout de 2€ pour le type menu");
     }
 
     if (item.options) {
@@ -28,6 +29,6 @@ export const calculateTotal = (items) => {
     if (!items || !Array.isArray(items)) {
         return "0,00";
     }
-    const total = items.reduce((sum, item) => sum + item.prix, 0);
+    const total = items.reduce((sum, item) => sum + calculateItemPrice(item), 0);
     return total.toFixed(2).replace('.', ',');
 };

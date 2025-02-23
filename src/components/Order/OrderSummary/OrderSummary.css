@@ -94,3 +94,6 @@ a{
     color: white;
     border-color: var(--primary-color) !important;
 }
+.btn-finalize{
+    font-weight: 600;
+}
