@@ -28,6 +28,7 @@ const OrderSummary = ({
         setSelectedDetail({
             ...item,
             index,
+            prixDeBase: item.prixDeBase || item.prix, // Stocke le prix de base
             options: item.options || {},
         });
         setShowDetailsModal(true);
@@ -39,11 +40,58 @@ const OrderSummary = ({
         setShowDetailsModal(false);
     };
 
+    // const handleOptionSelect = (stepName, selectedOption) => {
+    //     setSelectedDetail((prevState) => {
+    //         const currentStepOptions = prevState.options[stepName] || [];
+    //         const step = steps.find((s) => s.nom === stepName);
+
+    //         let updatedOptions;
+    //         if (currentStepOptions.some((opt) => opt._id === selectedOption._id)) {
+    //             updatedOptions = {
+    //                 ...prevState.options,
+    //                 [stepName]: currentStepOptions.filter(
+    //                     (opt) => opt._id !== selectedOption._id
+    //                 ),
+    //             };
+    //         } else {
+    //             if (step.maxOptions && step.maxOptions > 0) {
+    //                 if (currentStepOptions.length >= step.maxOptions) {
+    //                     Swal.fire({
+    //                         title: "Maximum atteint !",
+    //                         text: `Vous ne pouvez sélectionner que ${step.maxOptions} option(s)`,
+    //                         icon: "warning",
+    //                     });
+    //                     return prevState;
+    //                 }
+    //             }
+
+    //             if (step.type === "single" || step.maxOptions === 1) {
+    //                 updatedOptions = {
+    //                     ...prevState.options,
+    //                     [stepName]: [selectedOption],
+    //                 };
+    //             } else {
+    //                 updatedOptions = {
+    //                     ...prevState.options,
+    //                     [stepName]: [...currentStepOptions, selectedOption],
+    //                 };
+    //             }
+    //         }
+
+    //         const updatedItem = {
+    //             ...prevState,
+    //             options: updatedOptions,
+    //             prix: calculateItemPrice({ ...prevState, options: updatedOptions })
+    //         };
+    //         console.log("Item mis à jour dans OrderSummary:", updatedItem);
+    //         return updatedItem;
+    //     });
+    // };
     const handleOptionSelect = (stepName, selectedOption) => {
         setSelectedDetail((prevState) => {
             const currentStepOptions = prevState.options[stepName] || [];
             const step = steps.find((s) => s.nom === stepName);
-
+    
             let updatedOptions;
             if (currentStepOptions.some((opt) => opt._id === selectedOption._id)) {
                 updatedOptions = {
@@ -63,7 +111,7 @@ const OrderSummary = ({
                         return prevState;
                     }
                 }
-
+    
                 if (step.type === "single" || step.maxOptions === 1) {
                     updatedOptions = {
                         ...prevState.options,
@@ -76,7 +124,7 @@ const OrderSummary = ({
                     };
                 }
             }
-
+    
             const updatedItem = {
                 ...prevState,
                 options: updatedOptions,
@@ -86,7 +134,6 @@ const OrderSummary = ({
             return updatedItem;
         });
     };
-
     const handleCancelOrder = (item, index) => {
         setCancelOrder(item, index);
     };
@@ -246,8 +293,13 @@ const OrderSummary = ({
                             <Button
                                 className="btn-warning text-white col-8"
                                 onClick={() => {
-                                    onEditItem(selectedDetail);
-                                    setEditingCategory(null);
+                                    const updatedItem = {
+                                        ...selectedDetail,
+                                        prixDeBase: selectedDetail.prixDeBase, // Conserver le prix de base
+                                        prix: calculateItemPrice(selectedDetail)
+                                    };
+                                    onEditItem(updatedItem);
+                                    setShowDetailsModal(false);
                                 }}
                             >
                                 Sauvegarder
